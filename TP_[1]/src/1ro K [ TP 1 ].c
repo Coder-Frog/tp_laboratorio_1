@@ -77,6 +77,7 @@ int main(){
     float latam=0; 					// Costo del vuelo de Latam.
     int calculosFlag=0; 			// Bandera. Si los calculos han sido realizados, se vuelve 1. Habilita el paso 4. Caso contrario, paso 4 mostrará error.
     int informar=0;					// Bandera. Si los calculos han sido realizados, se vuelve 1. Se activa al escoger el paso 4. Habilita la muestra en Menu.
+    int cargaForzada=0;
 
     ///////////////////////////// INICIO BUCLE.
 
@@ -84,7 +85,7 @@ int main(){
 
     	////////// MENU.
 
-        menu(kilometros, aerolineas, latam, calculosFlag, informar/* aerolineasDebitCard, aerolineasCreditCard, latamDebitCard, latamCreditCard,precioUnitAerolineas,precioUnitLatam*/);
+        menu(kilometros, aerolineas, latam, calculosFlag, informar, cargaForzada);
 
         ////////// INGRESO DE OPCION.
 
@@ -118,6 +119,7 @@ int main(){
             	informar=option4(calculosFlag);		// Si el paso 3 calculó, muestra info. Caso contrario, muestra error.
                 break;
             case 5:
+            	cargaForzada=1;
             	kilometros=7090; 					// Valor de los kilometros. Se inicializa en 0.
             	aerolineas=7221.25; 				// Costo del vuelo de Aerolineas.
             	latam=6800.01; 						// Costo del vuelo de Latam.

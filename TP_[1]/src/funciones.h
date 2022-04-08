@@ -8,7 +8,7 @@
 #ifndef FUNCIONES_H_
 #define FUNCIONES_H_
 
-void menu(float a, float b, float c, int calculosFlag, int informar);
+void menu(float a, float b, float c, int calculosFlag, int informar, int cargaForzada);
 
 void jump();
 
@@ -43,5 +43,7 @@ int preCalcs(float kilometros, float aerolineas, float latam);
 float card(float costo, float porcentaje);
 
 float priceKm(float price, float km);
+
+void forcedEntry(int cargaForzada);
 
 #endif
