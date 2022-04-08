@@ -67,6 +67,75 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
 
 }/// FIN MENU.
 
+///////////////////////////////////// SWITCH OPTIONS.
+
+/////////////////////// OPTION 1.
+
+float option1(){
+
+	float kilometros;
+
+	jump(); ////////// <<< SALTO ESTÉTICO. NO SE REPETIRÁ ESTE COMENTARIO.
+	printf("\nIngrese la cantidad de kilometros del viaje.\n\n");
+	kilometros=dataFloat(1,32000); 												//Ingreso de distancia de vuelo. Rango.
+	printf("\n\nLa cantidad de kilometros ingresada es: [ %.2f ]",kilometros);	//Le muestro al user lo que ingresó.
+	jump();
+
+	return kilometros;
+}
+
+/////////////////////// OPTION 2A.
+
+void option2A(){
+	jump();
+	printf("\nIngrese el numero correspondiente a la opcion:\n");				//SUBMENÚ para aerolíneas.
+	printf("\n - - - \t Aerolineas: \t[ 1 ]");
+	printf("\n - - - \t Latam: \t[ 2 ]\n\n");
+}
+
+/////////////////////// OPTION 2_1 (Aerolineas).
+
+float option2_1(){
+
+	float aerolineas;
+
+	printf("\n/////////////////////////////////////\n");
+	printf("\nIngrese el costo del vuelo de << Aerolineas>> : \n\n");
+	aerolineas=dataFloat(1,32000);
+	jump();
+
+	return aerolineas;
+}
+
+/////////////////////// OPTION 2_2 (LATAM).
+
+float option2_2(){
+
+	float latam;
+
+	printf("\n/////////////////////////////////////\n");
+	printf("\nIngrese el costo del vuelo de << Latam >> : \n\n");
+	latam=dataFloat(1,32000);
+	jump();
+
+	return latam;
+}
+
+int option4(int calculosFlag){
+	if(calculosFlag==0){														//La única función de este paso es activar una bandera para mostrar datos por Menú.
+		printf("\n/////////////////////////////////////\n");
+		printf("\n\t[ ERROR. Faltan cargar datos y  { calcular } ].\n\n\n");
+		printf("\n/////////////////////////////////////\n");
+		printf("\n/////////////////////////////////////\n");
+		printf("\n/////////////////////////////////////\n");
+		return 0;
+	}
+	else{
+		return 1;																//Si los cálculos fueron realizados, se activa bandera y se muestra en Menú.
+	}
+	return 0;
+}
+
 ///////////////////////////////////// CALC SUCCESS MESSAGE.
 
 void calcSuccess(int calculosFlag){

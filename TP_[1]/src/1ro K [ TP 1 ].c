@@ -53,10 +53,6 @@ NOTAS:
 - La parte 3 requiere que los datos de 1 y 2 hayan sido ingresados previamente. Caso contrario ocurrirá como en la 4.
   Aparte, la parte 3 tiene un mensaje de 'CALCULADO!' que se mostrará cuando los cálculos hayan sido realizados.
 
-- A diferencia del ejemplo del PDF, los datos de la carga forzada (parte 5) SI coinciden. Los cálculos son realizados en el mismo punto.
-
->>>> !!! Una opción interesante hubiese sido agregar datos aleatorios con 'rand()', pero debido a que no se dio aún, la cátedra lo desaconsejó.
-
 - Pensé en agregar una opción extra que sólo apareciera luego de haber ejecutado el paso 4 o 5, incluyendo dentro alguna imágen simpática en
   ASCII o algún comentario, pero desconociendo el criterio de evaluación me abstuve.
 
@@ -88,14 +84,14 @@ int main(){
     float precioUnitAerolineas;		// Precio por kilómetro de Aerolíneas. No aplica descuentos o intereses (no estaba especificado en el enunciado).
     float precioUnitLatam;			// Precio por kilómetro de Latam. No aplica descuentos o intereses (no estaba especificado en el enunciado).
 
-
     ///////////////////////////// INICIO BUCLE.
 
     while(opcion!=6){
 
     	////////// MENU.
 
-        menu(kilometros, aerolineas, latam, calculosFlag, informar, aerolineasDebitCard, aerolineasCreditCard, latamDebitCard, latamCreditCard,precioUnitAerolineas,precioUnitLatam);
+        menu(kilometros, aerolineas, latam, calculosFlag, informar, aerolineasDebitCard,
+        		aerolineasCreditCard, latamDebitCard, latamCreditCard,precioUnitAerolineas,precioUnitLatam);
 
         ////////// INGRESO DE OPCION.
 
@@ -106,34 +102,24 @@ int main(){
         ////////// SWITCH DE OPCIONES.
 
         switch(opcion){
-            case 1:
-            	jump(); ////////// <<< SALTO ESTÉTICO. NO SE REPETIRÁ ESTE COMENTARIO.
-            	printf("\nIngrese la cantidad de kilometros del viaje.\n\n");
-            	kilometros=dataFloat(1,32000); 												//Ingreso de distancia de vuelo. Rango.
-            	printf("\n\nLa cantidad de kilometros ingresada es: [ %.2f ]",kilometros);	//Le muestro al user lo que ingresó.
-            	jump();
+            case 1: 					//Opcion 1
+            	kilometros=option1();
                 break;
-            case 2:
-            	jump();
-            	printf("\nIngrese el numero correspondiente a la opcion:\n");				//SUBMENÚ para aerolíneas.
-            	printf("\n - - - \t Aerolineas: \t[ 1 ]");
-            	printf("\n - - - \t Latam: \t[ 2 ]\n\n");
-            	switch(dataInt(1,2)){
-            		case 1: 																//Opción Aerolíneas.
-            			printf("\n/////////////////////////////////////\n");
-            			printf("\nIngrese el costo del vuelo de << Aerolineas>> : \n\n");
-            			aerolineas=dataFloat(1,32000);
+            case 2:						//Opcion 2
+            	option2A();								//Mensaje del SubMenu.
+            	switch(dataInt(1,2)){					//SubMenu.
+            		case 1: 							//Opción Aerolíneas.
+            			aerolineas=option2_1();			//Toma de datos para Aerolineas. Mayormente mensajes.
             			break;
-            		case 2:																	//Opción Latam.
-            			printf("\n/////////////////////////////////////\n");
-            			printf("\nIngrese el costo del vuelo de << Latam >> : \n\n");
-            			latam=dataFloat(1,32000);
+            		case 2:								//Opción Latam.
+            			latam=option2_2();				//Toma de datos para Latam. Mayormente mensajes.
             			break;
             	}
-   	            jump();
                 break;
-            case 3:
-            	calculosFlag=preCalcs(kilometros,aerolineas,latam);							//Chequeo de cálculos previo. Si faltan datos mostrará error. Caso contrario activará bandera de cálculos y procederá a realizarlos.
+            case 3:						//Opcion 3
+            	calculosFlag=preCalcs(kilometros,aerolineas,latam);
+            	//Chequeo de cálculos previo. Si faltan datos mostrará error.
+            	//Caso contrario activará bandera de cálculos y procederá a realizarlos.
 
             	////////// CÁLCULOS.
             	//Si la bandera es 1, se realizan los cálculos pedidos.
@@ -149,23 +135,14 @@ int main(){
             		diferenciaPrecio();*/
             	}
                 break;
-            case 4:																			//Aunque podría haber hecho una función para esto, me pareció tan poco el código que sencillamente lo incluí en el Switch.
-            	if(calculosFlag==0){														//La única función de este paso es activar una bandera para mostrar datos por Menú.
-            		printf("\n/////////////////////////////////////\n");
-            		printf("\n\t[ ERROR. Faltan cargar datos y  { calcular } ].\n\n\n");
-            		printf("\n/////////////////////////////////////\n");
-            		printf("\n/////////////////////////////////////\n");
-            		printf("\n/////////////////////////////////////\n");
-            	}
-            	else{
-            		informar=1;																//Si los cálculos fueron realizados, se activa bandera y se muestra en Menú.
-            	}
+            case 4:
+            	informar=option4(calculosFlag);		// Si el paso 3 calculó, muestra info. Caso contrario, muestra error.
                 break;
             case 5:
-            	kilometros=1680; 										// Valor de los kilometros. Se inicializa en 0.
-            	aerolineas=7221.25; 									// Costo del vuelo de Aerolineas.
-            	latam=6800.01; 											// Costo del vuelo de Latam.
-            	calculosFlag=1; 										// Bandera. Si los calculos han sido realizados, se vuelve 1.
+            	kilometros=7090; 					// Valor de los kilometros. Se inicializa en 0.
+            	aerolineas=7221.25; 				// Costo del vuelo de Aerolineas.
+            	latam=6800.01; 						// Costo del vuelo de Latam.
+            	calculosFlag=1; 					// Bandera. Si los calculos han sido realizados, se vuelve 1.
 
             	/////////////////
 
@@ -184,10 +161,6 @@ int main(){
                 return 0;												// Salida del programa.
                 break;
         }
-
-
     }/// FIN WHILE.
-
-
 }/// FIN MAIN.
 
