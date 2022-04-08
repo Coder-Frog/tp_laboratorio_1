@@ -77,12 +77,6 @@ int main(){
     float latam=0; 					// Costo del vuelo de Latam.
     int calculosFlag=0; 			// Bandera. Si los calculos han sido realizados, se vuelve 1. Habilita el paso 4. Caso contrario, paso 4 mostrará error.
     int informar=0;					// Bandera. Si los calculos han sido realizados, se vuelve 1. Se activa al escoger el paso 4. Habilita la muestra en Menu.
-    float aerolineasDebitCard;		// Costo de Aerolineas por débito.
-    float aerolineasCreditCard;		// Costo de Aerolineas por crédito.
-    float latamDebitCard;			// Costo de Latam por débito.
-    float latamCreditCard;			// Costo de Latam por crédito.
-    float precioUnitAerolineas;		// Precio por kilómetro de Aerolíneas. No aplica descuentos o intereses (no estaba especificado en el enunciado).
-    float precioUnitLatam;			// Precio por kilómetro de Latam. No aplica descuentos o intereses (no estaba especificado en el enunciado).
 
     ///////////////////////////// INICIO BUCLE.
 
@@ -90,8 +84,7 @@ int main(){
 
     	////////// MENU.
 
-        menu(kilometros, aerolineas, latam, calculosFlag, informar, aerolineasDebitCard,
-        		aerolineasCreditCard, latamDebitCard, latamCreditCard,precioUnitAerolineas,precioUnitLatam);
+        menu(kilometros, aerolineas, latam, calculosFlag, informar/* aerolineasDebitCard, aerolineasCreditCard, latamDebitCard, latamCreditCard,precioUnitAerolineas,precioUnitLatam*/);
 
         ////////// INGRESO DE OPCION.
 
@@ -118,22 +111,8 @@ int main(){
                 break;
             case 3:						//Opcion 3
             	calculosFlag=preCalcs(kilometros,aerolineas,latam);
-            	//Chequeo de cálculos previo. Si faltan datos mostrará error.
-            	//Caso contrario activará bandera de cálculos y procederá a realizarlos.
-
-            	////////// CÁLCULOS.
-            	//Si la bandera es 1, se realizan los cálculos pedidos.
-
-            	if(calculosFlag==1){
-            		aerolineasDebitCard=card(aerolineas,-0.1);
-            		aerolineasCreditCard=card(aerolineas,0.25);
-            		latamDebitCard=card(latam,-0.1);
-            		latamCreditCard=card(latam,0.25);
-            		precioUnitAerolineas=priceKm(aerolineas,kilometros);
-            		precioUnitLatam=priceKm(latam,kilometros);
-            		/*bitcoin();
-            		diferenciaPrecio();*/
-            	}
+            	//Chequeo de cálculos previo. Si faltan datos mostrará error. Caso contrario, activará la bandera.
+            	//El valor de la bandera es recogido en `menu()` para realizar los cálculos allí.
                 break;
             case 4:
             	informar=option4(calculosFlag);		// Si el paso 3 calculó, muestra info. Caso contrario, muestra error.
@@ -146,12 +125,12 @@ int main(){
 
             	/////////////////
 
-            	aerolineasDebitCard=card(aerolineas,-0.1);
+            	/*aerolineasDebitCard=card(aerolineas,-0.1);
             	aerolineasCreditCard=card(aerolineas,0.25);
             	latamDebitCard=card(latam,-0.1);
             	latamCreditCard=card(latam,0.25);
             	precioUnitAerolineas=priceKm(aerolineas,kilometros);
-            	precioUnitLatam=priceKm(latam,kilometros);
+            	precioUnitLatam=priceKm(latam,kilometros);*/
 
             	/////////////////
 

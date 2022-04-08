@@ -8,7 +8,7 @@
 #ifndef FUNCIONES_H_
 #define FUNCIONES_H_
 
-void menu(float a, float b, float c, int calculosFlag, int informar, float aerolineasDebitCard, float aerolineasCreditCard, float latamDebitCard, float latamCreditCard, float precioUnitAerolineas, float precioUnitLatam);
+void menu(float a, float b, float c, int calculosFlag, int informar);
 
 void jump();
 
@@ -30,6 +30,7 @@ float option5();
 
 float option6();
 
+///////////// END OF SWITCH OPTIONS;
 
 void calcSuccess(int a);
 

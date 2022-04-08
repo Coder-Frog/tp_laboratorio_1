@@ -4,9 +4,38 @@
 
 ///////////////////////////////////// MENU.
 
-void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int informar, float aerolineasDebitCard, float aerolineasCreditCard, float latamDebitCard, float latamCreditCard, float precioUnitAerolineas, float precioUnitLatam){
+void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int informar){
 
 
+    ///////////////////////////////////////////////////////////// TRIGGER ZONE.
+
+	/* NOTA: Debido a la necesidad de que el cuerpo principal (MAIN) fuera de 40 líneas en lo posible, muchas cosas se mudaron de allí a aquí.
+	 * Eso hizo que muchas variables que ocupaban espacio sin necesidad en la cabecera de MAIN vinieran a parar a este sitio, debido a que sólo son necesarias
+	 * a la hora de mostrar datos actualizados en el Menú.
+	 *
+	 * El apartado fue llamado TRIGGER ZONE debido a que se 'gatilla' únicamente si la bandera de cálculos está activada.
+	 * Los cálculos se realizan aquí invocando funciones de cálculo de esta misma libería.
+	 */
+
+	float aerolineasDebitCard;		// Costo de Aerolineas por débito.
+	float aerolineasCreditCard;		// Costo de Aerolineas por crédito.
+	float latamDebitCard;			// Costo de Latam por débito.
+	float latamCreditCard;			// Costo de Latam por crédito.
+	float precioUnitAerolineas;		// Precio por kilómetro de Aerolíneas. No aplica descuentos o intereses (no estaba especificado en el enunciado).
+	float precioUnitLatam;			// Precio por kilómetro de Latam. No aplica descuentos o intereses (no estaba especificado en el enunciado).
+
+    if(calculosFlag==1){
+    	aerolineasDebitCard=card(aerolineas,-0.1);
+    	aerolineasCreditCard=card(aerolineas,0.25);
+    	latamDebitCard=card(latam,-0.1);
+    	latamCreditCard=card(latam,0.25);
+    	precioUnitAerolineas=priceKm(aerolineas,kilometros);
+    	precioUnitLatam=priceKm(latam,kilometros);
+    }
+
+    ///////////////////////////////////////////////////////////// END OF TRIGGER ZONE.
+
+    ///////////////////////////////////////////////////////////// MENU.
 
     if(kilometros==0){
     	printf("\n╔════>>> 1. Ingresar kilometros.\t [...]");
@@ -63,7 +92,6 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
     printf("\n╠════>>> 5. Carga forzada de datos");
     printf("\n║");
     printf("\n╚════>>> 6. Salir\n\n");
-
 
 }/// FIN MENU.
 
