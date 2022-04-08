@@ -57,6 +57,9 @@ NOTAS:
 
 >>>> !!! Una opción interesante hubiese sido agregar datos aleatorios con 'rand()', pero debido a que no se dio aún, la cátedra lo desaconsejó.
 
+- Pensé en agregar una opción extra que sólo apareciera luego de haber ejecutado el paso 4 o 5, incluyendo dentro alguna imágen simpática en
+  ASCII o algún comentario, pero desconociendo el criterio de evaluación me abstuve.
+
 
 *******************************************************************************/
 
