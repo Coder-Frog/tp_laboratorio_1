@@ -24,13 +24,17 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
 	float precioUnitAerolineas;		// Precio por kilómetro de Aerolíneas. No aplica descuentos o intereses (no estaba especificado en el enunciado).
 	float precioUnitLatam;			// Precio por kilómetro de Latam. No aplica descuentos o intereses (no estaba especificado en el enunciado).
 
-	if(cargaForzada==1){
+	/////////////////////////////// ENFORCED ENTRY.
+
+	if(cargaForzada==1){			//Si la carga fue forzada, realizar lo siguiente.
 
 		kilometros=7090; 					// Valor de los kilometros. Se inicializa en 0.
-		aerolineas=7221.25; 				// Costo del vuelo de Aerolineas.
-		latam=6800.01; 						// Costo del vuelo de Latam.
+		aerolineas=1335000.66; 				// Costo del vuelo de Aerolineas.
+		latam=1350000.76; 						// Costo del vuelo de Latam.
 		calculosFlag=1; 					// Bandera. Si los calculos han sido realizados, se vuelve 1.
 	}
+
+	/////////////////////////////// CALCULATIONS.
 
     if(calculosFlag==1){
     	aerolineasDebitCard=card(aerolineas,-0.1);
@@ -49,21 +53,21 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
     	printf("\n╔════>>> 1. Ingresar kilometros.\t [...]");
     }
     else{
-    	printf("\n╔════>>> 1. Kilometros ingresados: \t[ %.2f Kms ]", kilometros); forcedEntry(cargaForzada);
+    	printf("\n╔════>>> 1. Kilometros ingresados: \t[ %.2f Kms ]\t\t", kilometros); forcedEntry(cargaForzada);
     }
     printf("\n║");
     printf("\n╠════>>> 2. Ingresar precio de vuelos:");
     if(aerolineas==0){
-    	printf("\n║ - - - \t Aerolineas: \t[ ingresar datos. ]");
+    	printf("\n║ - - - \t Aerolineas: \t\t[ ingresar datos. ]");
     }
     else{
-    	printf("\n║ - - - \t Aerolineas: \t[ $%.2f. ]\t",aerolineas); forcedEntry(cargaForzada);
+    	printf("\n║ - - - \t Aerolineas: \t\t[ $%.2f. ]\t\t",aerolineas); forcedEntry(cargaForzada);
     }
     if(latam==0){
-    	printf("\n║ - - - \t Latam: \t[ ingresar datos. ]");
+    	printf("\n║ - - - \t Latam: \t\t[ ingresar datos. ]");
     }
     else{
-    	printf("\n║ - - - \t Latam \t\t[ $%.2f. ]\t",latam); forcedEntry(cargaForzada);
+    	printf("\n║ - - - \t Latam \t\t\t[ $%.2f. ]\t\t",latam); forcedEntry(cargaForzada);
     }
     printf("\n║");
     printf("\n╠════>>> 3. Calcular todos los costos:");
@@ -113,7 +117,7 @@ float option1(){
 
 	jump(); ////////// <<< SALTO ESTÉTICO. NO SE REPETIRÁ ESTE COMENTARIO.
 	printf("\nIngrese la cantidad de kilometros del viaje.\n\n");
-	kilometros=dataFloat(1,32000); 												//Ingreso de distancia de vuelo. Rango.
+	kilometros=dataFloat(1,900000); 												//Ingreso de distancia de vuelo. Rango.
 	printf("\n\nLa cantidad de kilometros ingresada es: [ %.2f ]",kilometros);	//Le muestro al user lo que ingresó.
 	jump();
 
@@ -137,7 +141,7 @@ float option2_1(){
 
 	printf("\n/////////////////////////////////////\n");
 	printf("\nIngrese el costo del vuelo de << Aerolineas>> : \n\n");
-	aerolineas=dataFloat(1,32000);
+	aerolineas=dataFloat(1,2000000);
 	jump();
 
 	return aerolineas;
@@ -151,11 +155,13 @@ float option2_2(){
 
 	printf("\n/////////////////////////////////////\n");
 	printf("\nIngrese el costo del vuelo de << Latam >> : \n\n");
-	latam=dataFloat(1,32000);
+	latam=dataFloat(1,2000000);
 	jump();
 
 	return latam;
 }
+
+/////////////////////// OPTION 4.
 
 int option4(int calculosFlag){
 	if(calculosFlag==0){										//La única función de este paso es activar una bandera para mostrar datos por Menú.
@@ -189,8 +195,6 @@ void jump(){
 	printf("//////////////////////////////////////////\n");
 	printf("///////////////////////////////////////////////////////////////\n");
 	printf("////////////////////////////////////////////////////////////////////////////////////\n\n\n");
-
-
 }
 
 ///////////////////////////////////// DATA Int.
@@ -200,7 +204,6 @@ int dataInt(int base, int top){
     int errorFlag;
     int numero;
     int antibug;
-
 
     do{
             if(errorFlag==1){
@@ -215,10 +218,9 @@ int dataInt(int base, int top){
             if(numero<base || numero>top){
                 errorFlag=1;
             }
-        }while(errorFlag==1);
+    }while(errorFlag==1);
 
    	return numero;
-
 }
 
 ///////////////////////////////////// DATA Float.
@@ -228,7 +230,6 @@ float dataFloat(int base, int top){
     int errorFlag;
     float numero;
     int antibug;
-
 
     do{
             if(errorFlag==1){
@@ -244,10 +245,9 @@ float dataFloat(int base, int top){
             if(numero<base || numero>top){
                 errorFlag=1;
             }
-        }while(errorFlag==1);
+    }while(errorFlag==1);
 
     return (float)numero;
-
 }
 
 ///////////////////////////////////// CHECK CALCS.
@@ -309,12 +309,11 @@ float priceKm(float price, float km){
 ////////////// PRICE DIFFERENCE.
 
 
-////////////// FORCED ENTRY.
+////////////// ENFORCED ENTRY.
 
 void forcedEntry(int cargaForzada){
 
 	if(cargaForzada==1){
 		printf("\t\t <<<<< /// DATOS FORZADOS!! ///");
 	}
-
 }

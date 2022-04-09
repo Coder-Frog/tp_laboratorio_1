@@ -41,9 +41,9 @@ La diferencia de precio es : r “
 
 NOTAS:
 
-- En este ejercicio y a diferencia de otros que hice previamente no ingrese numeros por array, a sugerencia de la catedra.
+- En este ejercicio y a diferencia de otros que hice previamente no ingrese numeros por array, a sugerencia de la cátedra.
 
-- Tampoco hay funciones secundarias al codigo. Todas las funciones fueron incluidas en una libreria, sus nombres en inglés.
+- Todas las funciones fueron incluidas en una libreria, sus nombres en inglés.
 
 - La parte 1 y 2 tienen mensajes que cambian de '[ ingresar datos ]' a '[ # ]' según haya datos ingresados para esa variable o no.
 
@@ -52,6 +52,8 @@ NOTAS:
 
 - La parte 3 requiere que los datos de 1 y 2 hayan sido ingresados previamente. Caso contrario ocurrirá como en la 4.
   Aparte, la parte 3 tiene un mensaje de 'CALCULADO!' que se mostrará cuando los cálculos hayan sido realizados.
+
+- La parte 5 activa las banderas de 3 y 4 e ingresa números a la fuerza.
 
 - Pensé en agregar una opción extra que sólo apareciera luego de haber ejecutado el paso 4 o 5, incluyendo dentro alguna imágen simpática en
   ASCII o algún comentario, pero desconociendo el criterio de evaluación me abstuve.
@@ -98,15 +100,18 @@ int main(){
         switch(opcion){
             case 1: 					//Opcion 1
             	kilometros=option1();
+            	cargaForzada=0;			//Reset mensaje de Carga Forzada.
                 break;
             case 2:						//Opcion 2
             	option2A();								//Mensaje del SubMenu.
             	switch(dataInt(1,2)){					//SubMenu.
             		case 1: 							//Opción Aerolíneas.
             			aerolineas=option2_1();			//Toma de datos para Aerolineas. Mayormente mensajes.
+            			cargaForzada=0;
             			break;
             		case 2:								//Opción Latam.
             			latam=option2_2();				//Toma de datos para Latam. Mayormente mensajes.
+            			cargaForzada=0;
             			break;
             	}
                 break;
@@ -120,28 +125,11 @@ int main(){
                 break;
             case 5:
             	cargaForzada=1;
-            	kilometros=7090; 					// Valor de los kilometros. Se inicializa en 0.
-            	aerolineas=7221.25; 				// Costo del vuelo de Aerolineas.
-            	latam=6800.01; 						// Costo del vuelo de Latam.
-            	calculosFlag=1; 					// Bandera. Si los calculos han sido realizados, se vuelve 1.
-
-            	/////////////////
-
-            	/*aerolineasDebitCard=card(aerolineas,-0.1);
-            	aerolineasCreditCard=card(aerolineas,0.25);
-            	latamDebitCard=card(latam,-0.1);
-            	latamCreditCard=card(latam,0.25);
-            	precioUnitAerolineas=priceKm(aerolineas,kilometros);
-            	precioUnitLatam=priceKm(latam,kilometros);*/
-
-            	/////////////////
-
-            	informar=1;												// La otra bandera que permite mostrar datos en el Menú.
+            	informar=1;								// La otra bandera que permite mostrar datos en el Menú.
                 break;
             case 6:
-                return 0;												// Salida del programa.
+                return 0;								// Salida del programa.
                 break;
         }
     }/// FIN WHILE.
 }/// FIN MAIN.
-
