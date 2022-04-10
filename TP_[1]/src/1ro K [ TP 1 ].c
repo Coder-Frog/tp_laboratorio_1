@@ -1,7 +1,6 @@
 /*******************************************************************
 * Programa: TP 1ro Programacion y Labo.
 * Objetivo:
-
 1 Enunciado
 Una agencia de viaje necesita calcular costos para sus vuelos de Latam y Aerolíneas Argentinas
 para ofrecerlos a sus clientes.
@@ -32,32 +31,21 @@ d) Precio unitario: r
 La diferencia de precio es : r “
 5. Carga forzada de datos
 6. Salir
-
-
 * Version: 0.1 del 10 de Mayo de 2022.
 * Autor: Jerónimo Delmar
 *
 ********************************************************************
-
 NOTAS:
-
-- En este ejercicio y a diferencia de otros que hice previamente no ingrese numeros por array, a sugerencia de la cátedra.
-
-- Todas las funciones fueron incluidas en una libreria, sus nombres en inglés.
-
-- La parte 1 y 2 tienen mensajes que cambian de '[ ingresar datos ]' a '[ # ]' según haya datos ingresados para esa variable o no.
-
-- La parte 4 del menú está oculta. Es necesario realizar la 3 previamente para mostrar la información de la parte 4.
-  Si se intenta ingresar a la parte 4 sin haber realizado la 3 de forma exitosa, arrojará error al usuario.
-
-- La parte 3 requiere que los datos de 1 y 2 hayan sido ingresados previamente. Caso contrario ocurrirá como en la 4.
-  Aparte, la parte 3 tiene un mensaje de 'CALCULADO!' que se mostrará cuando los cálculos hayan sido realizados.
-
-- La parte 5 activa las banderas de 3 y 4 e ingresa números a la fuerza.
-
-- Pensé en agregar una opción extra que sólo apareciera luego de haber ejecutado el paso 4 o 5, incluyendo dentro alguna imágen simpática en
-  ASCII o algún comentario, pero desconociendo el criterio de evaluación me abstuve.
-
+- Los puntos 1 y 2 tienen mensajes que cambian de '[ ingresar datos ]' a '[ # ]' según haya datos ingresados para esa variable o no.
+- El punto 4 del menú está oculto. Es necesario realizar el 3 previamente para mostrar la información del 4.
+  Si se intenta ingresar al 4 sin haber realizado el 3 de forma exitosa, arrojará error al usuario.
+- El punto 3 requiere que los datos de 1 y 2 hayan sido ingresados previamente. Caso contrario ocurrirá como en el 4.
+  Aparte, el punto 3 tiene un mensaje de 'CALCULADO!' que se mostrará cuando los cálculos hayan sido realizados.
+- El punto 5 activa las banderas de 3 y 4, y también una bandera propia en 5.
+  Esta bandera propia fuerza datos, pero solo en el Menú que luego son calculados. Los valores de Main no son afectados.
+  Por este motivo, si se escoge la opción del punto 3 posteriormente arrojará error. Esto fue corregido ingresando
+  en la función el valor de la bandera forzada en 5 y agregando un condicional que, ante la bandera 3 en valor 1,
+  proseguir y no hacer nada.
 
 *******************************************************************************/
 
@@ -116,7 +104,7 @@ int main(){
             	}
                 break;
             case 3:						//Opcion 3
-            	calculosFlag=preCalcs(kilometros,aerolineas,latam);
+            	calculosFlag=option3(kilometros,aerolineas,latam,calculosFlag);
             	//Chequeo de cálculos previo. Si faltan datos mostrará error. Caso contrario, activará la bandera.
             	//El valor de la bandera es recogido en `menu()` para realizar los cálculos allí.
                 break;
@@ -124,8 +112,10 @@ int main(){
             	informar=option4(calculosFlag);		// Si el paso 3 calculó, muestra info. Caso contrario, muestra error.
                 break;
             case 5:
+                printf("\n\n///// CARGA DE DATOS FORZADA!! /////\n\n");
             	cargaForzada=1;
             	informar=1;								// La otra bandera que permite mostrar datos en el Menú.
+            	calculosFlag=1;
                 break;
             case 6:
                 return 0;								// Salida del programa.

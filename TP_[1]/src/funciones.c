@@ -2,20 +2,8 @@
 #include <stdlib.h>
 #include "funciones.h"
 
-///////////////////////////////////// MENU.
 
-void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int informar, int cargaForzada){
-
-
-    ///////////////////////////////////////////////////////////// TRIGGER ZONE.
-
-	/* NOTA: Debido a la necesidad de que el cuerpo principal (MAIN) fuera de 40 líneas en lo posible, muchas cosas se mudaron de allí a aquí.
-	 * Eso hizo que muchas variables que ocupaban espacio sin necesidad en la cabecera de MAIN vinieran a parar a este sitio, debido a que sólo son necesarias
-	 * a la hora de mostrar datos actualizados en el Menú.
-	 *
-	 * El apartado fue llamado TRIGGER ZONE debido a que se 'gatilla' únicamente si la bandera de cálculos está activada.
-	 * Los cálculos se realizan aquí invocando funciones de cálculo de esta misma libería.
-	 */
+void inform(float kilometros, float aerolineas, float latam, int calculosFlag, int informar, int cargaForzada){
 
 	float aerolineasDebitCard;		// Costo de Aerolineas por débito.
 	float aerolineasCreditCard;		// Costo de Aerolineas por crédito.
@@ -24,17 +12,7 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
 	float precioUnitAerolineas;		// Precio por kilómetro de Aerolíneas. No aplica descuentos o intereses (no estaba especificado en el enunciado).
 	float precioUnitLatam;			// Precio por kilómetro de Latam. No aplica descuentos o intereses (no estaba especificado en el enunciado).
 
-	/////////////////////////////// ENFORCED ENTRY.
-
-	if(cargaForzada==1){			//Si la carga fue forzada, realizar lo siguiente.
-
-		kilometros=7090; 					// Valor de los kilometros. Se inicializa en 0.
-		aerolineas=1335000.66; 				// Costo del vuelo de Aerolineas.
-		latam=1350000.76; 						// Costo del vuelo de Latam.
-		calculosFlag=1; 					// Bandera. Si los calculos han sido realizados, se vuelve 1.
-	}
-
-	/////////////////////////////// CALCULATIONS.
+	/////////////////////////////// CALCS.
 
     if(calculosFlag==1){
     	aerolineasDebitCard=card(aerolineas,-0.1);
@@ -45,15 +23,51 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
     	precioUnitLatam=priceKm(latam,kilometros);
     }
 
-    ///////////////////////////////////////////////////////////// END OF TRIGGER ZONE.
+    /////////////////////////////// END OF CALCS.
 
-    ///////////////////////////////////////////////////////////// MENU.
+    if(informar==1){
+             ////////// Informe de datos condicional.
+		printf("\n║                 - - - { 'Aerolineas' } - - -");
+		printf("\n║ - - - \ta) Precio con tarjeta de débito: \t [ $%.2f ]", aerolineasDebitCard);
+		printf("\n║ - - - \tb) Precio con tarjeta de crédito: \t [ $%.2f ]", aerolineasCreditCard);
+		printf("\n║ - - - \tc) Precio pagando con bitcoin : \t "); btcPrice(aerolineas);
+		printf("\n║ - - - \td) Precio unitario: \t\t\t [ $%.2f ]", precioUnitAerolineas);
+		printf("\n║");
+		printf("\n║ - - - - - - - - - - - - - - - - - - - - - - - -");
+		printf("\n║");
+		printf("\n║                 - - - { 'Latam' } - - -");
+		printf("\n║ - - - \ta) Precio con tarjeta de débito: \t [ $%.2f ]", latamDebitCard);
+		printf("\n║ - - - \tb) Precio con tarjeta de crédito: \t [ $%.2f ]", latamCreditCard);
+		printf("\n║ - - - \tc) Precio pagando con bitcoin : \t "); btcPrice(latam);
+		printf("\n║ - - - \td) Precio unitario: \t\t\t [ $%.2f ]",precioUnitLatam);
+		printf("\n║");
+		printf("\n║ - - - - - - - - - - - - - - - - - - - - - - - -");
+		printf("\n║");
+		printf("\n║ - - - \tLa diferencia de precio es:\n║\n"); priceDifference(aerolineas,latam);
+    }
+}
+
+///////////////////////////////////////////////////////////// MENU.
+
+void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int informar, int cargaForzada){
+
+    /////////////////////////////// FORCED ENTRY.
+
+	if(cargaForzada==1){			//Si la carga fue forzada, realizar lo siguiente.
+
+		kilometros=7090; 					// Valor de los kilometros. Se inicializa en 0.
+		aerolineas=1335000.66; 				// Costo del vuelo de Aerolineas.
+		latam=1350000.76; 						// Costo del vuelo de Latam.
+		calculosFlag=1; 					// Bandera. Si los calculos han sido realizados, se vuelve 1.
+	}
+
+    /////////////////////////////// END OF FORCED ENTRY.
 
     if(kilometros==0){
-    	printf("\n╔════>>> 1. Ingresar kilometros.\t [...]");
+    	printf("\n╔════>>> 1. Ingresar kilometros.\t [...]\t");
     }
     else{
-    	printf("\n╔════>>> 1. Kilometros ingresados: \t[ %.2f Kms ]\t\t", kilometros); forcedEntry(cargaForzada);
+    	printf("\n╔════>>> 1. Kilometros ingresados: \t[ %.2f Kms ]\t\t\t", kilometros); forcedEntry(cargaForzada);
     }
     printf("\n║");
     printf("\n╠════>>> 2. Ingresar precio de vuelos:");
@@ -74,32 +88,15 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
     printf("\n║");
     printf("\n║ - - - \ta) Tarjeta de débito (descuento 10 )\t\t\t\t\t");calcSuccess(calculosFlag);
     printf("\n║ - - - \tb) Tarjeta de crédito (interés 25)\t\t\t\t\t");calcSuccess(calculosFlag);
-    printf("\n║ - - - \tc) Bitcoin (1BTC -> 4606954.55 Pesos Argentinos)\t\t\t");calcSuccess(calculosFlag);
+    printf("\n║ - - - \tc) Bitcoin (1BTC -> 4,796,793.92 Pesos Argentinos (09/04/22)\t\t");calcSuccess(calculosFlag);
     printf("\n║ - - - \td) Mostrar precio por km (precio unitario)\t\t\t\t");calcSuccess(calculosFlag);
     printf("\n║ - - - \te) Mostrar diferencia de precio ingresada (Latam - Aerolíneas)\t\t");calcSuccess(calculosFlag);
     printf("\n║");
-    printf("\n╠════>>> 4. Informar Resultados:"); /// DE ACA PARA ABAJO SOLO SE TIENE QUE VER SI SE INGRESAN DATOS. USAR FLAG.
+    printf("\n╠════>>> 4. Informar Resultados:"); /// Datos invisibles.
     printf("\n║");
-    if(informar==1){
-             ////////// Informe de datos condicional.
-		printf("\n║                 - - - { 'Aerolineas' } - - -");
-		printf("\n║ - - - \ta) Precio con tarjeta de débito: \t [ $%.2f ]", aerolineasDebitCard);
-		printf("\n║ - - - \tb) Precio con tarjeta de crédito: \t [ $%.2f ]", aerolineasCreditCard);
-		printf("\n║ - - - \tc) Precio pagando con bitcoin : r");
-		printf("\n║ - - - \td) Precio unitario: \t\t\t [ $%.2f ]", precioUnitAerolineas);
-		printf("\n║");
-		printf("\n║ - - - - - - - - - - - - - - - - - - - - - - - -");
-		printf("\n║");
-		printf("\n║                 - - - { 'Latam' } - - -");
-		printf("\n║ - - - \ta) Precio con tarjeta de débito: \t [ $%.2f ]", latamDebitCard);
-		printf("\n║ - - - \tb) Precio con tarjeta de crédito: \t [ $%.2f ]", latamCreditCard);
-		printf("\n║ - - - \tc) Precio pagando con bitcoin : r");
-		printf("\n║ - - - \td) Precio unitario: \t\t\t [ $%.2f ]",precioUnitLatam);
-		printf("\n║");
-		printf("\n║ - - - - - - - - - - - - - - - - - - - - - - - -");
-		printf("\n║");
-		printf("\n║ - - - \tLa diferencia de precio es: ");
-    } ///////////////////// FIN Informe de datos.
+    ///////////////////// Informe de datos.
+    inform(kilometros,aerolineas,latam,calculosFlag,informar,cargaForzada);
+    ///////////////////// FIN Informe de datos.
     printf("\n║");
     printf("\n╠════>>> 5. Carga forzada de datos");
     printf("\n║");
@@ -161,6 +158,48 @@ float option2_2(){
 	return latam;
 }
 
+/////////////////////// OPTION 3.
+
+int option3(float kilometros, float aerolineas, float latam, int calculosFlag){
+
+    if(calculosFlag==0){
+    	if(kilometros==0 && aerolineas==0 && latam==0){
+    		printf("\n/////////////////////////////////////\n");
+    		printf("\n\t[ ERROR. No hay ningun dato cargado. ]\n\n\n");
+    		printf("\n/////////////////////////////////////\n");
+    		printf("\n/////////////////////////////////////\n");
+    		printf("\n/////////////////////////////////////\n");
+    	}
+    	else if(kilometros==0 || aerolineas==0 || latam==0){
+    		printf("\n/////////////////////////////////////\n");
+    		printf("\nFalta cargar datos de: ");
+    		if(kilometros==0){
+    			printf("\n - Kilometros.");
+    		}
+    		if(aerolineas==0){
+    					printf("\n - Costo de vuelo de Aerolineas.");
+    		}
+    		if(latam==0){
+    					printf("\n - Costo de vuelo de Latam.");
+    		}
+    		printf("\n\n\n/////////////////////////////////////\n");
+    		printf("\n/////////////////////////////////////\n");
+    		printf("\n/////////////////////////////////////\n");
+    	}
+    	else{
+    		calcSuccess(1);
+    		printf("\n\n");
+    		return 1;
+    	}
+    }
+    else{
+        calcSuccess(1);
+        printf("\n\n");
+    	return 1;
+    }
+	return 0;
+}
+
 /////////////////////// OPTION 4.
 
 int option4(int calculosFlag){
@@ -203,7 +242,6 @@ int dataInt(int base, int top){
 
     int errorFlag;
     int numero;
-    int antibug;
 
     do{
             if(errorFlag==1){
@@ -214,7 +252,6 @@ int dataInt(int base, int top){
            	printf("Rango a ingresar: [ %d ] a [ %d ]. >>> ", base, top);
            	scanf("%d",&numero);
 
-            while((antibug=getchar())!='\n' && antibug!=EOF);
             if(numero<base || numero>top){
                 errorFlag=1;
             }
@@ -250,40 +287,6 @@ float dataFloat(int base, int top){
     return (float)numero;
 }
 
-///////////////////////////////////// CHECK CALCS.
-
-int preCalcs( float kilometros, float aerolineas, float latam){
-
-	if(kilometros==0 && aerolineas==0 && latam==0){
-		printf("\n/////////////////////////////////////\n");
-		printf("\n\t[ ERROR. No hay ningun dato cargado. ]\n\n\n");
-		printf("\n/////////////////////////////////////\n");
-		printf("\n/////////////////////////////////////\n");
-		printf("\n/////////////////////////////////////\n");
-	}
-	else if(kilometros==0 || aerolineas==0 || latam==0){
-		printf("\n/////////////////////////////////////\n");
-		printf("\nFalta cargar datos de: ");
-		if(kilometros==0){
-			printf("\n - Kilometros.");
-		}
-		if(aerolineas==0){
-					printf("\n - Costo de vuelo de Aerolineas.");
-		}
-		if(latam==0){
-					printf("\n - Costo de vuelo de Latam.");
-		}
-		printf("\n\n\n/////////////////////////////////////\n");
-		printf("\n/////////////////////////////////////\n");
-		printf("\n/////////////////////////////////////\n");
-	}
-	else{
-		return 1;
-	}
-	return 0;
-}
-
-
 ////////////// CARD.
 
 float card(float costo, float porcentaje){
@@ -308,12 +311,44 @@ float priceKm(float price, float km){
 
 ////////////// PRICE DIFFERENCE.
 
+void priceDifference(float aerolineas,float latam){
 
-////////////// ENFORCED ENTRY.
+    float difference;
+
+    if(aerolineas>latam){
+        difference=aerolineas-latam;
+        printf("║\t\t<< Latam >> es más barato. La diferencia es: [ $%.2f ]",difference);
+    }
+    else{
+        if(latam>aerolineas){
+            difference=latam-aerolineas;
+            printf("║\t\t<< Aerolineas >> es más barato. La diferencia es: [ $%.2f ]",difference);
+        }
+        else{
+            printf("║\t\t [ Ambos viajes cuestan lo mismo. No hay diferencia. ]");
+        }
+    }
+
+}
+
+////////////// FORCED ENTRY.
 
 void forcedEntry(int cargaForzada){
 
 	if(cargaForzada==1){
 		printf("\t\t <<<<< /// DATOS FORZADOS!! ///");
 	}
+}
+
+////////////// BTC PRICE.
+
+void btcPrice(float precio){
+
+    float btc=4796793.92;
+    float total;
+
+    total=precio/btc;
+
+    printf("[ %.4f btc ]",total);
+
 }
