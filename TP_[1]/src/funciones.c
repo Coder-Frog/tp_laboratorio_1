@@ -14,7 +14,7 @@ void inform(float kilometros, float aerolineas, float latam, int calculosFlag, i
 
 	/////////////////////////////// CALCS.
 
-    if(calculosFlag==1){
+    if(calculosFlag==1){										// Chequeo del valor de la bandera. Si 1, entonces procede con los cálculos a mostrar.
     	aerolineasDebitCard=card(aerolineas,-0.1);
     	aerolineasCreditCard=card(aerolineas,0.25);
     	latamDebitCard=card(latam,-0.1);
@@ -25,7 +25,7 @@ void inform(float kilometros, float aerolineas, float latam, int calculosFlag, i
 
     /////////////////////////////// END OF CALCS.
 
-    if(informar==1){
+    if(informar==1){											// Chequeo del valor de la bandera. Si 1, entonces muestra esta seccion de menu oculta.
              ////////// Informe de datos condicional.
 		printf("\n║                 - - - { 'Aerolineas' } - - -");
 		printf("\n║ - - - \ta) Precio con tarjeta de débito: \t [ $%.2f ]", aerolineasDebitCard);
@@ -53,11 +53,11 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
 
     /////////////////////////////// FORCED ENTRY.
 
-	if(cargaForzada==1){			//Si la carga fue forzada, realizar lo siguiente.
-
+	if(cargaForzada==1){					//Si la carga fue forzada, realizar lo siguiente.
+												// Esto sobreescribe los valores importados.
 		kilometros=7090; 					// Valor de los kilometros. Se inicializa en 0.
 		aerolineas=1335000.66; 				// Costo del vuelo de Aerolineas.
-		latam=1350000.76; 						// Costo del vuelo de Latam.
+		latam=1350000.76; 					// Costo del vuelo de Latam.
 		calculosFlag=1; 					// Bandera. Si los calculos han sido realizados, se vuelve 1.
 	}
 
@@ -95,7 +95,7 @@ void menu(float kilometros, float aerolineas, float latam, int calculosFlag, int
     printf("\n╠════>>> 4. Informar Resultados:"); /// Datos invisibles.
     printf("\n║");
     ///////////////////// Informe de datos.
-    inform(kilometros,aerolineas,latam,calculosFlag,informar,cargaForzada);
+    inform(kilometros,aerolineas,latam,calculosFlag,informar,cargaForzada); // Funcion. Requiere los valores de los parametros.
     ///////////////////// FIN Informe de datos.
     printf("\n║");
     printf("\n╠════>>> 5. Carga forzada de datos");
@@ -162,24 +162,24 @@ float option2_2(){
 
 int option3(float kilometros, float aerolineas, float latam, int calculosFlag){
 
-    if(calculosFlag==0){
-    	if(kilometros==0 && aerolineas==0 && latam==0){
+    if(calculosFlag==0){				// Chequea si la bandera está arriba. Caso contrario, procede.
+    	if(kilometros==0 && aerolineas==0 && latam==0){				// Chequea la presencia de datos cargados.
     		printf("\n/////////////////////////////////////\n");
     		printf("\n\t[ ERROR. No hay ningun dato cargado. ]\n\n\n");
     		printf("\n/////////////////////////////////////\n");
     		printf("\n/////////////////////////////////////\n");
     		printf("\n/////////////////////////////////////\n");
     	}
-    	else if(kilometros==0 || aerolineas==0 || latam==0){
+    	else if(kilometros==0 || aerolineas==0 || latam==0){		// Chequea la presencia de CUALES datos NO estan cargados.
     		printf("\n/////////////////////////////////////\n");
     		printf("\nFalta cargar datos de: ");
-    		if(kilometros==0){
+    		if(kilometros==0){										// Indica error especifico.
     			printf("\n - Kilometros.");
     		}
-    		if(aerolineas==0){
+    		if(aerolineas==0){										// Indica error especifico.
     					printf("\n - Costo de vuelo de Aerolineas.");
     		}
-    		if(latam==0){
+    		if(latam==0){											// Indica error especifico.
     					printf("\n - Costo de vuelo de Latam.");
     		}
     		printf("\n\n\n/////////////////////////////////////\n");
@@ -187,12 +187,12 @@ int option3(float kilometros, float aerolineas, float latam, int calculosFlag){
     		printf("\n/////////////////////////////////////\n");
     	}
     	else{
-    		calcSuccess(1);
+    		calcSuccess(1);			// Si los calculos fueron realizados, lo indica.
     		printf("\n\n");
     		return 1;
     	}
     }
-    else{
+    else{							// Si los calculos fueron realizados, lo indica.
         calcSuccess(1);
         printf("\n\n");
     	return 1;
@@ -203,7 +203,7 @@ int option3(float kilometros, float aerolineas, float latam, int calculosFlag){
 /////////////////////// OPTION 4.
 
 int option4(int calculosFlag){
-	if(calculosFlag==0){										//La única función de este paso es activar una bandera para mostrar datos por Menú.
+	if(calculosFlag==0){										// Activa bandera para mostrar datos. Depende de la bandera de opcion 3.
 		printf("\n/////////////////////////////////////\n");
 		printf("\n\t[ ERROR. Faltan cargar datos y  { calcular } ].\n\n\n");
 		printf("\n/////////////////////////////////////\n");
@@ -219,7 +219,7 @@ int option4(int calculosFlag){
 
 ///////////////////////////////////// CALC SUCCESS MESSAGE.
 
-void calcSuccess(int calculosFlag){
+void calcSuccess(int calculosFlag){		// Si la bandera de calculos esta arriba, muestra mensaje.
 
 	if(calculosFlag==1){
 		printf(" ///// CALCULADO! /////");
@@ -228,7 +228,7 @@ void calcSuccess(int calculosFlag){
 
 ///////////////////////////////////// JUMP.
 
-void jump(){
+void jump(){			// Separacion estetica. Facilita la visualizacion del programa.
 
 	printf("\n\n\n/////////////////////\n");
 	printf("//////////////////////////////////////////\n");
@@ -240,25 +240,32 @@ void jump(){
 
 int dataInt(int base, int top){
 
-    int errorFlag;
+    int errorFlag;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
     int numero;
+    int antibug;	// Variable de descarte. Se utiliza para limpieza de buffer.
 
     do{
             if(errorFlag==1){
                 printf("\nError. \nIngrese solo numeros, y dentro del rango.\n\n");
-                errorFlag=0;
+                errorFlag=0;	// Se resetea bandera.
             }
 
            	printf("Rango a ingresar: [ %d ] a [ %d ]. >>> ", base, top);
            	scanf("%d",&numero);
 
+           	while((antibug=getchar())!='\n' && antibug!=EOF);	// Bucle de limpieza.
             if(numero<base || numero>top){
-                errorFlag=1;
+                errorFlag=1;	// Se activa bandera en caso de error.
             }
     }while(errorFlag==1);
 
    	return numero;
 }
+
+// El bucle de limpieza tiene por funcion absorver cualquier valor distinto de
+// salto de linea o final de linea.
+// Este tipo de bucle es util en caso de que el usuario introduzca letras o
+// simbolos inesperados distintos de numeros.
 
 ///////////////////////////////////// DATA Float.
 

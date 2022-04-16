@@ -34,7 +34,7 @@ void inform(float kilometros, float aerolineas, float latam, int calculosFlag, i
 /**
  * @brief Agregado estetico. Su unica funcion es hacer mas facil de visualizar el programa y los datos.
  */
-void jump();
+void jump(void);
 
 ///////////// SWITCH OPTIONS;
 
@@ -42,24 +42,24 @@ void jump();
  * @biref Imprime el pedido de ingreso de datos para los kilometros. Ejecuta la funcion dataFloat.
  * @return kilometros, devuelve el valor ingresado para definir la variable kilometros en el main.
  */
-float option1();
+float option1(void);
 
 /**
  * @brief Imprime el submenu para el ingreso de datos de los vuelos de Aerolineas y Latam. No devuelve nada.
  */
-void option2A();
+void option2A(void);
 
 /**
  * @brief Ingreso de datos de Aerolineas. Ejecuta dataFloat.
  * @return aerolineas, devuelve como valor el costo del viaje.
  */
-float option2_1();
+float option2_1(void);
 
 /**
  * @brief Ingreso de datos de Latam. Ejecuta dataFloat.
  * @return latam, devuelve como valor el costo del viaje.
  */
-float option2_2();
+float option2_2(void);
 
 /**
  * @brief chequea los valores de kilometros, aerolineas, y latam. Si no estan ingresados, imprime error.
