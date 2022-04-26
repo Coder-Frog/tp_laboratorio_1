@@ -173,7 +173,7 @@ void afterCheckIn(Passenger* list, int *previousID){
 	printf("Tipo de pasajero: \t[ %d ]\n",list[id].typePassenger);
 	printf("Codigo de vuelo: \t[ %s ]\n",list[id].flycode);
 	printf("Estado: \t\t");
-	if(list[id].isEmpty == 1){
+	if(list[id].isEmpty == 0){
 		printf("[ Alta ]");
 	}
 	else{
@@ -241,7 +241,7 @@ void modifyPassenger(Passenger* list, int *passengersFlag){
 					break;
 				case 6:
 					modifyIsEmpty(id);
-					if(list[id].isEmpty == 1){
+					if(list[id].isEmpty == 0){
 							printf("[ Alta ]");
 						}
 						else{
@@ -317,6 +317,12 @@ void modifyIsEmpty(int id){
 
 ////////////////////////////////////////////////////////////////////////// DELETE PASSENGER.
 
-void deletePassenger(Passenger* list, int *passengersFlag){
+void deletePassenger(Passenger* list, int *passengersFlag,int len){
+
+	int id;
+
+	printf("\n\nIngrese la ID del pasajero a borrar: \n");
+	id = dataInt(1, len);
+	int removePassenger(Passenger* list, int len, int id); REVISAAAAAAAAR RELACION ENTRE ID E INDICE
 
 }

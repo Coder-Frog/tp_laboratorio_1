@@ -43,7 +43,7 @@ int main(void) {
 				modifyPassenger(list, &passengersFlag);
 				break;
 			case 3: /// DELETE
-				deletePassenger(list, &passengersFlag);
+				deletePassenger(list, &passengersFlag, MAXP);
 				break;
 			case 4: /// INFORM
 				break;

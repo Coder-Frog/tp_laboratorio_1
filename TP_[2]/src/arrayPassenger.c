@@ -35,10 +35,10 @@ int initPassengers(Passenger* list, int len)
 	int i;
 
 	returnNum = -1;
-	//if(Passenger* list != NULL && len == 2000){
+
 	if(list != NULL){
 		for(i=0;i<len;i++){
-		list[i].isEmpty=0;
+		list[i].isEmpty=1;
 		list[i].id=0;
 		}
 		returnNum = 0;
@@ -64,22 +64,26 @@ free space] - (0) if Ok
 int addPassenger(Passenger* list, int len, int id, char name[],char
 lastName[],float price,int typePassenger, char flycode[])
 {
-	int returnNum;
-
-	returnNum = -1;
+	int i; // counter var
 
 	if(list != NULL){
-		list[id].id = id;
-		strcpy(list[id].name,name);
-		strcpy(list[id].lastName,lastName);
-		list[id].price = price;
-		list[id].typePassenger = typePassenger;
-		strcpy(list[id].flycode,flycode);
-		list[id].isEmpty = 1;
-		returnNum = 0;
+		for(i=0;i<len;i++){
+			if(list[i].isEmpty==1){
+
+				list[i].id = id;
+				strcpy(list[i].name,name);
+				strcpy(list[i].lastName,lastName);
+				list[i].price = price;
+				list[i].typePassenger = typePassenger;
+				strcpy(list[i].flycode,flycode);
+				list[i].isEmpty = 0;
+
+				return 0;
+			}
+		}
 	}
 
-return returnNum;
+return -1;
 }
 
 /// FIND PASSENGER BY ID
@@ -111,6 +115,17 @@ find a passenger] - (0) if Ok
 */
 int removePassenger(Passenger* list, int len, int id)
 {
+	int i;
+
+	if(list!=NULL){
+		for(i=0;i<len;i++){
+			if(list[i].id==id){
+				list[i].isEmpty=1;
+				return 0;
+			}
+		}
+		printf("\nLa ID no existe.\n");
+	}
 return -1;
 }
 
@@ -144,18 +159,3 @@ int printPassenger(Passenger* list, int length)
 return 0;
 }
 
-/// SORT PASSENGER BY CODE
-
-/** \brief Sort the elements in the array of passengers, the argument order
-indicate UP or DOWN order
-*
-* \param list Passenger*
-* \param len int
-* \param order int [1] indicate UP - [0] indicate DOWN
-* \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
-*
-*/
-/*int sortPassengers(Passenger* list, int len, int order)
-{
-return 0;
-}*/
