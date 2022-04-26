@@ -17,11 +17,11 @@ void stringEntry(int option,int top, char *stringChain);
 
 void registerPassenger();
 
-void afterCheckIn();
+void afterCheckIn(Passenger* list, int index);
 
 void pressKey();
 
-void modifyPassenger();
+int modifyPassenger(Passenger* list, int *passengersFlag, int len);
 
 void modifyName(int id);
 
@@ -36,5 +36,7 @@ void modifyTypePassenger(int id);
 void modifyIsEmpty(int id);
 
 void deletePassenger();
+
+void inform(int *passengersFlag);
 
 #endif

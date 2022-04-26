@@ -21,7 +21,8 @@ int main(void) {
 	// SET OF MAIN VARIABLES + CLEANING `stdout`.
 	setbuf(stdout, NULL);
 	int option;
-	int previousID=0;
+	int ID=1;
+	int index=0;
 	int passengersFlag=0;
 
 	////////////////////////////////////////////////////////////////
@@ -33,19 +34,20 @@ int main(void) {
 	do{
 		menu();
 		//printf("\[ NEXT ID >>> %d ]\n",previousID);
+		setbuf(stdout,NULL);
 		option=dataInt(1,6);
 		switch(option){
 			case 1: /// ADD
-				registerPassenger(list, MAXP, &previousID, &passengersFlag);
-				afterCheckIn(list, &previousID);
+				registerPassenger(list, MAXP, &ID, &index, &passengersFlag);
 				break;
 			case 2: /// MODIFY
-				modifyPassenger(list, &passengersFlag);
+				modifyPassenger(list, &passengersFlag, MAXP);
 				break;
 			case 3: /// DELETE
 				deletePassenger(list, &passengersFlag, MAXP);
 				break;
 			case 4: /// INFORM
+				inform(&passengersFlag);
 				break;
 			case 5: /// SORT
 				break;

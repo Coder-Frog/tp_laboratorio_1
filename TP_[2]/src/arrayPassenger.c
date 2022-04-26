@@ -31,19 +31,16 @@ int isEmpty;
 */
 int initPassengers(Passenger* list, int len)
 {
-	int returnNum;
 	int i;
-
-	returnNum = -1;
 
 	if(list != NULL){
 		for(i=0;i<len;i++){
 		list[i].isEmpty=1;
 		list[i].id=0;
 		}
-		returnNum = 0;
+		return 0;
 	}
-return returnNum;
+return -1;
 }
 
 /// ADD PASSENGER
@@ -82,13 +79,12 @@ lastName[],float price,int typePassenger, char flycode[])
 			}
 		}
 	}
-
 return -1;
 }
 
 /// FIND PASSENGER BY ID
 
-/** \brief find a Passenger by Id en returns the index position in array.
+/** \brief find a Passenger by Id and returns the index position in array.
 *
 * \param list Passenger*
 * \param len int
@@ -97,10 +93,23 @@ return -1;
 NULL pointer received or passenger not found]
 *
 */
-/*int findPassengerById(Passenger* list, int len,int id)
+int findPassengerById(Passenger* list, int len,int id)
 {
-return NULL;
-}*/
+	int i;// counter
+	int ind;
+
+	if(list!=NULL){
+		for(i=0;i<len;i++){
+			if(list[i].id==id){
+				ind = i;
+				printf("\nIndice del pasajero ID [ %d ] es: [ %d ]",id,ind);
+				return 0;
+			}
+		}
+		printf("\n[ Error. La ID especificada no existe. ]\n");
+	}
+return -1;
+}
 
 /// REMOVE PASSENGER
 
@@ -121,10 +130,11 @@ int removePassenger(Passenger* list, int len, int id)
 		for(i=0;i<len;i++){
 			if(list[i].id==id){
 				list[i].isEmpty=1;
+				printf("\nPasajero de ID [ %d ] dado de BAJA.\n",list[i].id);
 				return 0;
 			}
 		}
-		printf("\nLa ID no existe.\n");
+		printf("\n[ Error. La ID especificada no existe. ]\n");
 	}
 return -1;
 }

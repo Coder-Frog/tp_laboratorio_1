@@ -15,7 +15,6 @@ void menu(){
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
 }
 
-
 ////////////////////////////////////////////////////////////////////////// DATA Int.
 
 int dataInt(int base, int top){
@@ -49,7 +48,7 @@ float dataFloat(int base, int top){
 
     do{
             if(errorFlag==1){
-                printf("\n\n[ Error. \nIngrese solo numeros, y dentro del rango. ]\n\n");
+                printf("\n\n[ Error. Ingrese solo numeros, y dentro del rango. ]\n\n");
                 errorFlag=0;
             }
            	printf("Valor entre: [ %d ] a [ %d ] : ", base, top);
@@ -102,15 +101,14 @@ void stringEntry(int option,int top, char *stringChain){
 	}while(bugFlag!=0);
 
 	strcpy(stringChain, auxChar);
-
 }
-
 
 ////////////////////////////////////////////////////////////////////////// REGISTER Passenger.
 
-void registerPassenger(Passenger* list, int len, int *previousID, int *passengersFlag){
+void registerPassenger(Passenger* list, int len, int *ID, int *index, int *passengersFlag){
 
 	int id;
+	int ind;
 	char name[51];
 	char lastName[51];
 	float price=0;
@@ -118,14 +116,13 @@ void registerPassenger(Passenger* list, int len, int *previousID, int *passenger
 	char flycode[10];
 
 	char stringChain[51];
+	id = *ID;
+	ind = *index;
 
-	id = *previousID;
 	printf("\n\n\n///////////////////////////////////\n");
-	printf("\nID del Pasajero \t[ %d ]",id+1);
-	printf("\nIndice del Pasajero \t[ %d ]\n",*previousID);
+	printf("\nID del Pasajero \t[ %d ]",*ID);
+	printf("\nIndice del Pasajero \t[ %d ]\n",*index);
 	printf("\n///////////////////////////////////\n\n");
-
-	*previousID = *previousID + 1;
 
 	/*//////////////////////////// ENTER NAME*/
 
@@ -155,37 +152,48 @@ void registerPassenger(Passenger* list, int len, int *previousID, int *passenger
 	addPassenger(list, MAXP, id, name, lastName, price, typePassenger, flycode);
 
 	*passengersFlag = 1;
+
+	afterCheckIn(list,ind);
+
+	*ID = *ID + 1;
+	*index = *index + 1;
 }
 
 ////////////////////////////////////////////////////////////////////////// AFTER Check In.
 
-void afterCheckIn(Passenger* list, int *previousID){
+void afterCheckIn(Passenger* list, int index){
 
-	int id = *previousID - 1;
-	printf("\n\n///////////////////////////////////\n");
-	printf("\tAFTER CHECK IN");
-	printf("\n///////////////////////////////////\n");
-	printf("\n>>>>>>>>>>>>>>>>>>\n");
-	printf("ID del Pasajero \t[ ID %d ]\n",list[id].id + 1);
-	printf("Nombre: \t\t[ %s ]\n",list[id].name);
-	printf("Apellido: \t\t[ %s ]\n",list[id].lastName);
-	printf("Precio del viaje: \t[ $%.2f ]\n",list[id].price);
-	printf("Tipo de pasajero: \t[ %d ]\n",list[id].typePassenger);
-	printf("Codigo de vuelo: \t[ %s ]\n",list[id].flycode);
-	printf("Estado: \t\t");
-	if(list[id].isEmpty == 0){
-		printf("[ Alta ]");
+	int ind;
+
+	ind = index;
+	if(list[ind].isEmpty!=1){
+		printf("\n\n///////////////////////////////////\n");
+		printf("\tAFTER CHECK IN");
+		printf("\n///////////////////////////////////\n");
+		printf("\n>>>>>>>>>>>>>>>>>>\n");
+		printf("ID del Pasajero \t[ ID %d ]\n",list[ind].id);
+		printf("Nombre: \t\t[ %s ]\n",list[ind].name);
+		printf("Apellido: \t\t[ %s ]\n",list[ind].lastName);
+		printf("Precio del viaje: \t[ $%.2f ]\n",list[ind].price);
+		printf("Tipo de pasajero: \t[ %d ]\n",list[ind].typePassenger);
+		printf("Codigo de vuelo: \t[ %s ]\n",list[ind].flycode);
+		printf("Estado: \t\t");
+		if(list[ind].isEmpty == 0){
+			printf("[ Alta ]");
+		}
+		else if(list[ind].isEmpty == -1){
+			printf("[ Baja ]");
+		}
+		printf("\n>>>>>>>>>>>>>>>>>>");
+		printf("\n\n///////////////////////////////////\n\n\n");
+		pressKey();
+		fflush(stdin);
+		fflush(stdout);
+		system("cls");
 	}
 	else{
-		printf("[ Baja ]");
+		printf("\n\n[ Error. El indice especificado se encuentra vacio.\n");
 	}
-	printf("\n>>>>>>>>>>>>>>>>>>");
-	printf("\n\n///////////////////////////////////\n\n\n");
-	pressKey();
-	fflush(stdin);
-	fflush(stdout);
-	system("cls");
-
 }
 
 ////////////////////////////////////////////////////////////////////////// PRESS Any key.
@@ -199,120 +207,147 @@ void pressKey(){
 
 ////////////////////////////////////////////////////////////////////////// MODIFY.
 
-void modifyPassenger(Passenger* list, int *passengersFlag){
+int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 
-	int id = 0;
+	int id;
 	int option = 0;
+	int i; // counter
+	int ind; // index
 
 	if(*passengersFlag!=1){
 		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
 	}
 	else{
+
+		///////// ENTER ID
+
 		printf("\nIngrese el ID del pasajero.\n\n");
-		id = dataInt(1,2000) - 1;
-		if(list[id].isEmpty==0){
-			printf("\n\n[ Error. El pasajero indicado no existe. ]\n\n");
-		}
-		else{
-			printf("\n\n\n\t[ Indique el dato a modificar: ]\n\n");
-			printf("\n\n1-Nombre.\n\n2-Apellido.\n\n3-Precio.\n\n4-Codigo de vuelo."
-					"\n\n5-Tipo de pasajero.\n\n6-Estado.\n\n>>>>\n>>>>\n\n7-Salir.\n\n");
-			option = dataInt(1,7);
-			switch(option){
-				case 1:
-					modifyName(id);
-					printf("\nNuevo nombre: [ %s ]\n\n",list[id].name);
-					break;
-				case 2:
-					modifyLastName(id);
-					printf("\nNuevo apellido: [ %s ]\n\n",list[id].name);
-					break;
-				case 3:
-					modifyPrice(id);
-					printf("\nNuevo precio: [ $%.2f ]\n\n",list[id].price);
-					break;
-				case 4:
-					modifyFlyCode(id);
-					printf("\nNuevo Codigo de Vuelo: [ %s ]\n\n",list[id].flycode);
-					break;
-				case 5:
-					modifyTypePassenger(id);
-					printf("\nNuevo tipo de Pasajero: [ %d ]\n\n",list[id].typePassenger);
-					break;
-				case 6:
-					modifyIsEmpty(id);
-					if(list[id].isEmpty == 0){
-							printf("[ Alta ]");
-						}
-						else{
-							printf("[ Baja ]");
-						}
-					break;
-				case 7:
-					break;
+		id = dataInt(1,20000);
+
+		///////// SEARCH FOR ID
+
+		for(i=0;i<len;i++){
+			if(list[i].id==id){
+				ind = i;
+				break;
 			}
 
+		///////// IF ID DOESN'T EXIST, RETURN TO MAIN MENU.
+
+			else{
+				printf("\n\n[ Error. La ID indicada no existe. ]");
+				return -1;
+			}
+		}
+
+		///////// IF ID EXISTS, MODIFY IT.
+
+		printf("\n\n\n\t[ Indique el dato a modificar: ]\n\n");
+		printf("\n\n1-Nombre.\n\n2-Apellido.\n\n3-Precio.\n\n4-Codigo de vuelo."
+				"\n\n5-Tipo de pasajero.\n\n6-Estado.\n\n>>>>\n>>>>\n\n7-Salir.\n\n");
+		option = dataInt(1,7);
+		switch(option){
+			case 1:
+				modifyName(ind);
+				printf("\nNuevo nombre: [ %s ]\n\n",list[ind].name);
+				afterCheckIn(list,ind);
+				break;
+			case 2:
+				modifyLastName(ind);
+				printf("\nNuevo apellido: [ %s ]\n\n",list[ind].name);
+				afterCheckIn(list,ind);
+				break;
+			case 3:
+				modifyPrice(ind);
+				printf("\nNuevo precio: [ $%.2f ]\n\n",list[ind].price);
+				afterCheckIn(list,ind);
+				break;
+			case 4:
+				modifyFlyCode(ind);
+				printf("\nNuevo Codigo de Vuelo: [ %s ]\n\n",list[ind].flycode);
+				afterCheckIn(list,ind);
+				break;
+			case 5:
+				modifyTypePassenger(ind);
+				printf("\nNuevo tipo de Pasajero: [ %d ]\n\n",list[ind].typePassenger);
+				afterCheckIn(list,ind);
+				break;
+			case 6:
+				modifyIsEmpty(ind);
+				printf("\nNuevo estado del pasajero ID [ %d ]:\t\t",list[ind].isEmpty);
+				if(list[ind].isEmpty == 0){
+					printf("[ Alta ]");
+				}
+				else if(list[ind].isEmpty == -1){
+					printf("[ Baja ]");
+				}
+				afterCheckIn(list,ind);
+				break;
+			case 7:
+				break;
 		}
 	}
-
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////// MODIFY NAME.
 
-void modifyName(int id){
+void modifyName(int ind){
 
 	char stringChain[51];
-
+	printf("\nIngrese NUEVO nombre:\n");
 	stringEntry(1,51,stringChain);
-	strcpy(list[id].name,stringChain);
+	strcpy(list[ind].name,stringChain);
 }
 
 ////////////////////////////////////////////////////////////////////////// MODIFY LAST NAME.
 
-void modifyLastName(int id){
+void modifyLastName(int ind){
 
 	char stringChain[51];
-
+	printf("\nIngrese NUEVO apellido:\n");
 	stringEntry(2,51,stringChain);
-	strcpy(list[id].name,stringChain);
+	strcpy(list[ind].name,stringChain);
 }
 
 ////////////////////////////////////////////////////////////////////////// MODIFY PRICE.
 
-void modifyPrice(int id){
+void modifyPrice(int ind){
 
 	float price;
-
+	printf("\nIngrese NUEVO precio:\n");
 	price = dataFloat(1,999999);
-	list[id].price = price;
+	list[ind].price = price;
 }
 
 ////////////////////////////////////////////////////////////////////////// MODIFY FLY CODE.
 
-void modifyFlyCode(int id){
+void modifyFlyCode(int ind){
 
 	char stringChain[51];
-
+	printf("\nIngrese NUEVO codigo de vuelo:\n");
 	stringEntry(3,10,stringChain);
-	strcpy(list[id].flycode,stringChain);
+	strcpy(list[ind].flycode,stringChain);
 }
 
 ////////////////////////////////////////////////////////////////////////// MODIFY TYPE OF PASSENGER.
 
-void modifyTypePassenger(int id){
+void modifyTypePassenger(int ind){
 
 	int type;
+	printf("\nIngrese NUEVO tipo de pasajero:\n");
 	type = dataInt(1,3);
-	list[id].typePassenger = type;
+	list[ind].typePassenger = type;
 }
 
 ////////////////////////////////////////////////////////////////////////// MODIFY STATE.
 
-void modifyIsEmpty(int id){
+void modifyIsEmpty(int ind){
 
 	int isEmpty;
-	isEmpty = dataInt(1,2);
-	list[id].isEmpty = isEmpty;
+	printf("\nIngrese estado del pasajero ID [ %d ]\n",list[ind].id);
+	isEmpty = dataInt(-1,0);
+	list[ind].isEmpty = isEmpty;
 }
 
 ////////////////////////////////////////////////////////////////////////// DELETE PASSENGER.
@@ -320,9 +355,47 @@ void modifyIsEmpty(int id){
 void deletePassenger(Passenger* list, int *passengersFlag,int len){
 
 	int id;
+	if(*passengersFlag==0){
+		printf("\n[ Error. No hay pasajeros cargados. ]\n");
+	}
+	else{
 
-	printf("\n\nIngrese la ID del pasajero a borrar: \n");
-	id = dataInt(1, len);
-	int removePassenger(Passenger* list, int len, int id); REVISAAAAAAAAR RELACION ENTRE ID E INDICE
+		printf("\n\nIngrese la ID del pasajero a borrar: \n\n");
+		id = dataInt(1, len);
+		removePassenger(list, len, id);
+	}
+}
 
+////////////////////////////////////////////////////////////////////////// INFORM.
+
+void inform(int *passengersFlag){
+
+	int option;
+	int id;
+	if(*passengersFlag==1){
+		do{
+			printf("\n\n[ Informe ]\n\n");
+			printf("Elija una opcion:\n\n1-Buscar indice por ID de pasajero.\n\n2-Informar pasajero por indice."
+					"\n\n3-Informar pasajero por ID.");
+			option = dataInt(1,3);
+
+			switch(option){
+				case 1:
+					printf("\n\n\t[ BUSQUEDA DE INDICE POR ID");
+					printf("\n\nIngrese la ID a buscar:\n");
+					id = dataInt(1,20000);
+					findPassengerById(list,MAXP,id);
+					break;
+				case 2:
+					printf("\n\n\t[ INFORME DE PASAJERO POR INDICE");
+					printf("\n\nIngrese el indice a informar:\n");
+					id = dataInt(1,20000);
+					afterCheckIn(list,id);
+					break;
+			}
+		}while(option != 3);
+	}
+	else{
+		printf("\n\n[ Error. No hay datos cargados. ]");
+	}
 }
