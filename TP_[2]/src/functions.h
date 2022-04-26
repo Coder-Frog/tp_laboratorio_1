@@ -33,5 +33,8 @@ void modifyFlyCode(int id);
 
 void modifyTypePassenger(int id);
 
+void modifyIsEmpty(int id);
+
+void deletePassenger();
 
 #endif

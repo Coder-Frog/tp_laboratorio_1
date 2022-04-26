@@ -43,6 +43,7 @@ int main(void) {
 				modifyPassenger(list, &passengersFlag);
 				break;
 			case 3: /// DELETE
+				deletePassenger(list, &passengersFlag);
 				break;
 			case 4: /// INFORM
 				break;

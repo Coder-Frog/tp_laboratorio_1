@@ -4,6 +4,8 @@
 #include "functions.h"
 #include "arrayPassenger.h"
 
+////////////////////////////////////////////////////////////////////////// <<< MENU >>>.
+
 void menu(){
 
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
@@ -125,27 +127,27 @@ void registerPassenger(Passenger* list, int len, int *previousID, int *passenger
 
 	*previousID = *previousID + 1;
 
-	//////////////////////////// ENTER NAME
+	/*//////////////////////////// ENTER NAME*/
 
 	stringEntry(1,51, stringChain);
 
 	strcpy(name, stringChain);
 
-	//////////////////////////// ENTER LAST NAME
+	/*//////////////////////////// ENTER LAST NAME*/
 
 	stringEntry(2,51, stringChain);
 
 	strcpy(lastName, stringChain);
 
-	//////////////////////////// ENTER PRICE
+	/*//////////////////////////// ENTER PRICE*/
 	printf("\nIngrese el precio del viaje:\n ");
 	price = dataFloat(1,999999);
 
-	//////////////////////////// ENTER TYPE OF PASSENGER
+	/*//////////////////////////// ENTER TYPE OF PASSENGER*/
 	printf("\n\nIngrese el tipo de pasajero:\n ");
 	typePassenger = dataInt(1,3);
 
-	//////////////////////////// ENTER FLY CODE
+	/*//////////////////////////// ENTER FLY CODE*/
 
 	stringEntry(3,10, stringChain);
 	strcpy(flycode, stringChain);
@@ -179,10 +181,10 @@ void afterCheckIn(Passenger* list, int *previousID){
 	}
 	printf("\n>>>>>>>>>>>>>>>>>>");
 	printf("\n\n///////////////////////////////////\n\n\n");
-	//pressKey();
-	/*fflush(stdin);
+	pressKey();
+	fflush(stdin);
 	fflush(stdout);
-	system("cls");*/
+	system("cls");
 
 }
 
@@ -214,7 +216,7 @@ void modifyPassenger(Passenger* list, int *passengersFlag){
 		else{
 			printf("\n\n\n\t[ Indique el dato a modificar: ]\n\n");
 			printf("\n\n1-Nombre.\n\n2-Apellido.\n\n3-Precio.\n\n4-Codigo de vuelo."
-					"\n\n5-Tipo de pasajero.\n\n6-Estado.\n>>>>\n>>>>\n\n7-Salir.");
+					"\n\n5-Tipo de pasajero.\n\n6-Estado.\n\n>>>>\n>>>>\n\n7-Salir.\n\n");
 			option = dataInt(1,7);
 			switch(option){
 				case 1:
@@ -227,7 +229,7 @@ void modifyPassenger(Passenger* list, int *passengersFlag){
 					break;
 				case 3:
 					modifyPrice(id);
-					printf("\nNuevo precio: [ %f ]\n\n",list[id].price);
+					printf("\nNuevo precio: [ $%.2f ]\n\n",list[id].price);
 					break;
 				case 4:
 					modifyFlyCode(id);
@@ -235,8 +237,16 @@ void modifyPassenger(Passenger* list, int *passengersFlag){
 					break;
 				case 5:
 					modifyTypePassenger(id);
+					printf("\nNuevo tipo de Pasajero: [ %d ]\n\n",list[id].typePassenger);
 					break;
 				case 6:
+					modifyIsEmpty(id);
+					if(list[id].isEmpty == 1){
+							printf("[ Alta ]");
+						}
+						else{
+							printf("[ Baja ]");
+						}
 					break;
 				case 7:
 					break;
@@ -291,7 +301,22 @@ void modifyFlyCode(int id){
 
 void modifyTypePassenger(int id){
 
+	int type;
+	type = dataInt(1,3);
+	list[id].typePassenger = type;
 }
 
+////////////////////////////////////////////////////////////////////////// MODIFY STATE.
 
+void modifyIsEmpty(int id){
 
+	int isEmpty;
+	isEmpty = dataInt(1,2);
+	list[id].isEmpty = isEmpty;
+}
+
+////////////////////////////////////////////////////////////////////////// DELETE PASSENGER.
+
+void deletePassenger(Passenger* list, int *passengersFlag){
+
+}
