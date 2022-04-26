@@ -11,12 +11,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include <conio.h>
 #include "functions.h"
 #include "arrayPassenger.h"
 #define MAXP 2000
-
-//Passenger passengers[MAXP];
 
 int main(void) {
 
