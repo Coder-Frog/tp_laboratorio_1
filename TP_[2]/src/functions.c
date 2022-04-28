@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "functions.h"
 #include "arrayPassenger.h"
 
 ////////////////////////////////////////////////////////////////////////// <<< MENU >>>.
 
 void menu(){
-
+	/*int a=sizeOf();
+	printf("\n\n size of array: [ %d ]",a);*/
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
 	printf("[ Programa de carga de datos de pasajeros ]\n\n");
 	printf("\tElija una opcion:\n");
-	printf("\n\n1-Alta.\n\n2-Modificar.\n\n3-Baja.\n\n4-Informar\n\n5-Ordenar\n\n6-Salir.\n\n\n");
+	printf("\n\n1-Alta.\n\n2-Modificar.\n\n3-Baja.\n\n4-Informar\n\n5-Ordenar\n\n6-Carga Forzada.\n\n7-Salir.\n\n\n");
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
 }
 
@@ -215,7 +217,7 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 	int id;
 	int option = 0;
 	int i; // counter
-	int ind; // index
+	int ind = -1; // index
 
 	if(*passengersFlag!=1){
 		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
@@ -232,15 +234,18 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 		for(i=0;i<len;i++){
 			if(list[i].id==id){
 				ind = i;
+				printf("\nID encontrado.\n\n");
+				pressKey();
 				break;
 			}
+		}
 
 		///////// IF ID DOESN'T EXIST, RETURN TO MAIN MENU.
 
-			else{
-				printf("\n\n[ Error. La ID indicada no existe. ]");
-				return -1;
-			}
+		if(ind==-1){
+			printf("\n\n[ Error. La ID indicada no existe. ]\n\n");
+			pressKey();
+			return -1;
 		}
 
 		///////// IF ID EXISTS, MODIFY IT.
@@ -257,7 +262,7 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 				break;
 			case 2:
 				modifyLastName(ind);
-				printf("\nNuevo apellido: [ %s ]\n\n",list[ind].name);
+				printf("\nNuevo apellido: [ %s ]\n\n",list[ind].lastName);
 				afterCheckIn(list,ind);
 				break;
 			case 3:
@@ -406,3 +411,85 @@ void inform(int *passengersFlag){
 		printf("\n\n[ Error. No hay datos cargados. ]");
 	}
 }
+
+////////////////////////////////////////////////////////////////////////// SIZEOF.
+
+int sizeOf(){
+	int a = sizeof list / sizeof list[0];
+	return a;
+}
+
+////////////////////////////////////////////////////////////////////////// HARDCODING.
+
+void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag){
+
+	printf("\n\n[ CARGA FORZADA ]\n\n");
+	printf("A continuacion se cargaran 5 pasajeros al azar...\n\n");
+	pressKey();
+
+	int number;
+	int i;
+	int id = *ID;
+	int ind = *index;
+
+	//////////////////
+
+	char name[][15]={"Juan","Pedro","Maria","Danara","Shireen"};
+	char lastName[][15]={"Garcia","Gutierrez","Lopez","Moorsong","Greywolf"};
+	float price[]={222,333,444,555,666};
+	char flycode[][10]={"Uno","Dos","Tres","Cuatro","Cinco"};
+	int typePassenger[]={1,2,3,1,2};
+
+	//////////////////
+
+	//srand(time(0));
+
+	for(i=0;i<5;i++){
+
+		srand(time(NULL));
+		number = rand() % 5;
+
+
+		///////////////
+
+		addPassenger(list,MAXP,id,name[number],lastName[number],price[number],typePassenger[number],flycode[number]);
+
+		///////////////
+		///
+		printf("\n RANDOM NUMBER: %d\n",number);
+		afterCheckIn(list,ind);
+
+		id++;
+		ind++;
+
+	} // END LOOP
+	*passengersFlag = 1;
+	*ID = id;
+	*index = ind;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

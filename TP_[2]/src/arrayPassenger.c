@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "functions.h"
+#include "arrayPassenger.h"
 
 
 ///////////////////////////// Structures.
@@ -143,7 +145,68 @@ indicate UP or DOWN order
 */
 int sortPassengers(Passenger* list, int len, int order)
 {
-return 0;
+	int i;
+	int j;
+	int size = sizeOf();
+
+	int id;
+	char name[51];
+	char lastName[51];
+	float price;
+	char flycode[10];
+	int typePassenger;
+	int isEmpty;
+
+	/// NOTA: se preguntaran por que hice esto. Resulta que esta ecuacion,
+	/// por algun motivo que no encontre, me tiraba error aca, indicando que no iba a
+	/// devolver el tamaño del array.
+	/// Hacerla en functions.c en cambio resulto valido, SOLO cuando `list`
+	/// no es especificada como parametro. - Colocar `Passenger* list`
+	/// o cualquier otro parametro que haga referencia a `list` terminaba en
+	/// error.
+	/// Probando imprimir el resultado de `sizeOf();` arroja un resultado correcto.
+
+	if(list != NULL && (len == size)){
+		if(order == 1){ // A to Z sorting
+			for(i=0;i<len - 1;i++){
+				for(j = i + 1;j<len;j++){
+					if(list[i].isEmpty!=1 && list[j].isEmpty!=1){
+						if(strcmp(list[i].name, list[j].name)<0){
+
+							// COPY TO AUXILIAR VAR
+
+							id = list[i].id;
+							strcpy(name, list[i].name);
+							strcpy(lastName, list[i].lastName);
+							price = list[i].price;
+							strcpy(flycode, list[i].flycode);
+							typePassenger = list[i].typePassenger;
+							isEmpty = list[i].isEmpty;
+
+							// SWAP
+
+							list[i] = list[j];
+
+							// RE SET OF VALUES
+
+							list[j].id = id;
+							strcpy(list[j].name, name);
+							strcpy(list[j].lastName, lastName);
+							list[j].price = price;
+							strcpy(list[j].flycode, flycode);
+							list[j].typePassenger = typePassenger;
+							list[j].isEmpty = isEmpty;
+						}
+					}
+				}
+			}
+		}
+		else if(order == 0){ // Z to A sorting
+
+		}
+
+	}
+return -1;
 }
 
 /// PRINT PASSENGER

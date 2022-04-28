@@ -2,6 +2,14 @@
 #define ARRAYPASSENGER_H_
 #define MAXP 2000
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+#include "functions.h"
+
+////////////////////////////////////////
+
 struct
 {
 int id;
@@ -14,6 +22,8 @@ int isEmpty;
 }typedef Passenger;
 
 Passenger list[MAXP];
+
+////////////////////////////////////////
 
 int initPassengers(Passenger* list, int len);
 

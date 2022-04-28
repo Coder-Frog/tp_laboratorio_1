@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "arrayPassenger.h"
 
 void menu();
@@ -37,5 +38,9 @@ void modifyIsEmpty(int id);
 void deletePassenger();
 
 void inform(int *passengersFlag);
+
+int sizeOf();
+
+void hardcode();
 
 #endif

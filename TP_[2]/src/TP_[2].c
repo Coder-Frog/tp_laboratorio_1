@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "functions.h"
 #include "arrayPassenger.h"
 
@@ -33,7 +34,7 @@ int main(void) {
 	do{
 		menu();
 
-		switch(option=dataInt(1,6)){
+		switch(option=dataInt(1,7)){
 			case 1: /// ADD
 				registerPassenger(list, MAXP, &ID, &index, &passengersFlag);
 				break;
@@ -48,9 +49,12 @@ int main(void) {
 				break;
 			case 5: /// SORT
 				break;
+			case 6:
+				hardcode(list,&ID,&index,&passengersFlag);
+				break;
 		}
 
-	}while(option!=6);
+	}while(option!=7);
 
 	return 0;
 }
