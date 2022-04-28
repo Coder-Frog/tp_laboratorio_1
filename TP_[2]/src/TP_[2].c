@@ -48,6 +48,7 @@ int main(void) {
 				inform(&passengersFlag);
 				break;
 			case 5: /// SORT
+				sorting();
 				break;
 			case 6:
 				hardcode(list,&ID,&index,&passengersFlag);

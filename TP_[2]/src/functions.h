@@ -41,6 +41,8 @@ void inform(int *passengersFlag);
 
 int sizeOf();
 
-void hardcode();
+void sorting();
+
+void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag);
 
 #endif

@@ -200,9 +200,58 @@ int sortPassengers(Passenger* list, int len, int order)
 					}
 				}
 			}
+			printf("\n Ordenamiento realizado. Nombres:\n\n");
+			for(i=0;i<MAXP;i++){
+				if(list[i].isEmpty!=1){
+					printf("[ %s ]",list[i].name);
+				}
+			}
+			printf("\n\nTambien puede ver los datos completos mediante INFORMAR.\n\n");
+			pressKey();
+			return 0;
 		}
 		else if(order == 0){ // Z to A sorting
+			for(i=0;i<len - 1;i++){
+				for(j = i + 1;j<len;j++){
+					if(list[i].isEmpty!=1 && list[j].isEmpty!=1){
+						if(strcmp(list[i].name, list[j].name)>0){
 
+							// COPY TO AUXILIAR VAR
+
+							id = list[i].id;
+							strcpy(name, list[i].name);
+							strcpy(lastName, list[i].lastName);
+							price = list[i].price;
+							strcpy(flycode, list[i].flycode);
+							typePassenger = list[i].typePassenger;
+							isEmpty = list[i].isEmpty;
+
+							// SWAP
+
+							list[i] = list[j];
+
+							// RE SET OF VALUES
+
+							list[j].id = id;
+							strcpy(list[j].name, name);
+							strcpy(list[j].lastName, lastName);
+							list[j].price = price;
+							strcpy(list[j].flycode, flycode);
+							list[j].typePassenger = typePassenger;
+							list[j].isEmpty = isEmpty;
+						}
+					}
+				}
+			}
+			printf("\n Ordenamiento realizado. Nombres:\n\n");
+			for(i=0;i<MAXP;i++){
+				if(list[i].isEmpty!=1){
+					printf("[ %s ]",list[i].name);
+				}
+			}
+			printf("\n\nTambien puede ver los datos completos mediante INFORMAR.\n\n");
+			pressKey();
+			return 0;
 		}
 
 	}
@@ -226,7 +275,7 @@ int printPassenger(Passenger* list, int length)
 
 		if(list[i].isEmpty!=1){
 			printf("\n\n///////////////////////////////////\n");
-			printf("\tINFORME Nro: %d",i);
+			printf("\tINFORME Nro: %d",i+1);
 			printf("\n///////////////////////////////////\n");
 			printf("\n>>>>>>>>>>>>>>>>>>\n");
 			printf("ID del Pasajero \t[ ID %d ]\n",list[i].id);

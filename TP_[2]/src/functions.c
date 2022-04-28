@@ -419,12 +419,26 @@ int sizeOf(){
 	return a;
 }
 
+////////////////////////////////////////////////////////////////////////// SORTING.
+
+void sorting(){
+
+	int order;
+
+	printf("\n\n\t[ ORDENAMIENTO ]\n\n");
+	printf("Ingrese una opcion:\n\n0-Alfabetico A - Z.\n\n1-Alfabetico Z - A.\n\n");
+	order =dataInt(0,1);
+	sortPassengers(list, MAXP, order);
+
+
+}
+
 ////////////////////////////////////////////////////////////////////////// HARDCODING.
 
 void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag){
 
 	printf("\n\n[ CARGA FORZADA ]\n\n");
-	printf("A continuacion se cargaran 5 pasajeros al azar...\n\n");
+	printf("A continuacion se cargaran 7 pasajeros al azar...\n\n");
 	pressKey();
 
 	int number;
@@ -434,20 +448,20 @@ void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag){
 
 	//////////////////
 
-	char name[][15]={"Juan","Pedro","Maria","Danara","Shireen"};
-	char lastName[][15]={"Garcia","Gutierrez","Lopez","Moorsong","Greywolf"};
-	float price[]={222,333,444,555,666};
-	char flycode[][10]={"Uno","Dos","Tres","Cuatro","Cinco"};
-	int typePassenger[]={1,2,3,1,2};
+	char name[][15]={"Juan","Pedro","Maria","Danara","Shireen","Analia","Beatriz"};
+	char lastName[][15]={"Garcia","Gutierrez","Lopez","Moorsong","Greywolf","Rodriguez","Juarez"};
+	float price[]={222,333,444,555,666,777,888};
+	char flycode[][10]={"Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete"};
+	int typePassenger[]={1,2,3,1,2,3,1};
 
 	//////////////////
 
 	//srand(time(0));
 
-	for(i=0;i<5;i++){
+	for(i=0;i<7;i++){
 
 		srand(time(NULL));
-		number = rand() % 5;
+		number = rand() % 7;
 
 
 		///////////////
