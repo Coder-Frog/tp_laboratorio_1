@@ -1,4 +1,3 @@
-
 #ifndef ARRAYPASSENGER_H_
 #define ARRAYPASSENGER_H_
 #define MAXP 2000

@@ -2,20 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "functions.h"
-#include "arrayPassenger.h"
+
 
 ///////////////////////////// Structures.
 
-/*struct
-{
-int id;
-char name[51];
-char lastName[51];
-float price;
-char flycode[10];
-int typePassenger;
-int isEmpty;
-}typedef Passenger;*/
+
 
 ///////////////////////////// Functions.
 
@@ -84,7 +75,7 @@ return -1;
 
 /// FIND PASSENGER BY ID
 
-/** \brief find a Passenger by Id and returns the index position in array.
+/** \brief find a Passenger by Id  returns the index position in array.
 *
 * \param list Passenger*
 * \param len int
@@ -166,6 +157,33 @@ return 0;
 */
 int printPassenger(Passenger* list, int length)
 {
+	int i;
+
+	for (i=0;i<length;i++){
+
+		if(list[i].isEmpty!=1){
+			printf("\n\n///////////////////////////////////\n");
+			printf("\tINFORME Nro: %d",i);
+			printf("\n///////////////////////////////////\n");
+			printf("\n>>>>>>>>>>>>>>>>>>\n");
+			printf("ID del Pasajero \t[ ID %d ]\n",list[i].id);
+			printf("Nombre: \t\t[ %s ]\n",list[i].name);
+			printf("Apellido: \t\t[ %s ]\n",list[i].lastName);
+			printf("Precio del viaje: \t[ $%.2f ]\n",list[i].price);
+			printf("Tipo de pasajero: \t[ %d ]\n",list[i].typePassenger);
+			printf("Codigo de vuelo: \t[ %s ]\n",list[i].flycode);
+			printf("Estado: \t\t");
+			if(list[i].isEmpty == 0){
+				printf("[ Alta ]");
+			}
+			else if(list[i].isEmpty == -1){
+				printf("[ Baja ]");
+			}
+			printf("\n>>>>>>>>>>>>>>>>>>");
+			printf("\n\n///////////////////////////////////\n\n\n");
+		}
+	}
+
 return 0;
 }
 

@@ -18,6 +18,7 @@ void menu(){
 ////////////////////////////////////////////////////////////////////////// DATA Int.
 
 int dataInt(int base, int top){
+	setbuf(stdout,NULL);
 
     int errorFlag;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
     int numero;
@@ -41,6 +42,7 @@ int dataInt(int base, int top){
 ////////////////////////////////////////////////////////////////////////// DATA float.
 
 float dataFloat(int base, int top){
+	setbuf(stdout,NULL);
 
     int errorFlag;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
     float numero;
@@ -64,6 +66,7 @@ float dataFloat(int base, int top){
 ////////////////////////////////////////////////////////////////////////// DATA string.
 
 void stringEntry(int option,int top, char *stringChain){
+	setbuf(stdout,NULL);
 
 	int length;
 	int bugFlag=0;
@@ -376,24 +379,28 @@ void inform(int *passengersFlag){
 		do{
 			printf("\n\n[ Informe ]\n\n");
 			printf("Elija una opcion:\n\n1-Buscar indice por ID de pasajero.\n\n2-Informar pasajero por indice."
-					"\n\n3-Informar pasajero por ID.");
-			option = dataInt(1,3);
+					"\n\n3-Informar pasajero por ID.\n\n4-Volver al Menu principal.\n\n");
 
-			switch(option){
+			switch(option = dataInt(1,4)){
 				case 1:
-					printf("\n\n\t[ BUSQUEDA DE INDICE POR ID");
+					printf("\n\n\t[ BUSQUEDA DE INDICE POR ID ]");
 					printf("\n\nIngrese la ID a buscar:\n");
 					id = dataInt(1,20000);
 					findPassengerById(list,MAXP,id);
 					break;
 				case 2:
-					printf("\n\n\t[ INFORME DE PASAJERO POR INDICE");
+					printf("\n\n\t[ INFORME DE PASAJERO POR INDICE ]");
 					printf("\n\nIngrese el indice a informar:\n");
 					id = dataInt(1,20000);
 					afterCheckIn(list,id);
 					break;
+				case 3:
+					printf("\n\n\t[ IMPRESION DE TODOS LOS PASAJEROS ]");
+					pressKey();
+					printPassenger(list, MAXP);
+					pressKey();
 			}
-		}while(option != 3);
+		}while(option != 4);
 	}
 	else{
 		printf("\n\n[ Error. No hay datos cargados. ]");

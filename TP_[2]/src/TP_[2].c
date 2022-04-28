@@ -13,7 +13,6 @@
 #include <string.h>
 #include "functions.h"
 #include "arrayPassenger.h"
-#define MAXP 2000
 
 int main(void) {
 
@@ -33,10 +32,8 @@ int main(void) {
 
 	do{
 		menu();
-		//printf("\[ NEXT ID >>> %d ]\n",previousID);
-		setbuf(stdout,NULL);
-		option=dataInt(1,6);
-		switch(option){
+
+		switch(option=dataInt(1,6)){
 			case 1: /// ADD
 				registerPassenger(list, MAXP, &ID, &index, &passengersFlag);
 				break;
