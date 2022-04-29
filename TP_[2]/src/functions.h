@@ -15,6 +15,10 @@ float dataFloat(int base, int top);
 
 void stringEntry(int option,int top, char *stringChain);
 
+int checkAvIND(Passenger* list, int len);
+
+int checkAvID(Passenger* list, int len, int *passengersFlag);
+
 void registerPassenger();
 
 void afterCheckIn(Passenger* list, int index);
@@ -43,6 +47,6 @@ int sizeOf();
 
 void sorting();
 
-void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag);
+void hardcode(Passenger* list,int *passengersFlag);
 
 #endif

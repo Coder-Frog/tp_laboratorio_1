@@ -21,8 +21,7 @@ int main(void) {
 	// SET OF MAIN VARIABLES + CLEANING `stdout`.
 	setbuf(stdout, NULL);
 	int option;
-	int ID=1;
-	int index=0;
+	srand(time(0));
 	int passengersFlag=0;
 
 	////////////////////////////////////////////////////////////////
@@ -36,7 +35,7 @@ int main(void) {
 
 		switch(option=dataInt(1,7)){
 			case 1: /// ADD
-				registerPassenger(list, MAXP, &ID, &index, &passengersFlag);
+				registerPassenger(list, MAXP, &passengersFlag);
 				break;
 			case 2: /// MODIFY
 				modifyPassenger(list, &passengersFlag, MAXP);
@@ -51,7 +50,7 @@ int main(void) {
 				sorting(&passengersFlag);
 				break;
 			case 6: /// HARDCODE
-				hardcode(list,&ID,&index,&passengersFlag);
+				hardcode(list,&passengersFlag);
 				break;
 		}
 	}while(option!=7);

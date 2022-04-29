@@ -12,20 +12,22 @@ void menu(){
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
 	printf("[ Programa de carga de datos de pasajeros ]\n\n");
 	printf("\tElija una opcion:\n");
-	printf("\n\n1-Alta.\n\n2-Modificar.\n\n3-Baja.\n\n4-Informar\n\n5-Ordenar\n\n6-Carga Forzada.\n\n7-Salir.\n\n\n");
+	printf("\n\n1-Alta.\n\n2-Modificar.\n\n3-Baja.\n\n4-Informar\n\n5-Ordenar"
+			"\n\n6-Carga Forzada Aleatoria.\n\n7-Salir.\n\n\n");
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
 
-	//setbuf(stdin, NULL);
-	//setbuf(stdout, NULL);
+	setbuf(stdin, NULL);
+	setbuf(stdout, NULL);
 
 }
 
 ////////////////////////////////////////////////////////////////////////// DATA Int.
 
 int dataInt(int base, int top){
+	setbuf(stdin,NULL);
 	setbuf(stdout,NULL);
 
-    int errorFlag;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
+    int errorFlag=0;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
     int numero;
     int antibug;	// Variable de descarte. Se utiliza para limpieza de buffer.
 
@@ -47,9 +49,10 @@ int dataInt(int base, int top){
 ////////////////////////////////////////////////////////////////////////// DATA float.
 
 float dataFloat(int base, int top){
+	setbuf(stdin,NULL);
 	setbuf(stdout,NULL);
 
-    int errorFlag;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
+    int errorFlag=0;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
     float numero;
     int antibug;	// Variable de descarte. Se utiliza para limpieza de buffer.
 
@@ -71,6 +74,7 @@ float dataFloat(int base, int top){
 ////////////////////////////////////////////////////////////////////////// DATA string.
 
 void stringEntry(int option,int top, char *stringChain){
+	setbuf(stdin,NULL);
 	setbuf(stdout,NULL);
 
 	int length;
@@ -113,7 +117,7 @@ void stringEntry(int option,int top, char *stringChain){
 
 ////////////////////////////////////////////////////////////////////////// REGISTER Passenger.
 
-void registerPassenger(Passenger* list, int len, int *ID, int *index, int *passengersFlag){
+void registerPassenger(Passenger* list, int len, int *passengersFlag){
 
 	int id;
 	int ind;
@@ -124,12 +128,12 @@ void registerPassenger(Passenger* list, int len, int *ID, int *index, int *passe
 	char flycode[10];
 
 	char stringChain[51];
-	id = *ID;
-	ind = *index;
+	id = checkAvID(list,MAXP,passengersFlag);
+	ind = checkAvIND(list, MAXP);
 
 	printf("\n\n\n///////////////////////////////////\n");
-	printf("\nID del Pasajero \t[ %d ]",*ID);
-	printf("\nIndice del Pasajero \t[ %d ]\n",*index);
+	printf("\nID del Pasajero \t[ %d ]",id);
+	printf("\nIndice del Pasajero \t[ %d ]\n",ind);
 	printf("\n///////////////////////////////////\n\n");
 
 	/*//////////////////////////// ENTER NAME*/
@@ -163,8 +167,46 @@ void registerPassenger(Passenger* list, int len, int *ID, int *index, int *passe
 
 	afterCheckIn(list,ind);
 
-	*ID = *ID + 1;
-	*index = *index + 1;
+
+}
+
+////////////////////////////////////////////////////////////////////////// CHECK AVAILABLE ID.
+
+int checkAvID(Passenger* list, int len, int *passengersFlag){
+
+	int num;
+	int i;
+
+	for(i=0;i<len;i++){
+		if(list[i].isEmpty!=0){
+			if(*passengersFlag==1){
+				num=(list[i-1].id + 1);
+				return num;
+			}
+			else{
+				num = 1;
+				return num;
+			}
+		}
+	}
+	return -1;
+}
+
+////////////////////////////////////////////////////////////////////////// CHECK AVAILABLE INDEX.
+
+int checkAvIND(Passenger* list, int len){
+
+	int num;
+	int i;
+
+	for(i=0;i<len;i++){
+		if(list[i].isEmpty!=0){
+			num=i;
+			return num;
+		}
+	}
+
+	return -1;
 }
 
 ////////////////////////////////////////////////////////////////////////// AFTER Check In.
@@ -179,6 +221,7 @@ void afterCheckIn(Passenger* list, int index){
 		printf("\tAFTER CHECK IN");
 		printf("\n///////////////////////////////////\n");
 		printf("\n>>>>>>>>>>>>>>>>>>\n");
+		printf("Indice del pasajero: \t [ %d ]\n",ind);
 		printf("ID del Pasajero \t[ ID %d ]\n",list[ind].id);
 		printf("Nombre: \t\t[ %s ]\n",list[ind].name);
 		printf("Apellido: \t\t[ %s ]\n",list[ind].lastName);
@@ -200,7 +243,7 @@ void afterCheckIn(Passenger* list, int index){
 		system("cls");
 	}
 	else{
-		printf("\n\n[ Error. El indice especificado se encuentra vacio.\n");
+		printf("\n\n[ Error. El indice especificado se encuentra vacio.\n\n");
 		pressKey();
 	}
 }
@@ -390,19 +433,19 @@ void inform(int *passengersFlag){
 		do{
 			printf("\n\n[ Informe ]\n\n");
 			printf("Elija una opcion:\n\n1-Buscar indice por ID de pasajero.\n\n2-Informar pasajero por indice."
-					"\n\n3-Informar pasajero por ID.\n\n4-Volver al Menu principal.\n\n");
+					"\n\n3-Informar TODOS los pasajeros ACTIVOS.\n\n4-Volver al Menu principal.\n\n");
 
 			switch(option = dataInt(1,4)){
 				case 1:
 					printf("\n\n\t[ BUSQUEDA DE INDICE POR ID ]");
 					printf("\n\nIngrese la ID a buscar:\n\n");
-					id = dataInt(1,20000);
+					id = dataInt(0,20000);
 					findPassengerById(list,MAXP,id);
 					break;
 				case 2:
 					printf("\n\n\t[ INFORME DE PASAJERO POR INDICE ]");
 					printf("\n\nIngrese el indice a informar:\n\n");
-					id = dataInt(1,20000);
+					id = dataInt(0,20000);
 					afterCheckIn(list,id);
 					break;
 				case 3:
@@ -446,58 +489,57 @@ void sorting(int *passengersFlag){
 
 ////////////////////////////////////////////////////////////////////////// HARDCODING.
 
-void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag){
+void hardcode(Passenger* list, int *passengersFlag){
 
-	printf("\n\n[ CARGA FORZADA ]\n\n");
-	printf("A continuacion se cargaran 7 pasajeros al azar...\n\n");
-	pressKey();
-
+	int passengers;
 	int number;
 	int number2;
 	int number3;
 	int number4;
 	int number5;
 	int i;
-	int id = *ID;
-	int ind = *index;
+	int id;
+	//int ind;
+
+		printf("\n\n[ CARGA FORZADA ]\n\n");
+		printf("A continuacion se cargaran pasajeros al azar...\n\n");
+
+		passengers=dataInt(1,20);
 
 	//////////////////
 
-	char name[][15]={"Bilbo","Cinthia","Maria","Danara","Shireen","Analia","Beatriz","Sunny","Gorion","Lilura",
-						"Gandalf","Vania","Rose"};
-	char lastName[][15]={"Garcia","Gutierrez","Lopez","Moorsong","Greywolf","Rodriguez","Juarez"};
+	char name[][15]={"Bilbo","Cinthia","Maria","Danara","Shireen","Analia","Beatriz","Sunny",
+											"Gorion","Lilura","Gandalf","Vania","Rose"};
+	char lastName[][15]={"Garcia","Bolson","Lopez","Moorsong","Greywolf","Rodriguez","Adams","Costa"};
 	float price[]={222,333,444,555,666,777,888};
 	char flycode[][10]={"Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete"};
 	int typePassenger[]={1,2,3};
 
 	//////////////////
 
-	for(i=0;i<7;i++){
+	for(i=0;i<passengers;i++){
 
-		srand(time(NULL));
+		id = checkAvID(list,MAXP,passengersFlag);
+		//ind = checkAvIND(list, MAXP);
+
 		number = rand() % 12;
-		number2 = rand() % 7;
+		number2 = rand() % 8;
 		number3 = rand() % 7;
 		number4 = rand() % 7;
 		number5 = rand() % 3;
 
 		///////////////
 
-		addPassenger(list,MAXP,id,name[number],lastName[number2],price[number3],typePassenger[number5],flycode[number4]);
+		addPassenger(list,MAXP,id,name[number],lastName[number2],
+										price[number3],typePassenger[number5],flycode[number4]);
 
 		///////////////
 
-		printf("\n RANDOM NUMBERS: %d %d %d",number,number2,number3);
+		printf("\n RANDOM NUMBERS: %d %d %d %d %d",number,number2,number3,number4,number5);
 
-		afterCheckIn(list,ind);
-
-		id++;
-		ind++;
-
+		afterCheckIn(list,id-1);
+		*passengersFlag = 1;
 	} // END LOOP
-	*passengersFlag = 1;
-	*ID = id;
-	*index = ind;
 }
 
 
