@@ -507,11 +507,11 @@ void hardcode(Passenger* list, int *passengersFlag){
 
 	//////////////////
 
-	char name[][15]={"Bilbo","Cinthia","Maria","Danara","Shireen","Analia","Beatriz","Sunny",
-											"Gorion","Lilura","Gandalf","Vania","Rose","Frodo","Legolas","Bruce",
-											"Gordon"};
+	char name[][15]={"Bilbo","Cinthia","Maria","Mariana","Danara","Shireen","Analia","Beatriz","Sunny",
+											"Gorion","Lilura","Gandalf","Vania","Rose","Frodo","Legolas","Bruce","Robert",
+											"Gordon","Luke"};
 	char lastName[][15]={"Garcia","Bolson","Lopez","Moorsong","Greywolf","Rodriguez","Adams",
-											"Costa","Wayne","Delmar"};
+											"Costa","Wayne","Delmar","Skywalker"};
 	float price[]={222,333,444,555,666,777,888};
 	char flycode[][10]={"Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete"};
 	int typePassenger[]={1,2,3,4,5,6};
