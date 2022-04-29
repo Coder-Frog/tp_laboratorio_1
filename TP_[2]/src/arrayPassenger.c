@@ -99,7 +99,8 @@ int findPassengerById(Passenger* list, int len,int id)
 				return 0;
 			}
 		}
-		printf("\n[ Error. La ID especificada no existe. ]\n");
+		printf("\n[ Error. La ID especificada no existe. ]\n\n");
+		pressKey();
 	}
 return -1;
 }
@@ -127,7 +128,8 @@ int removePassenger(Passenger* list, int len, int id)
 				return 0;
 			}
 		}
-		printf("\n[ Error. La ID especificada no existe. ]\n");
+		printf("\n[ Error. La ID especificada no existe. ]\n\n");
+		pressKey();
 	}
 return -1;
 }
@@ -230,7 +232,7 @@ int sortPassengers(Passenger* list, int len, int order)
 
 							list[i] = list[j];
 
-							// RE SET OF VALUES
+							// RE-SET OF VALUES
 
 							list[j].id = id;
 							strcpy(list[j].name, name);
@@ -256,6 +258,11 @@ int sortPassengers(Passenger* list, int len, int order)
 
 	}
 return -1;
+}
+
+int sortPassengersByCode(Passenger* list, int len, int order)
+{
+return 0;
 }
 
 /// PRINT PASSENGER

@@ -48,13 +48,12 @@ int main(void) {
 				inform(&passengersFlag);
 				break;
 			case 5: /// SORT
-				sorting();
+				sorting(&passengersFlag);
 				break;
-			case 6:
+			case 6: /// HARDCODE
 				hardcode(list,&ID,&index,&passengersFlag);
 				break;
 		}
-
 	}while(option!=7);
 
 	return 0;

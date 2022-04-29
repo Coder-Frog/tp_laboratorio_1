@@ -8,13 +8,16 @@
 ////////////////////////////////////////////////////////////////////////// <<< MENU >>>.
 
 void menu(){
-	/*int a=sizeOf();
-	printf("\n\n size of array: [ %d ]",a);*/
+
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
 	printf("[ Programa de carga de datos de pasajeros ]\n\n");
 	printf("\tElija una opcion:\n");
 	printf("\n\n1-Alta.\n\n2-Modificar.\n\n3-Baja.\n\n4-Informar\n\n5-Ordenar\n\n6-Carga Forzada.\n\n7-Salir.\n\n\n");
 	printf("\n>>>>>>>>>>>>>>>>>>\n\n");
+
+	//setbuf(stdin, NULL);
+	//setbuf(stdout, NULL);
+
 }
 
 ////////////////////////////////////////////////////////////////////////// DATA Int.
@@ -198,6 +201,7 @@ void afterCheckIn(Passenger* list, int index){
 	}
 	else{
 		printf("\n\n[ Error. El indice especificado se encuentra vacio.\n");
+		pressKey();
 	}
 }
 
@@ -221,6 +225,7 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 
 	if(*passengersFlag!=1){
 		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
+		pressKey();
 	}
 	else{
 
@@ -364,7 +369,8 @@ void deletePassenger(Passenger* list, int *passengersFlag,int len){
 
 	int id;
 	if(*passengersFlag==0){
-		printf("\n[ Error. No hay pasajeros cargados. ]\n");
+		printf("\n[ Error. No hay pasajeros cargados. ]\n\n");
+		pressKey();
 	}
 	else{
 
@@ -389,18 +395,18 @@ void inform(int *passengersFlag){
 			switch(option = dataInt(1,4)){
 				case 1:
 					printf("\n\n\t[ BUSQUEDA DE INDICE POR ID ]");
-					printf("\n\nIngrese la ID a buscar:\n");
+					printf("\n\nIngrese la ID a buscar:\n\n");
 					id = dataInt(1,20000);
 					findPassengerById(list,MAXP,id);
 					break;
 				case 2:
 					printf("\n\n\t[ INFORME DE PASAJERO POR INDICE ]");
-					printf("\n\nIngrese el indice a informar:\n");
+					printf("\n\nIngrese el indice a informar:\n\n");
 					id = dataInt(1,20000);
 					afterCheckIn(list,id);
 					break;
 				case 3:
-					printf("\n\n\t[ IMPRESION DE TODOS LOS PASAJEROS ]");
+					printf("\n\n\t[ IMPRESION DE TODOS LOS PASAJEROS ]\n\n");
 					pressKey();
 					printPassenger(list, MAXP);
 					pressKey();
@@ -408,7 +414,8 @@ void inform(int *passengersFlag){
 		}while(option != 4);
 	}
 	else{
-		printf("\n\n[ Error. No hay datos cargados. ]");
+		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
+		pressKey();
 	}
 }
 
@@ -421,15 +428,19 @@ int sizeOf(){
 
 ////////////////////////////////////////////////////////////////////////// SORTING.
 
-void sorting(){
+void sorting(int *passengersFlag){
 
 	int order;
-
-	printf("\n\n\t[ ORDENAMIENTO ]\n\n");
-	printf("Ingrese una opcion:\n\n0-Alfabetico A - Z.\n\n1-Alfabetico Z - A.\n\n");
-	order =dataInt(0,1);
-	sortPassengers(list, MAXP, order);
-
+	if(*passengersFlag==1){
+		printf("\n\n\t[ ORDENAMIENTO ]\n\n");
+		printf("Ingrese una opcion:\n\n0-Alfabetico A - Z.\n\n1-Alfabetico Z - A.\n\n");
+		order =dataInt(0,1);
+		sortPassengers(list, MAXP, order);
+	}
+	else{
+		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
+		pressKey();
+	}
 
 }
 
@@ -442,35 +453,42 @@ void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag){
 	pressKey();
 
 	int number;
+	int number2;
+	int number3;
+	int number4;
+	int number5;
 	int i;
 	int id = *ID;
 	int ind = *index;
 
 	//////////////////
 
-	char name[][15]={"Juan","Pedro","Maria","Danara","Shireen","Analia","Beatriz"};
+	char name[][15]={"Bilbo","Cinthia","Maria","Danara","Shireen","Analia","Beatriz","Sunny","Gorion","Lilura",
+						"Gandalf","Vania","Rose"};
 	char lastName[][15]={"Garcia","Gutierrez","Lopez","Moorsong","Greywolf","Rodriguez","Juarez"};
 	float price[]={222,333,444,555,666,777,888};
 	char flycode[][10]={"Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete"};
-	int typePassenger[]={1,2,3,1,2,3,1};
+	int typePassenger[]={1,2,3};
 
 	//////////////////
-
-	//srand(time(0));
 
 	for(i=0;i<7;i++){
 
 		srand(time(NULL));
-		number = rand() % 7;
-
+		number = rand() % 12;
+		number2 = rand() % 7;
+		number3 = rand() % 7;
+		number4 = rand() % 7;
+		number5 = rand() % 3;
 
 		///////////////
 
-		addPassenger(list,MAXP,id,name[number],lastName[number],price[number],typePassenger[number],flycode[number]);
+		addPassenger(list,MAXP,id,name[number],lastName[number2],price[number3],typePassenger[number5],flycode[number4]);
 
 		///////////////
-		///
-		printf("\n RANDOM NUMBER: %d\n",number);
+
+		printf("\n RANDOM NUMBERS: %d %d %d",number,number2,number3);
+
 		afterCheckIn(list,ind);
 
 		id++;
@@ -480,7 +498,6 @@ void hardcode(Passenger* list, int *ID, int *index, int *passengersFlag){
 	*passengersFlag = 1;
 	*ID = id;
 	*index = ind;
-
 }
 
 
