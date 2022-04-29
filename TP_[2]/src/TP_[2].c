@@ -21,7 +21,7 @@ int main(void) {
 	// SET OF MAIN VARIABLES + CLEANING `stdout`.
 	setbuf(stdout, NULL);
 	int option;
-	srand(time(0));
+	srand((unsigned int)time(NULL));
 	int passengersFlag=0;
 
 	////////////////////////////////////////////////////////////////
@@ -54,6 +54,5 @@ int main(void) {
 				break;
 		}
 	}while(option!=7);
-
 	return 0;
 }

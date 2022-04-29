@@ -499,7 +499,6 @@ void hardcode(Passenger* list, int *passengersFlag){
 	int number5;
 	int i;
 	int id;
-	//int ind;
 
 		printf("\n\n[ CARGA FORZADA ]\n\n");
 		printf("A continuacion se cargaran pasajeros al azar...\n\n");
@@ -509,24 +508,25 @@ void hardcode(Passenger* list, int *passengersFlag){
 	//////////////////
 
 	char name[][15]={"Bilbo","Cinthia","Maria","Danara","Shireen","Analia","Beatriz","Sunny",
-											"Gorion","Lilura","Gandalf","Vania","Rose"};
-	char lastName[][15]={"Garcia","Bolson","Lopez","Moorsong","Greywolf","Rodriguez","Adams","Costa"};
+											"Gorion","Lilura","Gandalf","Vania","Rose","Frodo","Legolas","Bruce",
+											"Gordon"};
+	char lastName[][15]={"Garcia","Bolson","Lopez","Moorsong","Greywolf","Rodriguez","Adams",
+											"Costa","Wayne","Delmar"};
 	float price[]={222,333,444,555,666,777,888};
 	char flycode[][10]={"Uno","Dos","Tres","Cuatro","Cinco","Seis","Siete"};
-	int typePassenger[]={1,2,3};
+	int typePassenger[]={1,2,3,4,5,6};
 
 	//////////////////
 
 	for(i=0;i<passengers;i++){
 
 		id = checkAvID(list,MAXP,passengersFlag);
-		//ind = checkAvIND(list, MAXP);
 
-		number = rand() % 12;
-		number2 = rand() % 8;
-		number3 = rand() % 7;
-		number4 = rand() % 7;
-		number5 = rand() % 3;
+		number = rand() % (sizeof name / sizeof name[0]);
+		number2 = rand() % (sizeof lastName / sizeof lastName[0]);
+		number3 = rand() % (sizeof price / sizeof price[0]);
+		number4 = rand() % (sizeof flycode / sizeof flycode[0]);
+		number5 = rand() % (sizeof typePassenger / sizeof typePassenger[0]);
 
 		///////////////
 
