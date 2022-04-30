@@ -24,8 +24,6 @@ void menu(){
 ////////////////////////////////////////////////////////////////////////// DATA Int.
 
 int dataInt(int base, int top){
-	setbuf(stdin,NULL);
-	setbuf(stdout,NULL);
 
     int errorFlag=0;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
     int numero;
@@ -49,8 +47,6 @@ int dataInt(int base, int top){
 ////////////////////////////////////////////////////////////////////////// DATA float.
 
 float dataFloat(int base, int top){
-	setbuf(stdin,NULL);
-	setbuf(stdout,NULL);
 
     int errorFlag=0;	// Si el valor NO es numero o no esta dentro del rango, se activa esta bandera.
     float numero;
@@ -74,8 +70,6 @@ float dataFloat(int base, int top){
 ////////////////////////////////////////////////////////////////////////// DATA string.
 
 void stringEntry(int option,int top, char *stringChain){
-	setbuf(stdin,NULL);
-	setbuf(stdout,NULL);
 
 	int length;
 	int bugFlag=0;
