@@ -17,8 +17,6 @@ void stringEntry(int top, char *stringChain, char msg[]);
 
 int checkAvIND(Passenger* list, int len);
 
-int checkAvID(Passenger* list, int len, int *passengersFlag);
-
 void registerPassenger();
 
 void afterCheckIn(Passenger* list, int id,int len);

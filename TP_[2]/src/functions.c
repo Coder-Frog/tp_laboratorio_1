@@ -43,16 +43,21 @@ int dataInt(int base, int top,char msg[]){
     int errorFlag=0;
     char numS[1022];
     int num;
-    char digit[] = "0123456789";
+    char digit[] = " 0123456789";
 
     do{
     	if(errorFlag==1){
-    		printf("\n[ Error. \nOnly numbers within the range ]\n");
+    		printf("\n[ Error. \nSolo numeros dentro del rango. ]\n");
             	errorFlag=0;
                 num=0;
-            }
+    	}
+
+		/*if(errorFlag==2){
+			printf("\n\n[ Error. No puede estar vacio. ]");
+			errorFlag=0;
+		}*/
             printf("\n%s\n",msg);
-            printf("Value between: [ %d ] to [ %d ] :\n\n ", base, top);
+            printf("Valor entre: [ %d ] to [ %d ] :\n\n ", base, top);
 
             ///////
 
@@ -60,6 +65,12 @@ int dataInt(int base, int top,char msg[]){
             numS[strlen(numS)-1]='\0';
 
             //////
+           /* printf("\nLEN %d",strlen(numS));
+            printf("\n%s",numS);
+
+            if(strlen(numS)==0){
+      			errorFlag=2;
+       		}*/
 
             if (strlen(numS) != strspn(numS, digit)){
                 errorFlag=1;
@@ -88,16 +99,22 @@ float dataFloat(int base, int top,char msg[]){
     char numS[1022];
     char numS2[1022];
     float num;
-    char digit[] = "0123456789,.";
+    char digit[] = " 0123456789,.";
 
     do{
     	if(errorFlag==1){
-    		printf("\n[ Error. \nOnly numbers within the range ]\n");
+    		printf("\n[ Error. \nSolo numeros dentro del rango. ]\n");
             	errorFlag=0;
                 num=0;
             }
+		/*if(errorFlag==2){
+			printf("\n\n[ Error. No puede estar vacio. ]");
+			errorFlag=0;
+		}*/
+
+
             printf("\n%s\n",msg);
-            printf("Value between: [ %d ] to [ %d ] :\n\n ", base, top);
+            printf("Valor entre: [ %d ] to [ %d ] :\n\n ", base, top);
 
             /////// ENTER OF NUMBER
 
@@ -105,6 +122,10 @@ float dataFloat(int base, int top,char msg[]){
             numS[strlen(numS)-1]='\0';
 
             ////// CHECK IF NUMBERS
+            /*if(strlen(numS)==0){
+      			errorFlag=2;
+       		}*/
+
 
             if (strlen(numS) != strspn(numS, digit)){
                 errorFlag=1;
@@ -153,16 +174,16 @@ void stringEntry(int top, char *stringChain, char msg[]){
 		fflush(stdin);
 
         if(bugFlag==1){
-            printf("\n\n[ Error. Enter only characters. ]");
+            printf("\n\n[ Error. Ingresar solo letras. ]");
             bugFlag=0;
         }
 
 		if(bugFlag==2){
-			printf("\n\n[ Error. Can't be empty. ]");
+			printf("\n\n[ Error. No puede estar vacio. ]");
 			bugFlag=0;
 		}
 
-		printf("%s",msg);
+		printf("\n%s\n>>> ",msg);
 
 		fgets(auxChar,top,stdin);
 
@@ -228,6 +249,7 @@ void registerPassenger(Passenger* list, int len, int *passengersFlag,int *IDs){
 	/*//////////////////////////// ENTER PRICE*/
 
 	price = dataFloat(1,999999,"\nIngrese el precio del viaje:\n ");
+	//printf("\nPrecio ingresado: [ %.2f ]",price);
 
 	printf("\n---------------------------------------\n");
 
@@ -269,28 +291,6 @@ void registerPassenger(Passenger* list, int len, int *passengersFlag,int *IDs){
 
 }
 
-////////////////////////////////////////////////////////////////////////// CHECK AVAILABLE ID.
-/*
-int checkAvID(Passenger* list, int len, int *passengersFlag){
-
-	int num;
-	int i;
-
-	for(i=0;i<len;i++){
-		if(list[i].isEmpty!=0){
-			if(*passengersFlag==1){
-				num=(list[i-1].id + 1);
-				return num;
-			}
-			else{
-				num = 1;
-				return num;
-			}
-		}
-	}
-	return -1;
-}
-*/
 ////////////////////////////////////////////////////////////////////////// CHECK AVAILABLE INDEX.
 
 int checkAvIND(Passenger* list, int len){
