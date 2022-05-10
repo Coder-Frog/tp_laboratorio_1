@@ -47,7 +47,7 @@ int dataInt(int base, int top,char msg[]){
 
     do{
     	if(errorFlag==1){
-    		printf("\n[ Error. \nSolo numeros dentro del rango. ]\n");
+    		printf("\n[ Error. Solo numeros dentro del rango. ]\n");
             	errorFlag=0;
                 num=0;
     	}
@@ -232,7 +232,7 @@ void registerPassenger(Passenger* list, int len, int *passengersFlag,int *IDs){
 
 	strcpy(name, stringChain);
 
-	printf("\nNombre ingresado: [ %s ]",name);
+	printf("\nNombre ingresado: [ %s ]   ✔",name);
 
 	printf("\n---------------------------------------\n");
 
@@ -242,22 +242,23 @@ void registerPassenger(Passenger* list, int len, int *passengersFlag,int *IDs){
 
 	strcpy(lastName, stringChain);
 
-	printf("\nApellido ingresado: [ %s ]",lastName);
+	printf("\nApellido ingresado: [ %s ]   ✔",lastName);
 
-	printf("\n---------------------------------------\n");
+	printf("\n\n\n---------------------------------------\n");
 
 	/*//////////////////////////// ENTER PRICE*/
 
 	price = dataFloat(1,999999,"\nIngrese el precio del viaje:\n ");
-	//printf("\nPrecio ingresado: [ %.2f ]",price);
+	printf("\nPrecio ingresado: [ %.2f ]   ✔",price);
 
-	printf("\n---------------------------------------\n");
+	printf("\n\n\n---------------------------------------\n");
 
 	/*//////////////////////////// ENTER TYPE OF PASSENGER*/
 
 	typePassenger = dataInt(1,3,"\n\nIngrese el tipo de pasajero:\n ");
+	printf("\nTipo de pasajero ingresado: %d   ✔",typePassenger);
 
-	printf("\n---------------------------------------\n");
+	printf("\n\n\n---------------------------------------\n");
 
 	/*//////////////////////////// ENTER FLY CODE*/
 
@@ -277,14 +278,14 @@ void registerPassenger(Passenger* list, int len, int *passengersFlag,int *IDs){
 
 	strcpy(flycode, flystatus[flycodeOpt].code);
 
-	printf("\nCodigo de vuelo ingresado: [ %s ]",flycode);
+	printf("\nCodigo de vuelo ingresado: [ %s ]   ✔",flycode);
 
-	printf("\n---------------------------------------\n");
+	printf("\n\n\n---------------------------------------\n");
 	pressKey();
 
 	addPassenger(list, MAXP, id, name, lastName, price, typePassenger, flycode);
 
-	*passengersFlag = 1;
+	*passengersFlag = *passengersFlag + 1;
     *IDs = *IDs + 1;
 	afterCheckIn(list,id,MAXP);
 
@@ -325,7 +326,7 @@ void afterCheckIn(Passenger* list, int id,int len){
     /////////// PRINT
 
 
-	if(list[ind].isEmpty!=1){
+	if(list[ind].isEmpty==0){
 		printf("\n\n///////////////////////////////////\n");
 		printf("\tAFTER CHECK IN");
 		printf("\n///////////////////////////////////\n");
@@ -358,7 +359,7 @@ void afterCheckIn(Passenger* list, int id,int len){
 
 void afterCheckInIND(Passenger* list, int ind){
 
-	if(list[ind].isEmpty!=1){
+	if(list[ind].isEmpty==0){
 		printf("\n\n///////////////////////////////////\n");
 		printf("\tAFTER CHECK IN");
 		printf("\n///////////////////////////////////\n");
@@ -408,7 +409,7 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 	int i; // counter
 	int ind = -1; // index
 
-	if(*passengersFlag!=1){
+	if(*passengersFlag<1){
 		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
 		pressKey();
 	}
@@ -577,7 +578,7 @@ void deletePassenger(Passenger* list, int *passengersFlag,int len){
 	int i;
 
 
-	if(*passengersFlag==0){
+	if(*passengersFlag<1){
 		printf("\n[ Error. No hay pasajeros cargados. ]\n\n");
 		pressKey();
 	}
@@ -591,6 +592,7 @@ void deletePassenger(Passenger* list, int *passengersFlag,int len){
         }
 		id = dataInt(1, len,"\n\nIngrese la ID del pasajero a borrar: \n\n");
 		removePassenger(list, len, id);
+		*passengersFlag = *passengersFlag - 1;
 	}
 }
 
@@ -601,7 +603,7 @@ void inform(int *passengersFlag){
 	int option;
 	int id;
 	int ind;
-	if(*passengersFlag==1){
+	if(*passengersFlag>0){
 		do{
 			printf("\n\n[ Informe ]\n\n");
 			printf("Elija una opcion:\n\n1-Buscar indice por ID de pasajero.\n\n2-Informar pasajero por indice."
@@ -644,10 +646,25 @@ int sizeOf(){
 void sorting(int *passengersFlag){
 
 	int order;
-	if(*passengersFlag==1){
+	int option;
+
+	if(*passengersFlag>0){
 		printf("\n\n\t[ ORDENAMIENTO ]\n\n");
-		order=dataInt(0,1,"Ingrese una opcion:\n\n0-Alfabetico A - Z.\n\n1-Alfabetico Z - A.\n\n");
-		sortPassengers(list, MAXP, order);
+
+		switch(option=dataInt(1,3,"Ingrese una opcino:\n\n"
+				"1-Por apellido y tipo de pasajero.\n\n2-Por codigo de vuelo y estado de vuelo."
+				"\n\n3-[ Salir ]\n")){
+			case 1:
+				order=dataInt(0,1,"Ingrese una opcion:\n\n0-Alfabetico A - Z.\n\n1-Alfabetico Z - A.\n\n");
+				sortPassengers(list, MAXP, order);
+				break;
+			case 2:
+				order=dataInt(0,1,"Ingrese una opcion:\n\n0-Alfabetico A - Z.\n\n1-Alfabetico Z - A.\n\n");
+				sortPassengersByCode(list,MAXP,order);
+				break;
+			case 3:
+				break;
+		}
 	}
 	else{
 		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
@@ -708,7 +725,7 @@ void hardcode(Passenger* list, int *passengersFlag,int *IDs){
 		printf("\n RANDOM NUMBERS: %d %d %d %d %d",number,number2,number3,number4,number5);
 
 		afterCheckIn(list,id,MAXP);
-		*passengersFlag = 1;
+		*passengersFlag = *passengersFlag + 1;
 		*IDs = *IDs + 1;
 	} // END LOOP
 }

@@ -92,11 +92,13 @@ int findPassengerById(Passenger* list, int len,int id)
 
 	if(list!=NULL){
 		for(i=0;i<len;i++){
-			if(list[i].id==id){
-				ind = i;
-				printf("\nIndice del pasajero ID [ %d ] es: [ %d ]\n\n",id,ind);
-				pressKey();
-				return 0;
+			if(list[i].isEmpty==0){
+				if(list[i].id==id){
+					ind = i;
+					printf("\nIndice del pasajero ID [ %d ] es: [ %d ]\n\n",id,ind);
+					pressKey();
+					return 0;
+				}
 			}
 		}
 		printf("\n[ Error. La ID especificada no existe. ]\n\n");
@@ -157,7 +159,7 @@ int sortPassengers(Passenger* list, int len, int order)
 {
 	int i;
 	int j;
-	int size = sizeOf();
+	int size = sizeOf(); // <<<--- NOTA!
 
 	int id;
 	char name[51];
@@ -177,11 +179,11 @@ int sortPassengers(Passenger* list, int len, int order)
 	/// Probando imprimir el resultado de `sizeOf();` arroja un resultado correcto.
 
 	if(list != NULL && (len == size)){
-		if(order == 1){ // A to Z sorting
+		if(order == 0){ // A to Z sorting
 			for(i=0;i<len - 1;i++){
 				for(j = i + 1;j<len;j++){
 					if(list[i].isEmpty!=1 && list[j].isEmpty!=1){
-						if(strcmp(list[i].lastName, list[j].lastName)<0){
+						if(strcmp(list[i].lastName, list[j].lastName)>0){
 							// COPY TO AUXILIAR VAR
 
 							id = list[i].id;
@@ -207,30 +209,32 @@ int sortPassengers(Passenger* list, int len, int order)
 							list[j].isEmpty = isEmpty;
 						}
 						else{
-							if(list[i].typePassenger < list[j].typePassenger){
-								// COPY TO AUXILIAR VAR
+							if(strcmp(list[i].lastName, list[j].lastName)==0){
+								if(list[i].typePassenger < list[j].typePassenger){ // FROM MAX TO MIN
+									// COPY TO AUXILIAR VAR
 
-								id = list[i].id;
-								strcpy(name, list[i].name);
-								strcpy(lastName, list[i].lastName);
-								price = list[i].price;
-								strcpy(flycode, list[i].flycode);
-								typePassenger = list[i].typePassenger;
-								isEmpty = list[i].isEmpty;
+									id = list[i].id;
+									strcpy(name, list[i].name);
+									strcpy(lastName, list[i].lastName);
+									price = list[i].price;
+									strcpy(flycode, list[i].flycode);
+									typePassenger = list[i].typePassenger;
+									isEmpty = list[i].isEmpty;
 
-								// SWAP of values
+									// SWAP of values
 
-								list[i] = list[j];
+									list[i] = list[j];
 
-								// RE-SET OF VALUES
+									// RE-SET OF VALUES
 
-								list[j].id = id;
-								strcpy(list[j].name, name);
-								strcpy(list[j].lastName, lastName);
-								list[j].price = price;
-								strcpy(list[j].flycode, flycode);
-								list[j].typePassenger = typePassenger;
-								list[j].isEmpty = isEmpty;
+									list[j].id = id;
+									strcpy(list[j].name, name);
+									strcpy(list[j].lastName, lastName);
+									list[j].price = price;
+									strcpy(list[j].flycode, flycode);
+									list[j].typePassenger = typePassenger;
+									list[j].isEmpty = isEmpty;
+								}
 							}
 						}
 					}
@@ -247,11 +251,11 @@ int sortPassengers(Passenger* list, int len, int order)
 			pressKey();
 			return 0;
 		}
-		else if(order == 0){ // Z to A sorting
+		else if(order == 1){ // Z to A sorting
 			for(i=0;i<len - 1;i++){
 				for(j = i + 1;j<len;j++){
 					if(list[i].isEmpty!=1 && list[j].isEmpty!=1){
-						if(strcmp(list[i].lastName, list[j].lastName)>0){
+						if(strcmp(list[i].lastName, list[j].lastName)<0){
 
 							// COPY TO AUXILIAR VAR
 
@@ -279,7 +283,7 @@ int sortPassengers(Passenger* list, int len, int order)
 						}
 						else{
 							if(strcmp(list[i].lastName, list[j].lastName)==0){
-								if(list[i].typePassenger > list[j].typePassenger){
+								if(list[i].typePassenger > list[j].typePassenger){ // FROM MIN TO MAX
 									// COPY TO AUXILIAR VAR
 
 									id = list[i].id;
@@ -320,14 +324,236 @@ int sortPassengers(Passenger* list, int len, int order)
 			pressKey();
 			return 0;
 		}
-
 	}
 return -1;
 }
 
 int sortPassengersByCode(Passenger* list, int len, int order)
 {
-return 0;
+	int i;
+	int j;
+	int k;
+	int size = sizeOf();
+
+	int id;
+	char name[51];
+	char lastName[51];
+	float price;
+	char flycode[10];
+	int typePassenger;
+	int isEmpty;
+
+	int codeA;
+	int codeB;
+
+
+
+	if(list != NULL && (len == size)){
+		if(order == 0){ // A to Z sorting
+			for(i=0;i<len - 1;i++){
+				for(j = i + 1;j<len;j++){
+					if(list[i].isEmpty!=1 && list[j].isEmpty!=1){
+						if(strcmp(list[i].flycode, list[j].flycode)>0){
+							// COPY TO AUXILIAR VAR
+
+							id = list[i].id;
+							strcpy(name, list[i].name);
+							strcpy(lastName, list[i].lastName);
+							price = list[i].price;
+							strcpy(flycode, list[i].flycode);
+							typePassenger = list[i].typePassenger;
+							isEmpty = list[i].isEmpty;
+
+							// SWAP of values
+
+							list[i] = list[j];
+
+							// RE-SET OF VALUES
+
+							list[j].id = id;
+							strcpy(list[j].name, name);
+							strcpy(list[j].lastName, lastName);
+							list[j].price = price;
+							strcpy(list[j].flycode, flycode);
+							list[j].typePassenger = typePassenger;
+							list[j].isEmpty = isEmpty;
+						}
+						else{
+							if(strcmp(list[i].flycode, list[j].flycode)==0){ //0 = CANCELADO,  1 = ACTIVO,  2 = DEMORADO
+
+								for(k=0;k<5;k++){
+									if(list[i].flycode==flystatus[k].code){
+										codeA=flystatus[k].statusFlight;
+									}
+								}
+
+								for(k=0;k<5;k++){
+									if(list[j].flycode==flystatus[k].code){
+										codeB=flystatus[k].statusFlight;
+									}
+								}
+
+								if(codeA < codeB){ // FROM MAX TO MIN
+									// COPY TO AUXILIAR VAR
+
+									id = list[i].id;
+									strcpy(name, list[i].name);
+									strcpy(lastName, list[i].lastName);
+									price = list[i].price;
+									strcpy(flycode, list[i].flycode);
+									typePassenger = list[i].typePassenger;
+									isEmpty = list[i].isEmpty;
+
+									// SWAP of values
+
+									list[i] = list[j];
+
+									// RE-SET OF VALUES
+
+									list[j].id = id;
+									strcpy(list[j].name, name);
+									strcpy(list[j].lastName, lastName);
+									list[j].price = price;
+									strcpy(list[j].flycode, flycode);
+									list[j].typePassenger = typePassenger;
+									list[j].isEmpty = isEmpty;
+								}
+							}
+						}
+					}
+				}
+			}
+			printf("\n Ordenamiento realizado. Nombres:\n\n");
+			for(i=0;i<MAXP;i++){
+				if(list[i].isEmpty==0){
+					for(j=0;j<5;j++){
+						if(strcmp(list[i].flycode,flystatus[j].code)==0){
+							codeA=flystatus[j].statusFlight;
+						}
+					}
+					printf("[ %s %s ::: Flycode: %s ::: ID %d ::: Fight status: ",
+							list[i].lastName,list[i].name,list[i].flycode,list[i].id);
+					 if(codeA==1){
+						 printf("\n ACTIVO ]\n");
+					 }
+					 else{
+						 if(codeA==0){
+							 printf("\n CANCELADO ]\n");
+						 }
+						 else{
+							 printf("\n DEMORADO ]\n");
+						 }
+					 }
+				}
+			}
+			printf("\n\nTambien puede ver los datos completos mediante INFORMAR.\n\n");
+			pressKey();
+			return 0;
+		}
+		else if(order == 1){ // Z to A sorting
+			for(i=0;i<len - 1;i++){
+				for(j = i + 1;j<len;j++){
+					if(list[i].isEmpty!=1 && list[j].isEmpty!=1){
+						if(strcmp(list[i].flycode, list[j].flycode)<0){
+
+							// COPY TO AUXILIAR VAR
+
+							id = list[i].id;
+							strcpy(name, list[i].name);
+							strcpy(lastName, list[i].lastName);
+							price = list[i].price;
+							strcpy(flycode, list[i].flycode);
+							typePassenger = list[i].typePassenger;
+							isEmpty = list[i].isEmpty;
+
+							// SWAP
+
+							list[i] = list[j];
+
+							// RE-SET OF VALUES
+
+							list[j].id = id;
+							strcpy(list[j].name, name);
+							strcpy(list[j].lastName, lastName);
+							list[j].price = price;
+							strcpy(list[j].flycode, flycode);
+							list[j].typePassenger = typePassenger;
+							list[j].isEmpty = isEmpty;
+						}
+						else{
+							if(strcmp(list[i].flycode, list[j].flycode)==0){ //0 = CANCELADO,  1 = ACTIVO,  2 = DEMORADO
+
+								for(k=0;k<5;k++){
+									if(list[i].flycode==flystatus[k].code){
+										codeA=flystatus[k].statusFlight;
+									}
+								}
+
+								for(k=0;k<5;k++){
+									if(list[j].flycode==flystatus[k].code){
+										codeB=flystatus[k].statusFlight;
+									}
+								}
+
+								if(codeA < codeB){ // FROM MAX TO MIN
+									// COPY TO AUXILIAR VAR
+
+									id = list[i].id;
+									strcpy(name, list[i].name);
+									strcpy(lastName, list[i].lastName);
+									price = list[i].price;
+									strcpy(flycode, list[i].flycode);
+									typePassenger = list[i].typePassenger;
+									isEmpty = list[i].isEmpty;
+
+									// SWAP
+
+									list[i] = list[j];
+
+									// RE-SET OF VALUES
+
+									list[j].id = id;
+									strcpy(list[j].name, name);
+									strcpy(list[j].lastName, lastName);
+									list[j].price = price;
+									strcpy(list[j].flycode, flycode);
+									list[j].typePassenger = typePassenger;
+									list[j].isEmpty = isEmpty;
+								}
+							}
+						}
+					}
+				}
+			}
+			printf("\n Ordenamiento realizado. Nombres:\n\n");
+						for(i=0;i<MAXP;i++){
+							if(list[i].isEmpty==0){
+								for(j=0;j<5;j++){
+									if(strcmp(list[i].flycode,flystatus[j].code)==0){
+										codeA=flystatus[j].statusFlight;
+									}
+								}
+								printf("[ %s %s ::: Flycode: %s ::: ID %d ::: Fight status: ",
+										list[i].lastName,list[i].name,list[i].flycode,list[i].id);
+								if(codeA==1){
+									printf("\n ACTIVO ]\n");
+								 }
+								else{
+									if(codeA==0){
+										printf("\n CANCELADO ]\n");
+									}
+									else{
+										printf("\n DEMORADO ]\n");
+									}
+								}
+							}
+						}
+			printf("\n\nTambien puede ver los datos completos mediante INFORMAR.\n\n");
+			pressKey();
+			return 0;
+		}
+	}
+	return -1;
 }
 
 /// PRINT PASSENGER
