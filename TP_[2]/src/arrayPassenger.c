@@ -8,7 +8,7 @@
 
 ///////////////////////////// Structures.
 
-
+sFlyStatus flystatus[5]={{1,"001-AB",1},{2,"012-AB",1},{3,"030-XB",1},{4,"602-YB",1},{5,"072-TR",1}};
 
 ///////////////////////////// Functions.
 
@@ -192,11 +192,11 @@ int sortPassengers(Passenger* list, int len, int order)
 							typePassenger = list[i].typePassenger;
 							isEmpty = list[i].isEmpty;
 
-							// SWAP
+							// SWAP of values
 
 							list[i] = list[j];
 
-							// RE SET OF VALUES
+							// RE-SET OF VALUES
 
 							list[j].id = id;
 							strcpy(list[j].name, name);
@@ -218,7 +218,7 @@ int sortPassengers(Passenger* list, int len, int order)
 								typePassenger = list[i].typePassenger;
 								isEmpty = list[i].isEmpty;
 
-								// SWAP
+								// SWAP of values
 
 								list[i] = list[j];
 
@@ -238,8 +238,9 @@ int sortPassengers(Passenger* list, int len, int order)
 			}
 			printf("\n Ordenamiento realizado. Nombres:\n\n");
 			for(i=0;i<MAXP;i++){
-				if(list[i].isEmpty!=1){
-					printf("[ %s %s - Pass type: %d ]\n",list[i].lastName,list[i].name,list[i].typePassenger);
+				if(list[i].isEmpty==0){
+					printf("[ %s %s ::: Pass type: %d ::: ID %d ]\n",list[i].lastName,list[i].name,list[i].typePassenger,
+					list[i].id);
 				}
 			}
 			printf("\n\nTambien puede ver los datos completos mediante INFORMAR.\n\n");
@@ -310,8 +311,9 @@ int sortPassengers(Passenger* list, int len, int order)
 			}
 			printf("\n Ordenamiento realizado. Nombres:\n\n");
 			for(i=0;i<MAXP;i++){
-				if(list[i].isEmpty!=1){
-					printf("[ %s %s - Pass type: %d ]\n",list[i].lastName,list[i].name,list[i].typePassenger);
+				if(list[i].isEmpty==0){
+					printf("[ %s %s ::: Pass type: %d ::: ID %d ]\n",list[i].lastName,list[i].name,list[i].typePassenger,
+					list[i].id);
 				}
 			}
 			printf("\n\nTambien puede ver los datos completos mediante INFORMAR.\n\n");

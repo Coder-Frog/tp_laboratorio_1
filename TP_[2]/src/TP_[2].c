@@ -22,6 +22,7 @@ int main(void) {
 	setbuf(stdout, NULL);
 	int option;
 	srand((unsigned int)time(NULL));
+	int IDs=200;
 	int passengersFlag=0;
 
 	////////////////////////////////////////////////////////////////
@@ -33,9 +34,9 @@ int main(void) {
 	do{
 		menu();
 
-		switch(option=dataInt(1,7)){
+		switch(option=dataInt(1,8,"\n\nSeleccione el numero de la opcion:\n")){
 			case 1: /// ADD
-				registerPassenger(list, MAXP, &passengersFlag);
+				registerPassenger(list, MAXP, &passengersFlag,&IDs);
 				break;
 			case 2: /// MODIFY
 				modifyPassenger(list, &passengersFlag, MAXP);
@@ -50,9 +51,14 @@ int main(void) {
 				sorting(&passengersFlag);
 				break;
 			case 6: /// HARDCODE
-				hardcode(list,&passengersFlag);
+				hardcode(list,&passengersFlag,&IDs);
 				break;
+			case 7: /// FLIGHT STATUS
+			    fstatus();
+			    break;
+			case 8:
+			    break;
 		}
-	}while(option!=7);
+	}while(option!=8);
 	return 0;
 }

@@ -25,6 +25,16 @@ Passenger list[MAXP];
 
 ////////////////////////////////////////
 
+typedef struct{
+    int codeID;
+    char code[10];
+    int statusFlight;
+}sFlyStatus;
+
+sFlyStatus flystatus[5];
+
+////////////////////////////////////////
+
 int initPassengers(Passenger* list, int len);
 
 int addPassenger(Passenger* list, int len, int id, char name[],char

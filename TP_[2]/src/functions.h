@@ -9,11 +9,11 @@
 
 void menu();
 
-int dataInt(int base, int top);
+int dataInt(int base, int top,char msg[]);
 
-float dataFloat(int base, int top);
+float dataFloat(int base, int top,char msg[]);
 
-void stringEntry(int option,int top, char *stringChain);
+void stringEntry(int top, char *stringChain, char msg[]);
 
 int checkAvIND(Passenger* list, int len);
 
@@ -21,7 +21,9 @@ int checkAvID(Passenger* list, int len, int *passengersFlag);
 
 void registerPassenger();
 
-void afterCheckIn(Passenger* list, int index);
+void afterCheckIn(Passenger* list, int id,int len);
+
+void afterCheckInIND(Passenger* list, int ind);
 
 void pressKey();
 
@@ -47,6 +49,8 @@ int sizeOf();
 
 void sorting();
 
-void hardcode(Passenger* list,int *passengersFlag);
+void hardcode(Passenger* list,int *passengersFlag,int *IDs);
+
+void fstatus();
 
 #endif
