@@ -47,6 +47,10 @@ int sizeOf();
 
 void sorting();
 
+void listPassengers(Passenger *list, sFlyStatus *flystatus,int len);
+
+void listPassPrice(Passenger *list,int len);
+
 void hardcode(Passenger* list,int *passengersFlag,int *IDs);
 
 void fstatus();

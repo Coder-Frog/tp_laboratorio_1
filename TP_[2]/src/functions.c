@@ -596,6 +596,78 @@ void deletePassenger(Passenger* list, int *passengersFlag,int len){
 	}
 }
 
+////////////////////////////////////////////////////////////////////////// LIST PASSENGERS.
+
+void listPassengers(Passenger *list, sFlyStatus *flystatus,int len){
+
+	int i;
+	int j;
+	int passFlag=0;
+
+	char code[10];
+
+	printf("\n\n[ ::: LISTA DE PASAJEROS POR VUELOS ACTIVOS ::: ]\n\n");
+
+	for(i=0;i<5;i++){ // Hago 5 iteraciones iniciales, 1 por cada codigo de vuelo.
+		if(flystatus[i].statusFlight==1){ // Si el vuelo en cuestion esta activo, entonces...
+			strcpy(code,flystatus[i].code); // ...copio el codigo de vuelo a un array.
+			printf("\n\n[ CODIGO DE VUELO: %s ]\n",code); // E imprimo el codigo para abajo listar.
+			for(j=0;j<len;j++){ // Y entonces chequeo en toda la lista de pasajeros vs ese codigo.
+				if(list[j].isEmpty==0 && strcmp(list[j].flycode,code)==0){ // Si el pasajero esta activo y tiene ese codigo...
+					printf("\n<<<(( %s %s || ID: %d ",
+							list[j].name,list[j].lastName,list[j].id); // Imprimo su nombre, apellido, e ID.
+					passFlag=1; // Y seteo la Mouskebandera que nos servira mas tarde.
+				}
+			}
+			if(passFlag==0){// Pero si la bandera quedo vacia porque no hubo pasajeros...
+				printf("\n\n [ ... Este vuelo no tiene pasajeros ... ]");
+				//... informamos que no hubo pasajeros :'(.
+			}
+			passFlag=0; //... y reseteamos bandera en caso de que los haya habido.
+			printf("\n--------------------\n");
+		}
+	}
+	// THE FIN.
+}
+
+////////////////////////////////////////////////////////////////////////// LIST PASSENGERS.
+
+void listPassPrice(Passenger *list,int len){ //me estoy quedando sin creatividad para los nombres.
+
+	int i;
+	float priceTotal=0;
+	float priceAv;
+	int passTotal=0;
+	int passOver=0;
+
+
+	////////////
+
+	//Itero toda la lista de pasajeros. Si estan de alta, voy acumulando el precio.
+
+	for(i=0;i<len;i++){
+		if(list[i].isEmpty==0){
+			priceTotal+=list[i].price;
+			passTotal+=1;// Tambien los cuento.
+		}
+	}
+
+	////////////
+
+	priceAv=priceTotal/passTotal; // Saco el precio promedio.
+
+	for(i=0;i<len;i++){ // Vuelvo a iterar.
+		if(list[i].isEmpty==0 && list[i].price>priceAv){
+			passOver++; // Y cuento los que estan sobre el promedio.
+		}
+	}
+
+	printf("\nEl total de la suma de los precios de los pasajes es: $%.2f",priceTotal);
+	printf("\nEl promedio de dicha suma es: $%.2f",priceAv);
+	printf("\nLa cantidad de pasajeros por encima del promedio es: %d",passOver);
+}
+
+
 ////////////////////////////////////////////////////////////////////////// INFORM.
 
 void inform(int *passengersFlag){
@@ -607,7 +679,8 @@ void inform(int *passengersFlag){
 		do{
 			printf("\n\n[ Informe ]\n\n");
 			printf("Elija una opcion:\n\n1-Buscar indice por ID de pasajero.\n\n2-Informar pasajero por indice."
-					"\n\n3-Informar TODOS los pasajeros ACTIVOS.\n\n4-Volver al Menu principal.\n\n");
+					"\n\n3-Informar TODOS los pasajeros ACTIVOS."
+					"\n\n4-Listar vuelos ACTIVOS.\n\n6-Volver al Menu principal.\n\n");
 
 			switch(option = dataInt(1,4,"")){
 				case 1:
@@ -625,8 +698,17 @@ void inform(int *passengersFlag){
 					pressKey();
 					printPassenger(list, MAXP);
 					pressKey();
+					break;
+				case 4:
+					listPassengers(list,flystatus,MAXP);
+					pressKey();
+					break;
+				case 5:
+					listPassPrice(list,MAXP);
+					pressKey();
+					break;
 			}
-		}while(option != 4);
+		}while(option != 6);
 	}
 	else{
 		printf("\n\n[ Error. No hay datos cargados. ]\n\n");
@@ -636,7 +718,7 @@ void inform(int *passengersFlag){
 
 ////////////////////////////////////////////////////////////////////////// SIZEOF.
 
-int sizeOf(){
+int sizeOf(){ // Lo use 1 vez. Es para buscar el tamaño del array.
 	int a = sizeof list / sizeof list[0];
 	return a;
 }
@@ -675,10 +757,10 @@ void sorting(int *passengersFlag){
 
 ////////////////////////////////////////////////////////////////////////// HARDCODING.
 
-void hardcode(Passenger* list, int *passengersFlag,int *IDs){
+void hardcode(Passenger* list, int *passengersFlag,int *IDs){ //HARDCORE! Digo hardcode.
 
-	int passengers;
-	int number;
+	int passengers; // cantidad de pasajeros que voy a generar.
+	int number; //de aca para abajo son variables para numeros aleatorios hasta el 5.
 	int number2;
 	int number3;
 	int number4;
@@ -690,9 +772,9 @@ void hardcode(Passenger* list, int *passengersFlag,int *IDs){
 		printf("A continuacion se cargaran pasajeros al azar.\n"
 		"Ingrese el numero de pasajeros a generar...\n\n");
 
-		passengers=dataInt(1,20,"");
+		passengers=dataInt(1,20,""); //ingreso cantidad de pasajeros aleatorios.
 
-	//////////////////
+	////////////////// DATA POOL.
 
 	char name[][15]={"Bilbo","Cinthia","Maria","Mariana","Danara","Shireen","Analia","Beatriz","Sunny",
 											"Gorion","Lilura","Gandalf","Vania","Rose","Frodo","Legolas","Bruce","Robert",
@@ -703,36 +785,38 @@ void hardcode(Passenger* list, int *passengersFlag,int *IDs){
 	char flycode[][10]={"001-AB","012-AB","030-XB","602-YB","072-TR"};
 	int typePassenger[]={1,2,3};
 
-	//////////////////
+	////////////////// CALCS.
 
-	for(i=0;i<passengers;i++){
+	for(i=0;i<passengers;i++){ //comienzo a generar.
 
-		id = *IDs;//checkAvID(list,MAXP,passengersFlag);
+		id = *IDs; //Tomo la ID.
 
-		number = rand() % (sizeof name / sizeof name[0]);
-		number2 = rand() % (sizeof lastName / sizeof lastName[0]);
-		number3 = rand() % (sizeof price / sizeof price[0]);
+		number = rand() % (sizeof name / sizeof name[0]); // Tiro dados. Esto depende de 'srand' al comienzo del Main.
+		number2 = rand() % (sizeof lastName / sizeof lastName[0]); //Sino siempre seria la misma secuencia de nums.
+		number3 = rand() % (sizeof price / sizeof price[0]); // Y no seria muy gracioso...
 		number4 = rand() % (sizeof flycode / sizeof flycode[0]);
-		number5 = rand() % (sizeof typePassenger / sizeof typePassenger[0]);
+		number5 = rand() % (sizeof typePassenger / sizeof typePassenger[0]);// Con esto defini los datos...
+		//...a partir de los pooles de datos, y los pase a las variables temporales.
 
 		///////////////
 
-		addPassenger(list,MAXP,id,name[number],lastName[number2],
+		addPassenger(list,MAXP,id,name[number],lastName[number2], // Uso la funcion de addPassenger con los datos.
 										price[number3],typePassenger[number5],flycode[number4]);
 
 		///////////////
 
 		printf("\n RANDOM NUMBERS: %d %d %d %d %d",number,number2,number3,number4,number5);
+		//... Por si a alguien le interesa, muestro los numeros aleatorios arrojados.
 
-		afterCheckIn(list,id,MAXP);
-		*passengersFlag = *passengersFlag + 1;
-		*IDs = *IDs + 1;
+		afterCheckIn(list,id,MAXP); //Muestro el pasajero generado...
+		*passengersFlag = *passengersFlag + 1;//...sumo 1 a la cantidad de pasajeros...
+		*IDs = *IDs + 1; //...y sumo 1 a las ids.
 	} // END LOOP
-}
+}// END creativity.
 
 ////////////////////////////////////////////////////////////////////////// FLIGHT STATUS.
 
-void fstatus(){
+void fstatus(){ // El panel de control de vuelos.
 
     int option;
     int i;
@@ -743,9 +827,10 @@ void fstatus(){
     do{
         printf("\n\n::: CONTROL DE VUELOS :::\n\n");
 
-        for(i=0;i<5;i++){
+        for(i=0;i<5;i++){ // Imprimo todos los codigos de vuelo y sus estados...
             printf("\n[ CODIGO: %s || ID: %d || Estado:",flystatus[i].code,flystatus[i].codeID);
-            if(flystatus[i].statusFlight==1){
+
+            if(flystatus[i].statusFlight==1){ //... que aca se muestran mejor.
                 printf(" ACTIVO ]");
             }
             else{
@@ -757,29 +842,30 @@ void fstatus(){
                 }
             }
         }
-        printf("\n\n1-[ MODIFICAR ]\n2-[ SALIR ]\n\n");
+        printf("\n\n1-[ MODIFICAR ]\n2-[ SALIR ]\n\n"); // Esto me permite setear el valor de los vuelos.
         switch(option=dataInt(1,2,"")){
             case 1:
-                id=dataInt(1,5,"\nIngrese ID del vuelo: \n");
+                id=dataInt(1,5,"\nIngrese ID del vuelo: \n"); // Solicito el ID del vuelo.
                 printf("\nIngrese nuevo estado:\n\n"
                 "0 = CANCELADO,  1 = ACTIVO,  2 = DEMORADO\n\n");
-                status=dataInt(0,2,"");
+                status=dataInt(0,2,""); // Solicito el nuevo status del codigo.
 
                 /////////////
 
-                for(i=0;i<5;i++){
+                for(i=0;i<5;i++){ // Con el numero de ID, chequeo vs el array de estructura...
                     if(flystatus[i].codeID == id){
-                        ind=i;
+                        ind=i; // ... y en donde lo encuentro, copio el indice.
                     }
                 }
 
                 /////////////
 
                 flystatus[ind].statusFlight=status;
+                // Con el indice mas el status, seteo el status del vuelo escogido.
 
                 /////////////
 
-                if(status==1){
+                if(status==1){ // Y lo imprimo con cartelito.
                     printf("\nNuevo estado: ACTIVO.\n\n");
                 }
                 else{
@@ -792,10 +878,9 @@ void fstatus(){
                 }
 
                 break;
-            case 2:
+            case 2: // Si elige 2, sale.
                 break;
         }
-
     }while(option!=2);
 }
 
