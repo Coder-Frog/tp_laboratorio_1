@@ -81,35 +81,41 @@ void pressKey(void);
 /**
  * BRIEF: frame function for modifying a given passenger's data.
  * @param list Passenger* pointer to the array of structure 'list' of passengers.
+ * @param flystatus sFlyStatus* pointer to the array of structure 'flystatus'.
  * @param passengersFlag passengers counter. It's a pointer to the int var.
  * @param len length of the 'list' array.
  * @return either 0 if success, or -1 if the specified ID doesn't exist.
  */
-int modifyPassenger(Passenger* list, int *passengersFlag, int len);
+int modifyPassenger(Passenger* list, sFlyStatus* flystatus,int *passengersFlag, int len);
 
 /**
  * BRIEF: Modifies a passenger's name.
+ * @param list Passenger* pointer to the array of structure 'list' of passengers.
  * @param id int value of the passenger's ID.
  */
-void modifyName(int id);
+void modifyName(Passenger* list,int ind);
 
 /**
  * BRIEF: Modifies a passenger's last name.
+ * @param list Passenger* pointer to the array of structure 'list' of passengers.
  * @param id int value of the passenger's ID.
  */
-void modifyLastName(int id);
+void modifyLastName(Passenger* list,int ind);
 
 /**
  * BRIEF: modifie's a flight's price.
+ * @param list Passenger* pointer to the array of structure 'list' of passengers.
  * @param id int value of the passenger's ID.
  */
-void modifyPrice(int id);
+void modifyPrice(Passenger* list,int ind);
 
 /**
  * BRIEF: modifies a passenger's flycode, choosing from a list.
+ * @param list Passenger* pointer to the array of structure 'list' of passengers.
+ * @param flystatus sFlyStatus* pointer to the array of structure 'flystatus'.
  * @param id int value of the passenger's ID.
  */
-void modifyFlyCode(int id);
+void modifyFlyCode(Passenger* list,sFlyStatus* flystatus,int ind);
 
 /**
  * BRIEF: modifies a passenger's type.

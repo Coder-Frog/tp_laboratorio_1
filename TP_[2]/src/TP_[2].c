@@ -35,7 +35,7 @@ int main(void) {
 				registerPassenger(list, MAXP, &passengersFlag,&IDs);
 				break;
 			case 2: /// MODIFY
-				modifyPassenger(list, &passengersFlag, MAXP);
+				modifyPassenger(list,flystatus, &passengersFlag, MAXP);
 				break;
 			case 3: /// DELETE
 				deletePassenger(list, &passengersFlag, MAXP);

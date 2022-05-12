@@ -404,7 +404,7 @@ void pressKey(void){
 
 ////////////////////////////////////////////////////////////////////////// MODIFY.
 
-int modifyPassenger(Passenger* list, int *passengersFlag, int len){
+int modifyPassenger(Passenger* list, sFlyStatus* flystatus,int *passengersFlag, int len){
 
 	int id;
 	int option = 0;
@@ -456,22 +456,22 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 		option = dataInt(1,6,"");
 		switch(option){
 			case 1:
-				modifyName(ind);
+				modifyName(list,ind);
 				printf("\nNuevo nombre: [ %s ]\n\n",list[ind].name);
 				afterCheckIn(list,id,MAXP);
 				break;
 			case 2:
-				modifyLastName(ind);
+				modifyLastName(list,ind);
 				printf("\nNuevo apellido: [ %s ]\n\n",list[ind].lastName);
 				afterCheckIn(list,id,MAXP);
 				break;
 			case 3:
-				modifyPrice(ind);
+				modifyPrice(list,ind);
 				printf("\nNuevo precio: [ $%.2f ]\n\n",list[ind].price);
 				afterCheckIn(list,id,MAXP);
 				break;
 			case 4:
-				modifyFlyCode(ind);
+				modifyFlyCode(list,flystatus,ind);
 				printf("\nNuevo Codigo de Vuelo: [ %s ]\n\n",list[ind].flycode);
 				afterCheckIn(list,id,MAXP);
 				break;
@@ -482,17 +482,6 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 				break;
 			case 6:
 				break;
-			/*case 7:
-				modifyIsEmpty(ind);
-				printf("\nNuevo estado del pasajero ID [ %d ]:\t\t",list[ind].isEmpty);
-				if(list[ind].isEmpty == 0){
-					printf("[ Alta ]");
-				}
-				else if(list[ind].isEmpty == -1){
-					printf("[ Baja ]");
-				}
-				afterCheckIn(list,id,MAXP);
-				break;*/
 		}
 	}
 	return 0;
@@ -500,7 +489,7 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 
 ////////////////////////////////////////////////////////////////////////// MODIFY NAME.
 
-void modifyName(int ind){
+void modifyName(Passenger* list,int ind){ ///!!
 
 	char stringChain[51];
 	stringEntry(51,stringChain,"\nIngrese NUEVO nombre: ");
@@ -509,7 +498,7 @@ void modifyName(int ind){
 
 ////////////////////////////////////////////////////////////////////////// MODIFY LAST NAME.
 
-void modifyLastName(int ind){
+void modifyLastName(Passenger* list,int ind){///!!
 
 	char stringChain[51];
 	stringEntry(51,stringChain,"\nIngrese NUEVO apellido: ");
@@ -518,7 +507,7 @@ void modifyLastName(int ind){
 
 ////////////////////////////////////////////////////////////////////////// MODIFY PRICE.
 
-void modifyPrice(int ind){
+void modifyPrice(Passenger* list,int ind){///!!
 
 	float price;
 
@@ -528,11 +517,12 @@ void modifyPrice(int ind){
 
 ////////////////////////////////////////////////////////////////////////// MODIFY FLY CODE.
 
-void modifyFlyCode(int ind){
+void modifyFlyCode(Passenger* list,sFlyStatus* flystatus,int ind){
 
 	int i;
 	int flycodeOpt;
-	char flycode[10];
+
+	printf("\nCodigo de vuelo actual: << [ %s ] >>",list[ind].flycode);
 
 	printf("\n\n::: LISTA DE CODIGOS DE VUELO :::\n");
 	    for(i=0;i<5;i++){
@@ -548,9 +538,8 @@ void modifyFlyCode(int ind){
 	        }
 	    }
 
-		strcpy(flycode, flystatus[flycodeOpt].code);
-
-		printf("\nCodigo de vuelo ingresado: [ %s ]",flycode);
+		strcpy(list[ind].flycode, flystatus[flycodeOpt].code);
+		printf("\nCodigo de vuelo ingresado: [ %s ]\n\n",list[ind].flycode);
 }
 
 ////////////////////////////////////////////////////////////////////////// MODIFY TYPE OF PASSENGER.
