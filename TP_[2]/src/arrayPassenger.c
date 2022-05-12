@@ -156,17 +156,10 @@ indicate UP or DOWN order
 */
 int sortPassengers(Passenger* list, int len, int order)
 {
+	Passenger aux;
 	int i;
 	int j;
 	int size = sizeOf(); // <<<--- NOTA!
-
-	int id;
-	char name[51];
-	char lastName[51];
-	float price;
-	char flycode[10];
-	int typePassenger;
-	int isEmpty;
 
 	/// NOTA: se preguntaran por que hice esto. Resulta que esta ecuacion,
 	/// por algun motivo que no encontre, me tiraba error aca, indicando que no iba a
@@ -185,13 +178,7 @@ int sortPassengers(Passenger* list, int len, int order)
 						if(strcmp(list[i].lastName, list[j].lastName)>0){
 							// COPY TO AUXILIAR VAR
 
-							id = list[i].id;
-							strcpy(name, list[i].name);
-							strcpy(lastName, list[i].lastName);
-							price = list[i].price;
-							strcpy(flycode, list[i].flycode);
-							typePassenger = list[i].typePassenger;
-							isEmpty = list[i].isEmpty;
+							aux = list[i];
 
 							// SWAP of values
 
@@ -199,26 +186,14 @@ int sortPassengers(Passenger* list, int len, int order)
 
 							// RE-SET OF VALUES
 
-							list[j].id = id;
-							strcpy(list[j].name, name);
-							strcpy(list[j].lastName, lastName);
-							list[j].price = price;
-							strcpy(list[j].flycode, flycode);
-							list[j].typePassenger = typePassenger;
-							list[j].isEmpty = isEmpty;
+							list[j]=aux;
 						}
 						else{
 							if(strcmp(list[i].lastName, list[j].lastName)==0){
 								if(list[i].typePassenger < list[j].typePassenger){ // FROM MAX TO MIN
 									// COPY TO AUXILIAR VAR
 
-									id = list[i].id;
-									strcpy(name, list[i].name);
-									strcpy(lastName, list[i].lastName);
-									price = list[i].price;
-									strcpy(flycode, list[i].flycode);
-									typePassenger = list[i].typePassenger;
-									isEmpty = list[i].isEmpty;
+									aux = list[i];
 
 									// SWAP of values
 
@@ -226,13 +201,7 @@ int sortPassengers(Passenger* list, int len, int order)
 
 									// RE-SET OF VALUES
 
-									list[j].id = id;
-									strcpy(list[j].name, name);
-									strcpy(list[j].lastName, lastName);
-									list[j].price = price;
-									strcpy(list[j].flycode, flycode);
-									list[j].typePassenger = typePassenger;
-									list[j].isEmpty = isEmpty;
+									list[j]=aux;
 								}
 							}
 						}
@@ -258,13 +227,7 @@ int sortPassengers(Passenger* list, int len, int order)
 
 							// COPY TO AUXILIAR VAR
 
-							id = list[i].id;
-							strcpy(name, list[i].name);
-							strcpy(lastName, list[i].lastName);
-							price = list[i].price;
-							strcpy(flycode, list[i].flycode);
-							typePassenger = list[i].typePassenger;
-							isEmpty = list[i].isEmpty;
+							aux = list[i];
 
 							// SWAP
 
@@ -272,26 +235,14 @@ int sortPassengers(Passenger* list, int len, int order)
 
 							// RE-SET OF VALUES
 
-							list[j].id = id;
-							strcpy(list[j].name, name);
-							strcpy(list[j].lastName, lastName);
-							list[j].price = price;
-							strcpy(list[j].flycode, flycode);
-							list[j].typePassenger = typePassenger;
-							list[j].isEmpty = isEmpty;
+							list[j]=aux;
 						}
 						else{
 							if(strcmp(list[i].lastName, list[j].lastName)==0){
 								if(list[i].typePassenger > list[j].typePassenger){ // FROM MIN TO MAX
 									// COPY TO AUXILIAR VAR
 
-									id = list[i].id;
-									strcpy(name, list[i].name);
-									strcpy(lastName, list[i].lastName);
-									price = list[i].price;
-									strcpy(flycode, list[i].flycode);
-									typePassenger = list[i].typePassenger;
-									isEmpty = list[i].isEmpty;
+									aux = list[i];
 
 									// SWAP
 
@@ -299,13 +250,7 @@ int sortPassengers(Passenger* list, int len, int order)
 
 									// RE-SET OF VALUES
 
-									list[j].id = id;
-									strcpy(list[j].name, name);
-									strcpy(list[j].lastName, lastName);
-									list[j].price = price;
-									strcpy(list[j].flycode, flycode);
-									list[j].typePassenger = typePassenger;
-									list[j].isEmpty = isEmpty;
+									list[j]=aux;
 								}
 							}
 						}
@@ -329,18 +274,11 @@ return -1;
 
 int sortPassengersByCode(Passenger* list, int len, int order)
 {
+	Passenger aux;
 	int i;
 	int j;
 	int k;
 	int size = sizeOf();
-
-	int id;
-	char name[51];
-	char lastName[51];
-	float price;
-	char flycode[10];
-	int typePassenger;
-	int isEmpty;
 
 	int codeA;
 	int codeB;
@@ -355,27 +293,15 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 						if(strcmp(list[i].flycode, list[j].flycode)>0){
 							// COPY TO AUXILIAR VAR
 
-							id = list[i].id;
-							strcpy(name, list[i].name);
-							strcpy(lastName, list[i].lastName);
-							price = list[i].price;
-							strcpy(flycode, list[i].flycode);
-							typePassenger = list[i].typePassenger;
-							isEmpty = list[i].isEmpty;
+							aux = list[i];
 
-							// SWAP of values
+							// SWAP
 
 							list[i] = list[j];
 
 							// RE-SET OF VALUES
 
-							list[j].id = id;
-							strcpy(list[j].name, name);
-							strcpy(list[j].lastName, lastName);
-							list[j].price = price;
-							strcpy(list[j].flycode, flycode);
-							list[j].typePassenger = typePassenger;
-							list[j].isEmpty = isEmpty;
+							list[j]=aux;
 						}
 						else{
 							if(strcmp(list[i].flycode, list[j].flycode)==0){ //0 = CANCELADO,  1 = ACTIVO,  2 = DEMORADO
@@ -395,27 +321,15 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 								if(codeA < codeB){ // FROM MAX TO MIN
 									// COPY TO AUXILIAR VAR
 
-									id = list[i].id;
-									strcpy(name, list[i].name);
-									strcpy(lastName, list[i].lastName);
-									price = list[i].price;
-									strcpy(flycode, list[i].flycode);
-									typePassenger = list[i].typePassenger;
-									isEmpty = list[i].isEmpty;
+									aux = list[i];
 
-									// SWAP of values
+									// SWAP
 
 									list[i] = list[j];
 
 									// RE-SET OF VALUES
 
-									list[j].id = id;
-									strcpy(list[j].name, name);
-									strcpy(list[j].lastName, lastName);
-									list[j].price = price;
-									strcpy(list[j].flycode, flycode);
-									list[j].typePassenger = typePassenger;
-									list[j].isEmpty = isEmpty;
+									list[j]=aux;
 								}
 							}
 						}
@@ -457,13 +371,7 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 
 							// COPY TO AUXILIAR VAR
 
-							id = list[i].id;
-							strcpy(name, list[i].name);
-							strcpy(lastName, list[i].lastName);
-							price = list[i].price;
-							strcpy(flycode, list[i].flycode);
-							typePassenger = list[i].typePassenger;
-							isEmpty = list[i].isEmpty;
+							aux = list[i];
 
 							// SWAP
 
@@ -471,13 +379,7 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 
 							// RE-SET OF VALUES
 
-							list[j].id = id;
-							strcpy(list[j].name, name);
-							strcpy(list[j].lastName, lastName);
-							list[j].price = price;
-							strcpy(list[j].flycode, flycode);
-							list[j].typePassenger = typePassenger;
-							list[j].isEmpty = isEmpty;
+							list[j]=aux;
 						}
 						else{
 							if(strcmp(list[i].flycode, list[j].flycode)==0){ //0 = CANCELADO,  1 = ACTIVO,  2 = DEMORADO
@@ -497,13 +399,7 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 								if(codeA < codeB){ // FROM MAX TO MIN
 									// COPY TO AUXILIAR VAR
 
-									id = list[i].id;
-									strcpy(name, list[i].name);
-									strcpy(lastName, list[i].lastName);
-									price = list[i].price;
-									strcpy(flycode, list[i].flycode);
-									typePassenger = list[i].typePassenger;
-									isEmpty = list[i].isEmpty;
+									aux = list[i];
 
 									// SWAP
 
@@ -511,13 +407,7 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 
 									// RE-SET OF VALUES
 
-									list[j].id = id;
-									strcpy(list[j].name, name);
-									strcpy(list[j].lastName, lastName);
-									list[j].price = price;
-									strcpy(list[j].flycode, flycode);
-									list[j].typePassenger = typePassenger;
-									list[j].isEmpty = isEmpty;
+									list[j]=aux;
 								}
 							}
 						}

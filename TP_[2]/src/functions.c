@@ -9,11 +9,12 @@
 
 ////////////////////////////////////////////////////////////////////////// <<< MENU >>>.
 
-void menu(){
+void menu(int *passengersFlag){
 
 	printf("\n>>>>>>>>>>>>>>>>>>//////////////////////////////////////////\n\n");
-	printf("[ Programa de carga de datos de pasajeros ✈ ]\n\n");
-	printf("\tElija una opcion:\n");
+	printf("\t[ Programa de carga de datos de pasajeros ✈ ]\n\n\n");
+	printf("\nPasajeros cargados: [%d]\n",*passengersFlag); //Uso el contador para mostrar los pasajeros.
+	printf("\nElija una opcion:\n");
 	printf("\n\n╔═══»»»» 1-[          Alta           ]\n"
 	           "║\n"
 	           "╟═══»»»» 2-[          Modificar      ]\n"
@@ -30,34 +31,37 @@ void menu(){
 		       "║\n"
 		       "╚═══»»»» 8-[       << Salir >>       ]\n\n\n");
 	printf("\n>>>>>>>>>>>>>>>>>>//////////////////////////////////////////\n\n");
-
-	setbuf(stdin, NULL);
-	setbuf(stdout, NULL);
-
 }
 
 ////////////////////////////////////////////////////////////////////////// DATA Int.
 
 int dataInt(int base, int top,char msg[]){
 
+	int i;
+	int j=0;
     int errorFlag=0;
     char numS[1022];
+    char numS2[1022];
     int num;
-    char digit[] = " 0123456789";
+    char digit[] = "-0123456789";
 
     do{
+
+        for(i=0;i<1022;i++){
+            numS[i]=0;
+            numS2[i]=0;
+        }
+
+
+
     	if(errorFlag==1){
-    		printf("\n[ Error. Solo numeros dentro del rango. ]\n");
+    		printf("\n[ Error. \nSolo numeros dentro del rango. ]\n");
             	errorFlag=0;
                 num=0;
-    	}
-
-		/*if(errorFlag==2){
-			printf("\n\n[ Error. No puede estar vacio. ]");
-			errorFlag=0;
-		}*/
+                j=0;
+            }
             printf("\n%s\n",msg);
-            printf("Valor entre: [ %d ] to [ %d ] :\n\n ", base, top);
+            printf("Valor entre: [ %d ] y [ %d ] :\n\n ", base, top);
 
             ///////
 
@@ -65,12 +69,6 @@ int dataInt(int base, int top,char msg[]){
             numS[strlen(numS)-1]='\0';
 
             //////
-           /* printf("\nLEN %d",strlen(numS));
-            printf("\n%s",numS);
-
-            if(strlen(numS)==0){
-      			errorFlag=2;
-       		}*/
 
             if (strlen(numS) != strspn(numS, digit)){
                 errorFlag=1;
@@ -78,7 +76,20 @@ int dataInt(int base, int top,char msg[]){
 
             //////
 
-            num=atoi(numS);
+            for(i=0;i<strlen(numS);i++){
+            	if(i==0 && numS[0]=='-'){
+            		numS2[j]=numS[i];
+            		j++;
+            	}
+            	else if(numS[i]<='9' && numS[i]>='0'){
+            		numS2[j]=numS[i];
+            		j++;
+            	}
+            }
+
+            //////
+
+            num=atoi(numS2);
             if(num>top || num<base){
                 errorFlag=1;
             }
@@ -90,8 +101,9 @@ int dataInt(int base, int top,char msg[]){
 
 ////////////////////////////////////////////////////////////////////////// DATA float.
 
-float dataFloat(int base, int top,char msg[]){
-
+float dataFloat(int base, int top,char msg[]){//Igual que funcion anterior pero para float.
+// La particularidad de esta funcion es que trabaja con 2 arrays. Uno sera para la toma,
+// y el otro sera para pasar a limpio lo tomado.
     int i;
     int j=0;
     int dots=0;
@@ -107,12 +119,6 @@ float dataFloat(int base, int top,char msg[]){
             	errorFlag=0;
                 num=0;
             }
-		/*if(errorFlag==2){
-			printf("\n\n[ Error. No puede estar vacio. ]");
-			errorFlag=0;
-		}*/
-
-
             printf("\n%s\n",msg);
             printf("Valor entre: [ %d ] to [ %d ] :\n\n ", base, top);
 
@@ -122,9 +128,6 @@ float dataFloat(int base, int top,char msg[]){
             numS[strlen(numS)-1]='\0';
 
             ////// CHECK IF NUMBERS
-            /*if(strlen(numS)==0){
-      			errorFlag=2;
-       		}*/
 
 
             if (strlen(numS) != strspn(numS, digit)){
@@ -132,34 +135,34 @@ float dataFloat(int base, int top,char msg[]){
             }
 
             ////// REPLACE OF COMMAS
-            //printf("\nLargo del numero: %ld\n\n",(strlen(numS)));
+            //Reemplazo comas por puntos. Solo 1 vez, y lo paso a limpio al otro array.
             for(i=0;i<strlen(numS);i++){
                 if(dots==0 && (numS[i]==',' || numS[i]=='.')){
                     numS[i]='.';
                     dots=1;
-                    numS2[j]=numS[i];
+                    numS2[j]=numS[i];//Paso a limpio.
                     j++;
                 }
                 else if(numS[i]<='9' && numS[i]>='0'){
                     numS2[j]=numS[i];
                     j++;
-                }
+                }//Si el valor no es numerico, no se copia.
             }
 
-            num=atof(numS2);
+            num=atof(numS2);//Paso string a float.
             if(num>top || num<base){
                 errorFlag=1;
             }
 
     }while(errorFlag==1);
 
-   	return num;
+   	return num;//Retorno float.
 }
 
 ////////////////////////////////////////////////////////////////////////// DATA string with NO NUMBERS NOR SYMBOLS
 
 void stringEntry(int top, char *stringChain, char msg[]){
-
+//Mismo anteriores, pero para letras.
 	int bugFlag=0;
 	char auxChar[top];
 	int i;
@@ -191,7 +194,7 @@ void stringEntry(int top, char *stringChain, char msg[]){
 
 		if(strlen(auxChar)==0){
 			bugFlag=2;
-		}
+		}//Valido que no sea un espacio vacio.
 
 		if (strlen(auxChar) != strspn(auxChar, alpha)){
             bugFlag=1;
@@ -325,7 +328,6 @@ void afterCheckIn(Passenger* list, int id,int len){
 
     /////////// PRINT
 
-
 	if(list[ind].isEmpty==0){
 		printf("\n\n///////////////////////////////////\n");
 		printf("\tAFTER CHECK IN");
@@ -393,7 +395,7 @@ void afterCheckInIND(Passenger* list, int ind){
 
 ////////////////////////////////////////////////////////////////////////// PRESS Any key.
 
-void pressKey(){
+void pressKey(void){
 	char tecla;
 
 	printf("Presione ['Enter'] para continuar...\n\n>>>> ");
@@ -450,8 +452,8 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 
 		printf("\n\n\n\t[ Indique el dato a modificar: ]\n\n");
 		printf("\n\n1-Nombre.\n\n2-Apellido.\n\n3-Precio.\n\n4-Codigo de vuelo."
-				"\n\n5-Tipo de pasajero.\n\n6-Estado.\n\n>>>>\n>>>>\n\n7-Salir.\n\n");
-		option = dataInt(1,7,"");
+				"\n\n5-Tipo de pasajero.\n\n>>>>\n>>>>\n\n6-Salir.\n\n");
+		option = dataInt(1,6,"");
 		switch(option){
 			case 1:
 				modifyName(ind);
@@ -479,6 +481,8 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 				afterCheckIn(list,id,MAXP);
 				break;
 			case 6:
+				break;
+			/*case 7:
 				modifyIsEmpty(ind);
 				printf("\nNuevo estado del pasajero ID [ %d ]:\t\t",list[ind].isEmpty);
 				if(list[ind].isEmpty == 0){
@@ -488,9 +492,7 @@ int modifyPassenger(Passenger* list, int *passengersFlag, int len){
 					printf("[ Baja ]");
 				}
 				afterCheckIn(list,id,MAXP);
-				break;
-			case 7:
-				break;
+				break;*/
 		}
 	}
 	return 0;
@@ -560,16 +562,6 @@ void modifyTypePassenger(int ind){
 	list[ind].typePassenger = type;
 }
 
-////////////////////////////////////////////////////////////////////////// MODIFY STATE.
-
-void modifyIsEmpty(int ind){
-
-	int isEmpty;
-	printf("\nIngrese estado del pasajero ID [ %d ]\n",list[ind].id);
-	isEmpty = dataInt(-1,0,"");
-	list[ind].isEmpty = isEmpty;
-}
-
 ////////////////////////////////////////////////////////////////////////// DELETE PASSENGER.
 
 void deletePassenger(Passenger* list, int *passengersFlag,int len){
@@ -614,7 +606,7 @@ void listPassengers(Passenger *list, sFlyStatus *flystatus,int len){
 			printf("\n\n[ CODIGO DE VUELO: %s ]\n",code); // E imprimo el codigo para abajo listar.
 			for(j=0;j<len;j++){ // Y entonces chequeo en toda la lista de pasajeros vs ese codigo.
 				if(list[j].isEmpty==0 && strcmp(list[j].flycode,code)==0){ // Si el pasajero esta activo y tiene ese codigo...
-					printf("\n<<<(( %s %s || ID: %d ",
+					printf("\n<<<(( %s %s \t|| ID: %d ",
 							list[j].name,list[j].lastName,list[j].id); // Imprimo su nombre, apellido, e ID.
 					passFlag=1; // Y seteo la Mouskebandera que nos servira mas tarde.
 				}
@@ -670,7 +662,7 @@ void listPassPrice(Passenger *list,int len){ //me estoy quedando sin creatividad
 
 ////////////////////////////////////////////////////////////////////////// INFORM.
 
-void inform(int *passengersFlag){
+void inform(Passenger* list,sFlyStatus* flystatus,int *passengersFlag){
 
 	int option;
 	int id;
@@ -680,9 +672,10 @@ void inform(int *passengersFlag){
 			printf("\n\n[ Informe ]\n\n");
 			printf("Elija una opcion:\n\n1-Buscar indice por ID de pasajero.\n\n2-Informar pasajero por indice."
 					"\n\n3-Informar TODOS los pasajeros ACTIVOS."
-					"\n\n4-Listar vuelos ACTIVOS.\n\n6-Volver al Menu principal.\n\n");
+					"\n\n4-Listar vuelos ACTIVOS.\n\n5-Listar promedios de precios y pasajeros."
+					"\n\n6-Volver al Menu principal.\n\n");
 
-			switch(option = dataInt(1,4,"")){
+			switch(option = dataInt(1,6,"")){
 				case 1:
 					printf("\n\n\t[ BUSQUEDA DE INDICE POR ID ]");
 					id = dataInt(0,20000,"\n\nIngrese la ID a buscar:\n\n");
@@ -718,14 +711,14 @@ void inform(int *passengersFlag){
 
 ////////////////////////////////////////////////////////////////////////// SIZEOF.
 
-int sizeOf(){ // Lo use 1 vez. Es para buscar el tamaño del array.
+int sizeOf(void){ // Lo use 1 vez. Es para buscar el tamaño del array.
 	int a = sizeof list / sizeof list[0];
 	return a;
 }
 
 ////////////////////////////////////////////////////////////////////////// SORTING.
 
-void sorting(int *passengersFlag){
+void sorting(Passenger* list, int *passengersFlag){
 
 	int order;
 	int option;
@@ -816,7 +809,7 @@ void hardcode(Passenger* list, int *passengersFlag,int *IDs){ //HARDCORE! Digo h
 
 ////////////////////////////////////////////////////////////////////////// FLIGHT STATUS.
 
-void fstatus(){ // El panel de control de vuelos.
+void fstatus(sFlyStatus* flystatus){ // El panel de control de vuelos.
 
     int option;
     int i;

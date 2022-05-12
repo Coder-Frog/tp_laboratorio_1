@@ -28,7 +28,7 @@ int main(void) {
 	////////////////////////////////////////////////////////////////
 
 	do{
-		menu();
+		menu(&passengersFlag);
 
 		switch(option=dataInt(1,8,"\n\nSeleccione el numero de la opcion:\n")){
 			case 1: /// ADD
@@ -41,16 +41,16 @@ int main(void) {
 				deletePassenger(list, &passengersFlag, MAXP);
 				break;
 			case 4: /// INFORM
-				inform(&passengersFlag);
+				inform(list,flystatus,&passengersFlag);
 				break;
 			case 5: /// SORT
-				sorting(&passengersFlag);
+				sorting(list,&passengersFlag);
 				break;
 			case 6: /// HARDCODE
 				hardcode(list,&passengersFlag,&IDs);
 				break;
 			case 7: /// FLIGHT STATUS
-			    fstatus();
+			    fstatus(flystatus);
 			    break;
 			case 8:
 			    break;
