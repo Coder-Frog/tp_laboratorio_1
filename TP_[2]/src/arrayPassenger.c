@@ -272,7 +272,7 @@ int sortPassengers(Passenger* list, int len, int order)
 return -1;
 }
 
-int sortPassengersByCode(Passenger* list, int len, int order)
+int sortPassengersByCode(Passenger* list,sFlyStatus* flystatus, int len, int order)
 {
 	Passenger aux;
 	int i;
@@ -347,14 +347,14 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 					printf("[ %s %s ::: Flycode: %s ::: ID %d ::: Fight status: ",
 							list[i].lastName,list[i].name,list[i].flycode,list[i].id);
 					 if(codeA==1){
-						 printf("\n ACTIVO ]\n");
+						 printf(" ACTIVO ]\n");
 					 }
 					 else{
 						 if(codeA==0){
-							 printf("\n CANCELADO ]\n");
+							 printf(" CANCELADO ]\n");
 						 }
 						 else{
-							 printf("\n DEMORADO ]\n");
+							 printf(" DEMORADO ]\n");
 						 }
 					 }
 				}
@@ -425,14 +425,14 @@ int sortPassengersByCode(Passenger* list, int len, int order)
 								printf("[ %s %s ::: Flycode: %s ::: ID %d ::: Fight status: ",
 										list[i].lastName,list[i].name,list[i].flycode,list[i].id);
 								if(codeA==1){
-									printf("\n ACTIVO ]\n");
+									printf(" ACTIVO ]\n");
 								 }
 								else{
 									if(codeA==0){
-										printf("\n CANCELADO ]\n");
+										printf(" CANCELADO ]\n");
 									}
 									else{
-										printf("\n DEMORADO ]\n");
+										printf(" DEMORADO ]\n");
 									}
 								}
 							}

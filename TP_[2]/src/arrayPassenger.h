@@ -88,10 +88,11 @@ int sortPassengers(Passenger* list, int len, int order);
  * @BRIEF: sorts the list of passengers by flycode and passenger flightstatus,
  * alphabetically or counter-alphabetically.
  * @param call to the array of structure 'list' of passengers.*
+ * @param flystatus sFlyStatus* pointer to the array of structure 'flystatus'.
  * @param defined length of the array.
  * @param int value that sets the 2 types of sorting.
  */
-int sortPassengersByCode(Passenger* list, int len, int order);
+int sortPassengersByCode(Passenger* list,sFlyStatus* flystatus, int len, int order);
 
 /**
  * @BRIEF: prints the passenger's data.

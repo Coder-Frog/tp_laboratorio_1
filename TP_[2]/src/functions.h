@@ -149,9 +149,10 @@ int sizeOf(void);
 /**
  * BRIEF: frame function that works as a submenu for the other functions for sorting.
  * @param list Passenger* pointer to the array of structure 'list' of passengers.
+ * @param flystatus sFlyStatus* pointer to the array of structure 'flystatus'.
  * @param passengersFlag passengers counter. It's a pointer to the int var.
  */
-void sorting(Passenger* list, int *passengersFlag);
+void sorting(Passenger* list,sFlyStatus* flystatus, int *passengersFlag);
 
 /**
  * BRIEF: lists passengers by active flight.

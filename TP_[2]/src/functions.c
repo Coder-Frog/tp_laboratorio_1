@@ -707,7 +707,7 @@ int sizeOf(void){ // Lo use 1 vez. Es para buscar el tamaño del array.
 
 ////////////////////////////////////////////////////////////////////////// SORTING.
 
-void sorting(Passenger* list, int *passengersFlag){
+void sorting(Passenger* list,sFlyStatus* flystatus, int *passengersFlag){
 
 	int order;
 	int option;
@@ -724,7 +724,7 @@ void sorting(Passenger* list, int *passengersFlag){
 				break;
 			case 2:
 				order=dataInt(0,1,"Ingrese una opcion:\n\n0-Alfabetico A - Z.\n\n1-Alfabetico Z - A.\n\n");
-				sortPassengersByCode(list,MAXP,order);
+				sortPassengersByCode(list,flystatus,MAXP,order);
 				break;
 			case 3:
 				break;

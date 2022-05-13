@@ -44,7 +44,7 @@ int main(void) {
 				inform(list,flystatus,&passengersFlag);
 				break;
 			case 5: /// SORT
-				sorting(list,&passengersFlag);
+				sorting(list,flystatus,&passengersFlag);
 				break;
 			case 6: /// HARDCODE
 				hardcode(list,&passengersFlag,&IDs);
