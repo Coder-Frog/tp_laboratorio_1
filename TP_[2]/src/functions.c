@@ -197,6 +197,9 @@ void stringEntry(int top, char *stringChain, char msg[]){
 		}//Valido que no sea un espacio vacio.
 
 		if (strlen(auxChar) != strspn(auxChar, alpha)){
+			
+		auxChar[0]=toupper(auxChar[0]); //Primera letra mayus.
+			
             bugFlag=1;
         }
 
