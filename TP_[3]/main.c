@@ -110,13 +110,16 @@ int main()
             	pressKey();clear();
             	break;
             case 7:
-            	controller_sortPassenger(altas, listaPasajeros);
+            	controller_sortPassenger(altas, listaPasajeros,data);
+            	clear();
             	break;
             case 8:
             	controller_saveAsText("data.csv","data.txt", altas, listaPasajeros, data);
+            	clear();
             	break;
             case 9:
             	controller_saveAsBinary("data.bin", "data.txt", altas, listaPasajeros, data);
+            	clear();
             	break;
             case 10:
             	option=exitProg(data);

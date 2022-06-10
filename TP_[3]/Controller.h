@@ -13,7 +13,7 @@ int controller_removePassenger(sFlyStatus* flystatus, LinkedList* altas,LinkedLi
 
 int controller_ListPassenger(LinkedList* altas,LinkedList* pArrayListPassenger,int data[]);
 
-int controller_sortPassenger(LinkedList* altas, LinkedList* pArrayListPassenger);
+int controller_sortPassenger(LinkedList* altas, LinkedList* pArrayListPassenger, int data[]);
 
 int controller_saveAsText(char* path ,char* path2 , LinkedList* altas,LinkedList* pArrayListPassenger, int data[]);
 

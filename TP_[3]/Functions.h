@@ -1,5 +1,6 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
+#include "Passenger.h"
 
 typedef struct{
     int codeID;
@@ -20,6 +21,10 @@ void addCode();
 void flyCodeMenu();
 
 void Passenger_passType(char *passType);
+
+int Passenger_Compare(void* pPassengerA, void* pPassengerB);
+
+int Passenger_Compare2(void* pPassengerA, void* pPassengerB);
 
 void initLoad(int data[]);
 

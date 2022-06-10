@@ -36,14 +36,7 @@ int exitProg(int data[]){
 ///-----------------------------------------------------------
 
 void initLoad(int data[]){
-	/*FILE* fp2;
-	fp2=fopen("data.txt","r");
 
-	char strData0[100];
-	char strData1[100];
-	char strData2[100];
-
-	if(fp2==NULL){ //0=next ID, 1=amount of passengers, 2=saved yes/no, 3=id new passengers, 4=loaded file*/
 		data[0]=1;
 		data[1]=0;
 		data[2]=0;
@@ -54,32 +47,45 @@ void initLoad(int data[]){
 		data[7]=0;
 		data[8]=0;
 		data[9]=0;
-/*		fclose(fp2);
-	}
-	else{
-		fscanf(fp2,"%s %s %s",strData0,strData1,strData2);
-		data[0]=atoi(strData0);
-		data[1]=atoi(strData1);
-		data[2]=atoi(strData2);
-		data[3]=1;
-		data[4]=0;
-		data[5]=0;
-		data[6]=0;
-		data[7]=0;
-		data[8]=0;
-		data[9]=0;
-		fclose(fp2);
-	}*/
+
 }
 
 ///-----------------------------------------------------------
 
-void initSave(int data[]){
-	FILE* fp;
-	fp=fopen("data.txt","w");
+int Passenger_Compare(void* pPassengerA, void* pPassengerB){
 
-	fprintf(fp,"%d %d %d",data[0],data[1],data[2]);
+	int ret;
 
+	if(strcmp(((Passenger*)pPassengerA)->nombre,((Passenger*)pPassengerB)->nombre)>0){
+		ret=1;
+	}
+	if(strcmp(((Passenger*)pPassengerA)->nombre,((Passenger*)pPassengerB)->nombre)<0){
+		ret=-1;
+	}
+	if(strcmp(((Passenger*)pPassengerA)->nombre,((Passenger*)pPassengerB)->nombre)==0){
+		if(strcmp(((Passenger*)pPassengerA)->apellido,((Passenger*)pPassengerB)->apellido)>0){
+			ret=1;
+		}
+		if(strcmp(((Passenger*)pPassengerA)->apellido,((Passenger*)pPassengerB)->apellido)<0){
+			ret=-1;
+		}
+	}
+
+	return ret;
+}
+
+int Passenger_Compare2(void* pPassengerA, void* pPassengerB){
+
+	int ret;
+
+	if(((Passenger*)pPassengerA)->id>((Passenger*)pPassengerB)->id){
+		ret=1;
+	}
+	if(((Passenger*)pPassengerA)->id<((Passenger*)pPassengerB)->id){
+		ret=-1;
+	}
+
+	return ret;
 }
 
 ///-----------------------------------------------------------

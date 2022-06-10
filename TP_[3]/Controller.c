@@ -507,7 +507,7 @@ int controller_ListPassenger(LinkedList* altas,LinkedList* pArrayListPassenger,i
 				Passenger_getTipoPasajero(aux, &tipoDePasajero);
 
 				printf("\n-----------------------------");
-				printf("\n[ ID: %-5d || Nombre: %-50s || Apellido: %-50s\n[ Indice: %d",id,nombre,apellido,i);
+				printf("\n[ ID: %-5d || Nombre: %s || Apellido: %s\n[ Indice: %d",id,nombre,apellido,i);
 				printf("\n[ Precio: %.2f",precio);
 				printf("\n[ Codigo de vuelo: %s",codigoDeVuelo);
 				printf("\n[ Estado de vuelo: %s",estadoDeVuelo);
@@ -571,9 +571,59 @@ int controller_ListPassenger(LinkedList* altas,LinkedList* pArrayListPassenger,i
  * \return int
  *
  */
-int controller_sortPassenger(LinkedList* altas, LinkedList* pArrayListPassenger)
+int controller_sortPassenger(LinkedList* altas, LinkedList* pArrayListPassenger,int data[])
 {
-	printf("::: Sistema de ordenamiento de pasajeros :::");
+	int opt;
+
+	if(ll_len(altas)>0 || ll_len(pArrayListPassenger)>0){
+		do{
+			printf("::: Sistema de ordenamiento de pasajeros :::\n"
+				"\n\nElija una opcion:\n\n1-[ Ordenamiento Alfabetico A-Z Nombre-Apellido ]"
+				"\n2-[ Ordenamiento Alfabetico Z-A Nombre-Apellido ]\n3-[ Ordenamiento por ID Ascendente ]"
+				"\n4-[ SALIR ]");
+
+			switch(opt=dataInt(1, 4, "")){
+
+				case 1:
+					if(data[4]>0){
+						ll_sort(pArrayListPassenger, Passenger_Compare, 1);
+						controller_ListPassenger(altas, pArrayListPassenger, data);pressKey();
+					}
+					else{
+						ll_sort(altas, Passenger_Compare, 1);
+						controller_ListPassenger(altas, pArrayListPassenger, data);pressKey();
+					}
+					break;
+				case 2:
+					if(data[4]>0){
+						ll_sort(pArrayListPassenger, Passenger_Compare, 0);
+						controller_ListPassenger(altas, pArrayListPassenger, data);pressKey();
+					}
+					else{
+						ll_sort(altas, Passenger_Compare, 0);
+						controller_ListPassenger(altas, pArrayListPassenger, data);pressKey();
+					}
+					break;
+				case 3:
+					if(data[4]>0){
+						ll_sort(pArrayListPassenger, Passenger_Compare2, 1);
+						controller_ListPassenger(altas, pArrayListPassenger, data);pressKey();
+					}
+					else{
+						ll_sort(altas, Passenger_Compare2, 1);
+						controller_ListPassenger(altas, pArrayListPassenger, data);pressKey();
+					}
+					break;
+				case 4:
+					break;
+			}
+			printf("\n\n\n");
+		}while(opt!=4);
+	}
+	else{
+		printf("\n[ ERROR. No hay pasajeros ingresados aun. ]\n\n");
+		pressKey();
+	}
     return 1;
 }
 
