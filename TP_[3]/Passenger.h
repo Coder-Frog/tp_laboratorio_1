@@ -14,14 +14,17 @@ typedef struct
 	char nombre[50];
 	char apellido[50];
 	float precio;
+	char codigoVuelo[15];
 	int tipoPasajero;
-	char codigoVuelo[4];
+	int flightstatus;
 	int isEmpty;
 
 }Passenger;
 
 Passenger* Passenger_new();
-Passenger* Passenger_newParametros(char* idStr,char* nombreStr,char* tipoPasajeroStr);
+
+Passenger* Passenger_newParametros(char* idStr,char* nombreStr,char* apellido,char* precio,char* codigoDeVuelo,char* tipoPasajeroStr,char* estadoDeVuelo,int data[]);
+
 void Passenger_delete();
 
 int Passenger_setId(Passenger* this,int id);
@@ -33,8 +36,8 @@ int Passenger_getNombre(Passenger* this,char* nombre);
 int Passenger_setApellido(Passenger* this,char* apellido);
 int Passenger_getApellido(Passenger* this,char* apellido);
 
-int Passenger_setCodigoVuelo(Passenger* this,char* codigoVuelo);
-int Passenger_getCodigoVuelo(Passenger* this,char* codigoVuelo);
+int Passenger_setCodigoVuelo(Passenger* this,char* codigoVuelo, char* estadoDeVuelo);
+int Passenger_getCodigoVuelo(Passenger* this,char* codigoVuelo,  char* estadoDeVuelo);
 
 int Passenger_setTipoPasajero(Passenger* this,int tipoPasajero);
 int Passenger_getTipoPasajero(Passenger* this,int* tipoPasajero);
