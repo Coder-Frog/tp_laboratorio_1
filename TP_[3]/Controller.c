@@ -12,9 +12,12 @@
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param path char* Direccion aportada del archivo de base de datos `data.csv`.
+ * \param path2 char* Direeccion aportada del archivo de referencia de IDs `data.txt`.
+ * * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
+ * \return int -1 o -2 en caso de error. 0 en caso de exito.
  *
  */
 int controller_loadFromText(char* path,char*path2,LinkedList* altas, LinkedList* pArrayListPassenger,int data[])
@@ -28,13 +31,15 @@ int controller_loadFromText(char* path,char*path2,LinkedList* altas, LinkedList*
 	int len;
 	int loadId=0;
 	int i;
+	int keepNew;
 	int idMax=0;
 
-	clear();
-	fp=fopen(path,"r");
-	fp2=fopen(path2,"r");
+	clear(); // Separacion estetica
 
-	if(fp==NULL){
+	fp=fopen(path,"r"); // Apertura de data.csv
+	fp2=fopen(path2,"r"); // Apertura de data.txt (contiene datos de las IDs).
+
+	if(fp==NULL){ // Si no existe el archivo de base de datos, se cierra la funcion con mensaje de error.
 		printf("\n[ ERROR. No se encuentra el archivo. ]\n");
 		pressKey();
 		return -1;
@@ -76,33 +81,35 @@ int controller_loadFromText(char* path,char*path2,LinkedList* altas, LinkedList*
 		}
 	}
 
-	if(ll_len(pArrayListPassenger)>0){
+	if(ll_len(pArrayListPassenger)>0){ // Si algun pasajero previamente en la lista principal, advertencia.
 		printf("\n////////////////// ADVERTENCIA //////////////////"
 				"\n\n\nExisten datos cargados previamente que NO son altas nuevas."
 				"\nDesea conservarlos?");
 		switch(opt=dataInt(1, 2, "\n\n1-[ SI ]\n2-[ NO]")){
-		case 2:
+		case 1:
 			printf("\n\nCarga cancelada.");
 			return -2;
 			break;
-		case 1:
-			ll_clear(pArrayListPassenger);
+		case 2:
+			ll_clear(pArrayListPassenger); // Si el user desea seguir con la carga, se limpia la lista principal primero.
 			printf("\nLista principal limpiada.");
 			pressKey();
 		}
 	}
-	if(ll_len(altas)>0){
+	if(ll_len(altas)>0){ // Idem anterior para con las altas.
 		printf("\n////////////////// ADVERTENCIA //////////////////"
 				"\n\n\nExisten altas nuevas cargadas previamente."
 				"\nDesea conservarlas?");
 		switch(opt=dataInt(1, 2, "\n\n1-[ SI ]\n2-[ NO]")){
 		case 1:
+			keepNew=1;
 			break;
 		case 2:
+			keepNew=0;
 			ll_clear(altas);
 			printf("\nLista de altas nuevas borrada.");
 			pressKey();
-		}
+		} // Si las altas se conservan, posteriormente se COPIAN a la lista principal.
 	}
 	clear();
 	printf("\n\nCargando archivo...");
@@ -113,14 +120,14 @@ int controller_loadFromText(char* path,char*path2,LinkedList* altas, LinkedList*
 	parser_PassengerFromText(fp,pArrayListPassenger,data);
 
 	///------------------------------------------------------------- CHEQUEO DE SEGURIDAD PARA IDs.
-	if(loadId==1){
-		len=ll_len(pArrayListPassenger);
-
-		for(i=0;i<len;i++){
-			aux=ll_get(pArrayListPassenger, i);
-			if(aux->id>idMax){
-				idMax=aux->id;
-			}
+	if(loadId==1){ // Si el user decidio usar las IDs de data.txt, chequeo que la ID no sea inferior
+		len=ll_len(pArrayListPassenger);// Resulta que si la ID en data.txt es 60, pero tengo 300 pasajeros y la ultima
+									// ID es 300 o mas, estoy en problemas. Por eso chequeo la lista del archivo cargado
+		for(i=0;i<len;i++){ // buscando la ID maxima. Si la ID de data.txt es menor, entonces tiro error y obviamente la
+			aux=ll_get(pArrayListPassenger, i);// reemplazo por esa otra.
+			if(aux->id>idMax){// Caso contrario mantengo la ID de data.txt. Si hay un gap de X numeros entre la ID
+				idMax=aux->id;// maxima y la de data.txt puede ser porque alguna entrada fue borrada en una instancia
+			}// previa, lo cual dejaria un espacio vacio pero las IDs deberian continuar intactas.
 		}
 		if(idMax>data1){
 			data[0]=idMax+1;
@@ -134,12 +141,12 @@ int controller_loadFromText(char* path,char*path2,LinkedList* altas, LinkedList*
 
 	///------------------------------------------------------------- UNIFICACION DE LISTAS
 
-	if(data[3]>1){
+	if(keepNew==1){ // Si el user decide conservar las altas, las mismas se copian a la lista principal.
 		int len=ll_len(altas);
 		int i;
 		Passenger* aux;
 		for(i=0;i<len;i++){
-			aux = ll_get(altas, i);
+			aux = ll_get(altas, i); // Busco el alrgo de la lista de altas, luego copio.
 			aux->id=data[0];
 			data[0]++;
 			data[1]++;
@@ -152,9 +159,12 @@ int controller_loadFromText(char* path,char*path2,LinkedList* altas, LinkedList*
 
 /** \brief Carga los datos de los pasajeros desde el archivo data.csv (modo binario).
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param path char* Direccion aportada del archivo de base de datos `data.bin`.
+ * \param path2 char* Direeccion aportada del archivo de referencia de IDs `data.txt`.
+ * * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
+ * \return int -1 o -2 en caso de error. 0 en caso de exito.
  *
  */
 int controller_loadFromBinary(char* path,char*path2,LinkedList* altas, LinkedList* pArrayListPassenger,int data[])
@@ -168,6 +178,7 @@ int controller_loadFromBinary(char* path,char*path2,LinkedList* altas, LinkedLis
 	int len;
 	int loadId=0;
 	int i;
+	int keepNew;
 	int idMax;
 
 	fp=fopen(path,"rb"); // Abro el archivo que es la base de datos.
@@ -236,8 +247,10 @@ int controller_loadFromBinary(char* path,char*path2,LinkedList* altas, LinkedLis
 				"\nDesea conservarlas?");
 		switch(opt=dataInt(1, 2, "\n\n1-[ SI ]\n2-[ NO]")){
 		case 1:
+			keepNew=1;
 			break;
 		case 2:
+			keepNew=0;
 			ll_clear(altas);
 			printf("\nLista de altas nuevas borrada.");
 			pressKey();
@@ -274,7 +287,7 @@ int controller_loadFromBinary(char* path,char*path2,LinkedList* altas, LinkedLis
 
 	///------------------------------------------------------------- UNIFICACION DE LISTAS
 
-	if(ll_len(altas)>0){ // Si hubo algun alta, entonces las pasamos a la lista principal.
+	if(keepNew==1){ // Si hubo algun alta, entonces las pasamos a la lista principal.
 		int len=ll_len(altas); // Busco cuantas altas hubo.
 		int i;
 		Passenger* aux; // Defino un auxiliar.
@@ -291,10 +304,11 @@ int controller_loadFromBinary(char* path,char*path2,LinkedList* altas, LinkedLis
 }
 
 /** \brief Alta de pasajero
- *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
+ * \param flystatus sFlyStatus* puntero a la estructura de codigos de vuelo.
+ * \return int -1 si hay error. 1 si es exitoso.
  *
  */
 int controller_addPassenger(LinkedList* altas, LinkedList* pArrayListPassenger, int data[],sFlyStatus *flystatus)
@@ -317,8 +331,9 @@ int controller_addPassenger(LinkedList* altas, LinkedList* pArrayListPassenger, 
 		id=data[3];
 	}
 
-	///------------------------------------------
+	///------------------------------------------ TOMA DE DATOS
 
+	// Toma de todos los datos del pasajero.
 	sprintf(strId,"%d",id);
 	printf("\n////-------------------------------------------");//Name
 	stringEntry2(50, name, "\nNombre del pasajero: ");
@@ -332,10 +347,19 @@ int controller_addPassenger(LinkedList* altas, LinkedList* pArrayListPassenger, 
 	printf("\n////-------------------------------------------\n\n");//Pass Type
 	Passenger_passType(passType);
 
+
+	///------------------------------------------ PASO A FUNCION
+	// Paso de datos a la funcion que devolvera un puntero con todos los datos seteados.
 	aux=Passenger_newParametros(strId, name, lastName, strPrice, flyCode, passType, flightStatus, data);
+	if(aux==NULL){
+		printf("\n[ ERROR. No se pudo crear el pasajero. ]");
+		pressKey();
+		return -1;
+	}
 
-	///------------------------------------------
+	///------------------------------------------ IMPRESION DE DATOS
 
+	printf("\n\n\n//---------------------------------------");
 	printf("\n\n\n|| Nombre: %-50s || Apellido: %-50s",aux->nombre,aux->apellido);
 	printf("\n|| Precio de vuelo: %.2f",aux->precio);
 	printf("\n|| Codigo de vuelo: %s || Estado: ",aux->codigoVuelo);
@@ -367,7 +391,7 @@ int controller_addPassenger(LinkedList* altas, LinkedList* pArrayListPassenger, 
 	printf("\n//---------------------------------------");
 
 
-	///------------------------------------------
+	///------------------------------------------ AGREGADO DE NUEVO PASAJERO
 
 	if(aux!=NULL){
 		if(data[4]>0){ // Si un archivo fue cargado...
@@ -388,36 +412,43 @@ int controller_addPassenger(LinkedList* altas, LinkedList* pArrayListPassenger, 
 
 /** \brief Modificar datos de pasajero
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param flystatus sFlyStatus* puntero a la estructura de codigos de vuelo.*
+ * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
+ * \return int 1 para exito, 0 para error.
  *
  */
 int controller_editPassenger(sFlyStatus* flystatus, LinkedList* altas,LinkedList* pArrayListPassenger,int data[])
 {
 	int ind;
 	int len;
-	if(data[4]>0){
+	int passengers=0;
+	if(data[4]>0){ // Si hay un archivo cargado, entonces busco el largo de la lista principal.
 		len=ll_len(pArrayListPassenger);
+		passengers=1; // y aviso que hay pasajeros.
 	}
-	else{
+	else{ // Caso contrario, uso el largo de la lista de altas.
 		len=ll_len(altas);
+		if(len>0){
+			passengers=1;
+		}
 	}
 
 
-	if(data[1]>0){
+	if(passengers==1){ // Si tengo algun pasajero, permito la edicion.
 		printf("\n\n::: EDICION de pasajeros :::\n\n");
 		printf("\nA continuacion se listaran todos los pasajeros de la base de datos.");
 		pressKey();
-		controller_ListPassenger(altas,pArrayListPassenger,data);
+		controller_ListPassenger(altas,pArrayListPassenger,data); // Listo los pasajeros.
 
 		printf("\n\nSeleccione el indice del pasajero:\n\nEntre 0 y %d:",len-1);
-		ind=dataInt(0, len-1, "");
+		ind=dataInt(0, len-1, ""); // Hago al user elegir el indice.
 
-		menu_edit(flystatus, altas, pArrayListPassenger, ind, data);
+		menu_edit(flystatus, altas, pArrayListPassenger, ind, data); // Paso los datos al menu de edicion.
 		pressKey();
 	}
-	else{
+	else{ // Si no hay pasajeros cargados, muestro error.
 		printf("\n[ ERROR. No hay pasajeros cargados. ]");
 		pressKey();
 		return 0;
@@ -427,25 +458,33 @@ int controller_editPassenger(sFlyStatus* flystatus, LinkedList* altas,LinkedList
 
 /** \brief Baja de pasajero
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param flystatus sFlyStatus* puntero a la estructura de codigos de vuelo.*
+ * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
+ * \return int 1 si es exitoso, 0 si hay error.
  *
  */
 int controller_removePassenger(sFlyStatus* flystatus, LinkedList* altas,LinkedList* pArrayListPassenger,int data[])
 {
 	int ind;
 	int len;
-
-	if(data[4]>0){
+	int passengers=0;
+	if(data[4]>0){ // Si hay un archivo cargado, entonces busco el largo de la lista principal.
 		len=ll_len(pArrayListPassenger);
+		passengers=1; // y aviso que hay pasajeros.
 	}
-	else{
+	else{ // Caso contrario, uso el largo de la lista de altas.
 		len=ll_len(altas);
+		if(len>0){
+			passengers=1;
+		}
 	}
 
+	// Esta funcion es bastante similar a la anterior. No hay demasiado que explicar.
 
-	if(data[1]>0){
+
+	if(passengers==1){
 		printf("\n\n::: REMOCION de pasajeros :::\n\n");
 		printf("\nA continuacion se listaran todos los pasajeros de la base de datos.");
 		pressKey();
@@ -454,16 +493,16 @@ int controller_removePassenger(sFlyStatus* flystatus, LinkedList* altas,LinkedLi
 		printf("\n\nSeleccione el indice del pasajero:\n\nEntre 0 y %d:",len-1);
 		ind=dataInt(0, len-1, "");
 		if(data[4]>0){
-			ll_remove(pArrayListPassenger, ind);
-			printf("\n\nPasajero removido.");
-			pressKey();
+			ll_remove(pArrayListPassenger, ind); // Aplico `ll_remove` y hago baja fisica del pasajero.
+			printf("\n\nPasajero removido.");// Como antes, la lista en donde se aplique dependera
+			pressKey();// de si hay un archivo cargado o no.
 		}
 		else{
 			ll_remove(altas, ind);
 			printf("\n\nPasajero removido.");
 			pressKey();
 		}
-		data[1]--;
+		data[1]--; // Resto 1 a la lista de pasajeros.
 	}
 	else{
 		printf("\n[ ERROR. No hay pasajeros cargados. ]");
@@ -475,8 +514,9 @@ int controller_removePassenger(sFlyStatus* flystatus, LinkedList* altas,LinkedLi
 
 /** \brief Listar pasajeros
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
+ * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
  * \return int
  *
  */
@@ -493,19 +533,19 @@ int controller_ListPassenger(LinkedList* altas,LinkedList* pArrayListPassenger,i
 
 
 	int i;
-	if(data[1]>0){
-		if(data[4]>0){
-			int len = ll_len(pArrayListPassenger);
-			for(i=0;i<len;i++){
-				aux=ll_get(pArrayListPassenger, i);
-
+	if(data[1]>0){ // Si tengo algun pasajero...
+		if(data[4]>0){ // Si se cargo algun archivo...
+			int len = ll_len(pArrayListPassenger); // ... busco en la lista principal de pasajeros. Busco su largo.
+			for(i=0;i<len;i++){ // Itero.
+				aux=ll_get(pArrayListPassenger, i); // Y hago un puntero al 1er elemento de la lista.
+				// Busco todos los datos.
 				Passenger_getId(aux, &id);
 				Passenger_getNombre(aux, nombre);
 				Passenger_getApellido(aux, apellido);
 				Passenger_getPrecio(aux, &precio);
 				Passenger_getCodigoVuelo(aux, codigoDeVuelo, estadoDeVuelo);
 				Passenger_getTipoPasajero(aux, &tipoDePasajero);
-
+				// Los imprimo.
 				printf("\n-----------------------------");
 				printf("\n[ ID: %-5d || Nombre: %s || Apellido: %s\n[ Indice: %d",id,nombre,apellido,i);
 				printf("\n[ Precio: %.2f",precio);
@@ -566,8 +606,9 @@ int controller_ListPassenger(LinkedList* altas,LinkedList* pArrayListPassenger,i
 
 /** \brief Ordenar pasajeros
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
+ * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
  * \return int
  *
  */
@@ -575,7 +616,7 @@ int controller_sortPassenger(LinkedList* altas, LinkedList* pArrayListPassenger,
 {
 	int opt;
 
-	if(ll_len(altas)>0 || ll_len(pArrayListPassenger)>0){
+	if(ll_len(altas)>0 || ll_len(pArrayListPassenger)>0){ // Si tengo pasajeros en alguna de las dos listas...
 		do{
 			printf("::: Sistema de ordenamiento de pasajeros :::\n"
 				"\n\nElija una opcion:\n\n1-[ Ordenamiento Alfabetico A-Z Nombre-Apellido ]"
@@ -585,7 +626,7 @@ int controller_sortPassenger(LinkedList* altas, LinkedList* pArrayListPassenger,
 			switch(opt=dataInt(1, 4, "")){
 
 				case 1:
-					if(data[4]>0){
+					if(data[4]>0){ // Misma logica de otras veces.
 						ll_sort(pArrayListPassenger, Passenger_Compare, 1);
 						controller_ListPassenger(altas, pArrayListPassenger, data);pressKey();
 					}
@@ -629,9 +670,12 @@ int controller_sortPassenger(LinkedList* altas, LinkedList* pArrayListPassenger,
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo texto).
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
+ * \param path char* Direccion aportada del archivo de base de datos `data.csv`.
+ * \param path2 char* Direeccion aportada del archivo de referencia de IDs `data.txt`.
+ * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
+ * \return int -1 en caso de error. 1 en caso de exito.
  *
  */
 int controller_saveAsText(char* path ,char* path2 , LinkedList* altas,LinkedList* pArrayListPassenger, int data[])
@@ -656,7 +700,6 @@ int controller_saveAsText(char* path ,char* path2 , LinkedList* altas,LinkedList
 	fp=fopen(path,"w");
 	fp2=fopen(path2, "w");
 
-	data[2]=1;
 
 	if(data[4]>0){
 		len=ll_len(pArrayListPassenger);
@@ -726,6 +769,7 @@ int controller_saveAsText(char* path ,char* path2 , LinkedList* altas,LinkedList
 
 	if(fp!=NULL){
 		printf("\n\nArchivo guardado en MODO TEXTO como %s.",path);
+		data[2]=1; // Indico que hubo un guardado de archivo. Importante para la salida del programa.
 		pressKey();
 	}
 	else{
@@ -741,10 +785,12 @@ int controller_saveAsText(char* path ,char* path2 , LinkedList* altas,LinkedList
 
 /** \brief Guarda los datos de los pasajeros en el archivo data.csv (modo binario).
  *
- * \param path char*
- * \param pArrayListPassenger LinkedList*
- * \return int
- *
+ * \param path char* Direccion aportada del archivo de base de datos `data.csv`.
+ * \param path2 char* Direeccion aportada del archivo de referencia de IDs `data.txt`.
+ * \param altas LinkedList* Puntero a la lista dinamica `altas`, usada para las nuevas altas.
+ * \param pArrayListPassenger LinkedList* Puntero a la lista dinamica `pArrayListPassenger`.
+ * \param data[] int Array de numeros utilizado para el manejo de diferentes partes del programa.
+ * \return int -1 en caso de error. 1 en caso de exito.
  */
 int controller_saveAsBinary(char* path ,char* path2, LinkedList* altas,LinkedList* pArrayListPassenger, int data[])
 {
@@ -757,14 +803,19 @@ int controller_saveAsBinary(char* path ,char* path2, LinkedList* altas,LinkedLis
 	fp=fopen(path,"wb");
 	fp2=fopen(path2, "wb");
 
-	data[2]=1;
+	if(fp==NULL){
+		printf("\n[ ERROR. El archivo no pudo ser creado. ]");
+		pressKey();
+		return -1;
+	}
 
 	if(data[4]>0){
 		len=ll_len(pArrayListPassenger);
 
 		for(i=0;i<len;i++){
-			aux=ll_get(pArrayListPassenger, i);
-			fwrite(aux,sizeof(Passenger),1,fp);
+			aux=ll_get(pArrayListPassenger, i); // Tomo cad auno de los elementos guardados...
+			//printf("\n%s",aux->nombre);
+			fwrite(aux,sizeof(Passenger),1,fp); // y los escribo al archivo binario.
 		}
 	}
 	else{
@@ -772,14 +823,16 @@ int controller_saveAsBinary(char* path ,char* path2, LinkedList* altas,LinkedLis
 
 		for(i=0;i<len;i++){
 			aux=ll_get(altas, i);
+			//printf("\n%s",aux->nombre);
 			fwrite(aux,sizeof(Passenger),1,fp);
 		}
 	}
-	data[6]=data[0];
-	fprintf(fp2,"%d %d",data[5],data[6]);
+	data[6]=data[0]; // Guardo el dato de IDs que venia usando para la lista principal como el de binario.
+	fprintf(fp2,"%d %d",data[5],data[6]); // Escribo las IDs en data.txt
 
 	if(fp!=NULL){
 		printf("\n\nArchivo guardado en MODO BINARIO como %s.",path);
+		data[2]=1; // Indico que hubo un guardado de archivo. Importante para la salida del programa.
 		pressKey();
 	}
 	else{

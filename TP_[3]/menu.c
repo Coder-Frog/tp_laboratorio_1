@@ -5,6 +5,12 @@
 #include "Passenger.h"
 #include "LinkedList.h"
 
+/**
+ * \brief Menu principal.
+ * @param data Array de int que guarda varios datos importantes para el programa.
+ * @param pArrayListPassenger Lista principal de pasajeros.
+ * @param altas Lista de altas nuevas.
+ */
 void menu_main(int data[],LinkedList* pArrayListPassenger,LinkedList* altas){
 	int len=ll_len(pArrayListPassenger);
 	int len2=ll_len(altas);
@@ -39,9 +45,17 @@ void menu_main(int data[],LinkedList* pArrayListPassenger,LinkedList* altas){
     "\n10. Salir");
 }
 
-int menu_edit(sFlyStatus* flystatus, LinkedList* altas, LinkedList* pArrayListPassenger, int ind,int data[]){
+/**
+ * \brief Menu de edicion de pasajeros.
+ * @param flystatus Puntero a la estructura flystatus.
+ * @param altas Puntero a la lista de altas.
+ * @param pArrayListPassenger Puntero a la lista principal de pasajeros.
+ * @param ind Valor numero del indice del pasajero a editar.
+ * @param data Array de int que guarda varios datos importantes para el programa.
+ * @return
+ */
+void menu_edit(sFlyStatus* flystatus, LinkedList* altas, LinkedList* pArrayListPassenger, int ind,int data[]){
 
-	int ret=0;
 	Passenger* aux;
 	int opt;
 
@@ -64,21 +78,21 @@ int menu_edit(sFlyStatus* flystatus, LinkedList* altas, LinkedList* pArrayListPa
 
 
 
-	if(data[4]>0){
+	if(data[4]>0){ // Segun si hay archivo cargado o no se busca el pasajero en una lista u otra.
 		aux=ll_get(pArrayListPassenger, ind);
 	}
 	else{
 		aux=ll_get(altas, ind);
 	}
 
-	do{
+	do{ // Se cargan todos los datos de los pasajeros.
 		Passenger_getId(aux, &id);
 		Passenger_getNombre(aux, nombre);
 		Passenger_getApellido(aux, apellido);
 		Passenger_getPrecio(aux, &precio);
 		Passenger_getCodigoVuelo(aux, codigoDeVuelo, estadoDeVuelo);
 		Passenger_getTipoPasajero(aux, &tipoDePasajero);
-
+		// Se imprimen los datos.
 		printf("\n----------------------------------------------------");
 		printf("\n////////////////////////////////////////////\n\n");
 		printf("\n[ ID: %-5d || Nombre: %-50s || Apellido: %-50s\n[ Indice: %d",id,nombre,apellido,ind);
@@ -97,7 +111,10 @@ int menu_edit(sFlyStatus* flystatus, LinkedList* altas, LinkedList* pArrayListPa
 			printf("FirstClass");
 		}
 		printf("\n////////////////////////////////////////////");
+
 		printf("\n----------------------------------------------------");
+
+		// Se da a elegir los datos mediante un menu.
 		printf("\n\nSeleccione una opcion:\n\n1-[ Nombre ]\n2-[ Apellido ]\n3-[ Precio ]"
 				"\n4-[ Codigo de vuelo ]\n5-[ Tipo de pasajero ]\n\n6-[ SALIR ]");
 		switch(opt=dataInt(1, 6, "")){
@@ -157,5 +174,4 @@ int menu_edit(sFlyStatus* flystatus, LinkedList* altas, LinkedList* pArrayListPa
 		}
 	}while(opt!=6);
 
-	return ret;
 }

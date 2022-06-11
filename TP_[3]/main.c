@@ -90,7 +90,7 @@ int main()
                 pressKey();clear();
                 break;
             case 2:
-            	controller_loadFromBinary("data.csv","data.txt",altas,listaPasajeros,data);
+            	controller_loadFromBinary("data.bin","data.txt",altas,listaPasajeros,data);
             	pressKey();clear();
             	break;
             case 3:

@@ -10,7 +10,7 @@ typedef struct{
 
 sFlyStatus flystatus[8];
 
-int exitProg();
+int exitProg(int data[]);
 
 void initialize();
 

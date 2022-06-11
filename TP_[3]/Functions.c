@@ -8,21 +8,30 @@
 
 sFlyStatus flystatus[8]={{1,"BA2491A",2},{2,"BR3456J",5},{3,"FR5678G",3},{4,"GU2345F",1},{5,"HY4567D",5},{6,"IB0800A",2},{7,"MM0987B",3},{8,"TU6789B",2}};
 
+// Valores del array de estructura de los codigos de vuelo.
+
+///-------------------------------------------
+
+/**
+ * \brief Chequea que se haya guardado antes de salir. Informa al usuario si no.
+ * @param data Array de numeros que se usa en varias partes del programa.
+ * @return 10 si las condiciones permiten salir del programa.
+ */
 int exitProg(int data[]){
 
 	int returnNum=0;
 	int opt;
 
-	if(data[2]==1){
+	if(data[2]==1){ // Si hay un archivo guardado se puede salir directamente.
 		returnNum=EXIT;
 		printf("\n\nSaliendo del programa...");
 		pressKey();
 	}
-	else{
+	else{ // Caso contrario se le pregunta al usuario si quiere salir.
 		printf("\n[ ERROR. No se han guardado los datos. ]\n");
 		printf("\nDesea salir igual?\n\n1-[ SI ] || 2-[ NO ]");
 		switch(opt=dataInt(1, 2, "")){
-			case 1:
+			case 1: // Si responde si, devuelvo 10, y puede salir del programa.
 				returnNum=EXIT;
 				break;
 			case 2:
@@ -35,8 +44,11 @@ int exitProg(int data[]){
 
 ///-----------------------------------------------------------
 
+/**
+ * \brief Setea los valores iniciales de DATA.
+ * @param data Array de numeros que se usa en varias partes del programa.
+ */
 void initLoad(int data[]){
-
 		data[0]=1;
 		data[1]=0;
 		data[2]=0;
@@ -47,11 +59,16 @@ void initLoad(int data[]){
 		data[7]=0;
 		data[8]=0;
 		data[9]=0;
-
 }
 
 ///-----------------------------------------------------------
 
+/**
+ * \brief Funcion de referencia para `ll_sort`. Compara por nombre y apellido.
+ * @param pPassengerA referencia para `ll_sort`, para el pasajero A.
+ * @param pPassengerB referencia para `ll_sort`, para el pasajero B.
+ * @return 1 o -1 segun el resultado de la comparacion.
+ */
 int Passenger_Compare(void* pPassengerA, void* pPassengerB){
 
 	int ret;
@@ -74,6 +91,12 @@ int Passenger_Compare(void* pPassengerA, void* pPassengerB){
 	return ret;
 }
 
+/**
+ * \brief Funcion de referencia para `ll_sort`. Compara por ID.
+ * @param pPassengerA referencia para `ll_sort`, para el pasajero A.
+ * @param pPassengerB referencia para `ll_sort`, para el pasajero B.
+ * @return 1 o -1 segun el resultado de la comparacion.
+ */
 int Passenger_Compare2(void* pPassengerA, void* pPassengerB){
 
 	int ret;
@@ -90,6 +113,10 @@ int Passenger_Compare2(void* pPassengerA, void* pPassengerB){
 
 ///-----------------------------------------------------------
 
+/**
+ * \brief Imprime los codigos de flyStatus.
+ * @param flystatus Puntero a la estructura flystatus.
+ */
 void printCodes(sFlyStatus* flystatus){
 
     int i;
@@ -119,6 +146,12 @@ void printCodes(sFlyStatus* flystatus){
 
 ///-----------------------------------------------------------
 
+/**
+ * \brief Menu para la seleccion de codigos de vuelo.
+ * @param flystatus Puntero a la estructura flystatus.
+ * @param flyCode Array en donde escribiremos el codigo de vuelo
+ * @param flightStatus Array en donde escribiremos el estado de vuelo
+ */
 void flyCodeMenu(sFlyStatus* flystatus, char *flyCode, char* flightStatus){
 
 	int codigo;
@@ -154,6 +187,10 @@ void flyCodeMenu(sFlyStatus* flystatus, char *flyCode, char* flightStatus){
 
 ///-----------------------------------------------------------
 
+/**
+ * \brief Imprime un menu y copia el tipo de pasajero al str aportado.
+ * @param passType Array en donde se escribira el tipo de pasajero.
+ */
 void Passenger_passType(char *passType){
 
 	int type;
@@ -171,6 +208,10 @@ void Passenger_passType(char *passType){
 	}
 }
 
+/**
+ * \brief Imprime un menu y copia el tipo de pasajero al puntero aportado.
+ * @param passType Int con el valor numerico del tipo de pasajero.
+ */
 void Passenger_passType2(int* passType){
 
 	int type;
